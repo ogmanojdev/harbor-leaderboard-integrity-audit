@@ -37,6 +37,12 @@ the SQLAlchemy models, the ingest endpoint at `app/routers/ingest.py`, and the
 Pydantic schemas. Reading the ingest path is the fastest way to understand how a
 result row can end up misdescribing the run that produced it.
 
+**The platform's own MCP tools**, connected as the `aistudio` server. They are
+the tools the team uses day to day -- listing and fetching benchmark runs,
+reading dashboard totals, comparing a run against past runs, following a task's
+logs, and inspecting the host. They read the same database you have, through
+the platform's REST API, so they return what the platform currently believes.
+
 Python 3, `psql` and `jq` are available. The environment has no network access;
 everything you need is already present.
 

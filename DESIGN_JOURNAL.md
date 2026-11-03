@@ -282,3 +282,75 @@ Degenerate strategies collapse to ~0, plausible-but-incomplete ones land near
 0.77, and only a complete solution reaches 1.0. A pass bar of 0.85 sits in the
 gap, so missing any single defect class fails -- without the grade sitting on a
 knife edge.
+
+---
+
+## 2026-11-03 (evening) — MCP integration, branch `mcp-integration`
+
+The real MCP server (`corespan/aistudio-server`, branch `feature/aistudio-mcp`,
+pinned at `f4d9484`) now runs inside the task container. Three services on
+loopback: PostgreSQL, the aistudio-server REST API, and `aistudio-mcp`.
+
+`network_mode = "no-network"` survives this, because Docker's `none` network
+still provides a loopback device. Harbor's Claude Code agent registers MCP
+servers by writing `.claude.json` *inside* the container, so a `127.0.0.1` URL
+is reachable while the task remains completely offline.
+
+### Why the tool surface is a gift
+
+`throughput_compare` compares a run "against comparable past runs" using the
+*recorded* configuration -- precisely what this task corrupts. A run whose
+precision was silently defaulted to fp16 gets compared against genuine fp16 runs
+and reported as a large improvement. The lazy path is a real tool giving a
+confident, well-formatted, wrong answer, and it is upstream code rather than
+anything planted here.
+
+Better still: `/api/v1/benchmarks` returns a derived `per_gpu_throughput_tok_s`.
+The API therefore propagates `defaulted_gpu_count` straight into a headline
+metric, 4-8x too high. That was not designed; it fell out of using the real code.
+
+`get_task_logs` takes a workload id (`wl-...`), not a `run_id`, so reaching log
+evidence requires traversing workload -> task -> run. The tool signature now
+enforces the schema archaeology.
+
+### Auth
+
+Verification cannot be switched off: `verifier()` raises unless `MCP_JWKS_FILE`
+or `MCP_JWKS_URL` is set. So a throwaway ES256 key, its JWKS, and a long-lived
+admin token are generated at authoring time and committed
+(`environment/gateway/`). The server runs with `MCP_JWT_MAX_LIFETIME_SECONDS=0`,
+lifting mint.py's one-day cap, because a token that expired would make a rerun
+fail for reasons having nothing to do with the agent. The key authenticates
+nothing outside the sandbox: no network, and the only server it addresses lives
+in the same container. Harbor forbids literal credentials in MCP headers, so the
+header is `Bearer ${AISTUDIO_MCP_TOKEN}` with the value in `[environment.env]`.
+
+### Integration problems found by testing, not assuming
+
+Ran the real API in-process against the seeded database before building any
+image. `/health` returned `{"status":"healthy","database":"ok"}`, but:
+
+- `/api/v1/benchmarks` and `/api/v1/gpu-specs` failed with `UndefinedTableError`
+  on **gpu_specs**, and `/api/v1/workload-types` on **workload_types**. The
+  schema subset was missing two tables the real routes join against. Both added
+  and populated; every endpoint the MCP tools use now returns 200.
+- The two lock files pin conflicting shared versions (`anyio` 4.14.2 vs 4.15.1),
+  so the image builds **two virtualenvs** rather than one. Both install with
+  `--require-hashes`, so a swapped wheel fails the build.
+
+### Known limitation, recorded deliberately
+
+`summary` reports over a rolling `last_30d` window, so its output drifts with
+wall-clock time: once real time moves past the seeded timestamps, it reports
+fewer runs and eventually none. Nothing graded depends on it -- the verifier is
+entirely time-independent -- but the agent's view of that one tool is not stable
+across distant reruns. Shifting the corpus to build time would trade this for
+non-determinism between builds, which is worse. Documented rather than hidden.
+
+### Deliberately not done
+
+`psql` stays available. Removing it would force MCP usage and strengthen the
+novelty claim, but the list endpoint omits `parallelism` and the raw `metrics`
+blob, so an MCP-only agent could not observe a NULL parallelism column directly.
+Unsolvable is the one failure the brief disqualifies outright; a decorative
+second access path is a much cheaper price.

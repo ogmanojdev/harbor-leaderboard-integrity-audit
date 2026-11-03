@@ -1,0 +1,13 @@
+{
+  "keys": [
+    {
+      "kty": "EC",
+      "crv": "P-256",
+      "x": "K7sjP2GZjPGTZrZcO2O49CRl3nuc3sCqrPsXOGLA2Ys",
+      "y": "a5muedKtbrLnVHeosMG4fYE8PEo-BFFOl9E9P9hTK4Y",
+      "kid": "aistudio-1",
+      "alg": "ES256",
+      "use": "sig"
+    }
+  ]
+}

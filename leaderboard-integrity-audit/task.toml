@@ -65,12 +65,28 @@ memory_mb = 2048
 # No network in either phase. Every input is baked into the image at build
 # time, so no mirror, registry or index can perturb a run or a grade.
 network_mode = "no-network"
-build_timeout_sec = 1800.0
+build_timeout_sec = 3600.0
 os = "linux"
 cpus = 2
 memory_mb = 4096
-mcp_servers = []
+
+# The aistudio MCP tool server runs inside the same container on loopback.
+# network_mode = "no-network" removes every external interface but still
+# provides a loopback device, so the agent reaches its tools without the task
+# ever touching a network.
+[[environment.mcp_servers]]
+name = "aistudio"
+transport = "streamable-http"
+url = "http://127.0.0.1:8081/mcp"
+headers = { Authorization = "Bearer ${AISTUDIO_MCP_TOKEN}" }
 
 [environment.env]
+# Admin-role token for the in-container MCP server, signed by the throwaway key
+# in environment/gateway/. It authenticates nothing outside this sandbox: there
+# is no network, and the server it addresses lives in the same container. It is
+# committed so the task builds identically everywhere, and it carries a long
+# expiry on purpose -- a token that expired would make a rerun fail for reasons
+# that have nothing to do with the agent.
+AISTUDIO_MCP_TOKEN = "eyJhbGciOiJFUzI1NiIsImtpZCI6ImFpc3R1ZGlvLTEiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJhaXN0dWRpbyIsImF1ZCI6WyJhZ2VudGdhdGV3YXkiLCJtY3A6YWlzdHVkaW8iXSwic3ViIjoiaGFyYm9yLWFnZW50IiwianRpIjoiZGE2MzI1ZDktOTcwNy00MjZmLWIzNjktYzBmOGFiNmFiZGI2IiwiaWF0IjoxNzYyMTI4MDAwLCJleHAiOjIzOTI4NDgwMDAsInJvbGVzIjp7ImFpc3R1ZGlvIjoiYWRtaW4ifX0.NbtdPotT5vmn7FwUf5u24Xq9AZ3AoGOJ08MTgxnDkmK_SMbMGWFuDf8Z6DZyLVnwoZ1B3ZOGxC0nWsnO8G406A"
 
 [solution.env]

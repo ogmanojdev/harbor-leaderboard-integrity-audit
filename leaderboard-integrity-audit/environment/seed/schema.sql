@@ -127,3 +127,39 @@ CREATE INDEX ix_benchmark_results_model_name ON benchmark_results (model_name);
 CREATE INDEX ix_benchmark_results_gpu_type ON benchmark_results (gpu_type);
 CREATE INDEX ix_benchmark_results_concurrency ON benchmark_results (concurrency);
 CREATE INDEX ix_benchmark_results_parallelism ON benchmark_results (parallelism);
+
+-- ── gpu_specs ────────────────────────────────────────────────────────────────
+-- Hardware metadata. The leaderboard route joins against it, so it must exist
+-- even though this task does not turn on its contents.
+CREATE TABLE gpu_specs (
+    id           UUID PRIMARY KEY,
+    gpu_type     VARCHAR(16)  NOT NULL UNIQUE,
+    display_name VARCHAR(64)  NOT NULL,
+    vendor       VARCHAR(32)  NOT NULL,
+    arch         VARCHAR(32)  NOT NULL,
+    vram_gb      INTEGER      NOT NULL,
+    tdp_watts    INTEGER      NOT NULL,
+    tier_rank    INTEGER      NOT NULL,
+    fp16_tflops  DOUBLE PRECISION,
+    fp8_tflops   DOUBLE PRECISION
+);
+
+INSERT INTO gpu_specs (id, gpu_type, display_name, vendor, arch, vram_gb, tdp_watts, tier_rank, fp16_tflops, fp8_tflops) VALUES
+  ('11111111-1111-4111-8111-000000000001'::uuid, 'h100',    'NVIDIA H100 80GB HBM3',    'NVIDIA', 'Hopper',   80, 700, 1, 989.0, 1979.0),
+  ('11111111-1111-4111-8111-000000000002'::uuid, 'mi210',   'AMD Instinct MI210',       'AMD',    'CDNA2',    64, 300, 3, 181.0, NULL),
+  ('11111111-1111-4111-8111-000000000003'::uuid, 'rtx5090', 'NVIDIA GeForce RTX 5090',  'NVIDIA', 'Blackwell',32, 575, 2, 419.0, 838.0),
+  ('11111111-1111-4111-8111-000000000004'::uuid, 't4',      'Tesla T4',                 'NVIDIA', 'Turing',   16,  70, 4,  65.0, NULL);
+
+-- ── workload_types ───────────────────────────────────────────────────────────
+-- Catalog of supported workload categories, normally seeded from catalog.json.
+CREATE TABLE workload_types (
+    id           UUID PRIMARY KEY,
+    name         VARCHAR(32)  NOT NULL UNIQUE,
+    display_name VARCHAR(64)  NOT NULL,
+    description  TEXT         NOT NULL,
+    image_tag    VARCHAR(64)
+);
+
+INSERT INTO workload_types (id, name, display_name, description, image_tag) VALUES
+  ('22222222-2222-4222-8222-000000000001'::uuid, 'llm', 'LLM Inference',
+   'vLLM inference benchmark sweeping concurrency levels.', 'llminference:2.3.1-nvidia');
