@@ -82,7 +82,9 @@ application source, database schema and MCP tool server are vendored from
 `environment/VENDORED_COMMIT`. `LICENSE` and `NOTICE` ship with the vendored
 code. No benchmark data is real: every run in the corpus is synthetic.
 
-The signing key and token in `environment/gateway/` are committed on purpose.
-They authenticate nothing outside the sandbox — there is no network, and the
-only server they address lives in the same container — and committing them is
-what lets the task build identically on any machine.
+`environment/gateway/` ships the JWKS and the agent's token, but not the
+private key that signed them. They authenticate nothing outside the sandbox —
+there is no network, and the only server they address lives in the same
+container — and committing them is what lets the task build identically on any
+machine. The private key is not needed to build or run anything; regenerate a
+consistent set with `tools/mint_gateway_key.py` if you want to mint your own.
