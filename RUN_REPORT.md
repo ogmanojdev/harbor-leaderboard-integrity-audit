@@ -323,6 +323,29 @@ fault. That does not happen here. The two decoys most likely to attract suspicio
 that exonerates them, so noticing "this looks fast" and then checking is exactly
 the behaviour they reward.
 
+### Independent quality check
+
+`harbor check` runs an LLM evaluator against an 11-point rubric. All eleven
+pass: behaviour covered by the instruction, behaviour covered by tests,
+informative test structure, anti-cheating measures, structured data schema,
+pinned dependencies, no typos, no tests or solution in the image, no test
+dependencies in the image, no hardcoded solution, and output paths stated.
+
+It also found three defects worth recording, all since fixed:
+
+- **A leak in the corpus.** Each decoy run carried a `"decoy"` label in its
+  metrics blob, marking it as safe. It revealed no defective run, but it
+  disarmed the very false-positive test the decoys exist to run. Removed; the
+  notes now live only in the ground-truth manifest, which the verifier sees and
+  the agent does not.
+- A stale module docstring in the checker still described four dimensions at the
+  old weights after the fifth was added.
+- `test.sh`'s fallback reward omitted the `completeness` key.
+
+The first is the one that mattered, and it is a good argument for running the
+check: it is exactly the kind of thing that survives self-review, because the
+author knows which runs are decoys and stops seeing the label.
+
 ## 8. Model runs
 
 See section 9 for the target-model trial and failure analysis.

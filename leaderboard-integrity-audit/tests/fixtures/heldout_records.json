@@ -15539,7 +15539,6 @@
     "mean_ttft_ms": 46.6,
     "metrics": {
      "concurrency": 1,
-     "decoy": "genuine_short_sweep",
      "mean_e2el_ms": 8285.68,
      "mean_tpot_ms": 16.092,
      "mean_ttft_ms": 46.6,
@@ -15568,7 +15567,6 @@
     "mean_ttft_ms": 51.91,
     "metrics": {
      "concurrency": 2,
-     "decoy": "genuine_short_sweep",
      "mean_e2el_ms": 4759.96,
      "mean_tpot_ms": 9.195,
      "mean_ttft_ms": 51.91,
@@ -15597,7 +15595,6 @@
     "mean_ttft_ms": 62.53,
     "metrics": {
      "concurrency": 4,
-     "decoy": "genuine_short_sweep",
      "mean_e2el_ms": 3005.06,
      "mean_tpot_ms": 5.747,
      "mean_ttft_ms": 62.53,
@@ -15626,7 +15623,6 @@
     "mean_ttft_ms": 83.77,
     "metrics": {
      "concurrency": 8,
-     "decoy": "genuine_short_sweep",
      "mean_e2el_ms": 2143.54,
      "mean_tpot_ms": 4.023,
      "mean_ttft_ms": 83.77,
@@ -15691,7 +15687,6 @@
     "mean_ttft_ms": 45.36,
     "metrics": {
      "concurrency": 1,
-     "decoy": "genuine_fp8",
      "mean_e2el_ms": 35355.7,
      "mean_tpot_ms": 34.483,
      "mean_ttft_ms": 45.36,
@@ -15721,7 +15716,6 @@
     "mean_ttft_ms": 48.48,
     "metrics": {
      "concurrency": 2,
-     "decoy": "genuine_fp8",
      "mean_e2el_ms": 20225.82,
      "mean_tpot_ms": 19.704,
      "mean_ttft_ms": 48.48,
@@ -15751,7 +15745,6 @@
     "mean_ttft_ms": 54.71,
     "metrics": {
      "concurrency": 4,
-     "decoy": "genuine_fp8",
      "mean_e2el_ms": 12665.55,
      "mean_tpot_ms": 12.315,
      "mean_ttft_ms": 54.71,
@@ -15781,7 +15774,6 @@
     "mean_ttft_ms": 67.18,
     "metrics": {
      "concurrency": 8,
-     "decoy": "genuine_fp8",
      "mean_e2el_ms": 8894.77,
      "mean_tpot_ms": 8.621,
      "mean_ttft_ms": 67.18,
@@ -15811,7 +15803,6 @@
     "mean_ttft_ms": 92.13,
     "metrics": {
      "concurrency": 16,
-     "decoy": "genuine_fp8",
      "mean_e2el_ms": 7028.09,
      "mean_tpot_ms": 6.773,
      "mean_ttft_ms": 92.13,
@@ -15841,7 +15832,6 @@
     "mean_ttft_ms": 142.01,
     "metrics": {
      "concurrency": 32,
-     "decoy": "genuine_fp8",
      "mean_e2el_ms": 6132.16,
      "mean_tpot_ms": 5.85,
      "mean_ttft_ms": 142.01,
@@ -15871,7 +15861,6 @@
     "mean_ttft_ms": 241.78,
     "metrics": {
      "concurrency": 64,
-     "decoy": "genuine_fp8",
      "mean_e2el_ms": 5759.02,
      "mean_tpot_ms": 5.388,
      "mean_ttft_ms": 241.78,
@@ -15901,7 +15890,6 @@
     "mean_ttft_ms": 441.32,
     "metrics": {
      "concurrency": 128,
-     "decoy": "genuine_fp8",
      "mean_e2el_ms": 5722.11,
      "mean_tpot_ms": 5.157,
      "mean_ttft_ms": 441.32,
@@ -15948,7 +15936,6 @@
     "mean_ttft_ms": 46.19,
     "metrics": {
      "concurrency": 1,
-     "decoy": "genuine_single_gpu",
      "mean_e2el_ms": 8285.27,
      "mean_tpot_ms": 16.092,
      "mean_ttft_ms": 46.19,
@@ -15977,7 +15964,6 @@
     "mean_ttft_ms": 51.45,
     "metrics": {
      "concurrency": 2,
-     "decoy": "genuine_single_gpu",
      "mean_e2el_ms": 4759.5,
      "mean_tpot_ms": 9.195,
      "mean_ttft_ms": 51.45,
@@ -16006,7 +15992,6 @@
     "mean_ttft_ms": 61.97,
     "metrics": {
      "concurrency": 4,
-     "decoy": "genuine_single_gpu",
      "mean_e2el_ms": 3004.5,
      "mean_tpot_ms": 5.747,
      "mean_ttft_ms": 61.97,
@@ -16035,7 +16020,6 @@
     "mean_ttft_ms": 83.02,
     "metrics": {
      "concurrency": 8,
-     "decoy": "genuine_single_gpu",
      "mean_e2el_ms": 2142.79,
      "mean_tpot_ms": 4.023,
      "mean_ttft_ms": 83.02,
@@ -16064,7 +16048,6 @@
     "mean_ttft_ms": 125.12,
     "metrics": {
      "concurrency": 16,
-     "decoy": "genuine_single_gpu",
      "mean_e2el_ms": 1743.51,
      "mean_tpot_ms": 3.161,
      "mean_ttft_ms": 125.12,
@@ -16093,7 +16076,6 @@
     "mean_ttft_ms": 209.31,
     "metrics": {
      "concurrency": 32,
-     "decoy": "genuine_single_gpu",
      "mean_e2el_ms": 1607.01,
      "mean_tpot_ms": 2.73,
      "mean_ttft_ms": 209.31,
@@ -16122,7 +16104,6 @@
     "mean_ttft_ms": 377.7,
     "metrics": {
      "concurrency": 64,
-     "decoy": "genuine_single_gpu",
      "mean_e2el_ms": 1665.05,
      "mean_tpot_ms": 2.514,
      "mean_ttft_ms": 377.7,
@@ -16151,7 +16132,6 @@
     "mean_ttft_ms": 714.47,
     "metrics": {
      "concurrency": 128,
-     "decoy": "genuine_single_gpu",
      "mean_e2el_ms": 1946.65,
      "mean_tpot_ms": 2.407,
      "mean_ttft_ms": 714.47,

@@ -280,6 +280,11 @@ def make_duplicate(run: Run, rng: random.Random) -> Run:
 # Runs that trip a naive heuristic but are genuinely valid. These exist to
 # measure false positives: a validator that flags "gpu_count == 1" or
 # "len(sub_runs) < 8" as defective will reject these and lose points.
+#
+# Nothing in the corpus marks them. An earlier version tagged each decoy in its
+# metrics blob, which told a reader those runs were safe and quietly disarmed
+# the very test they exist to run. The notes below stay in the ground-truth
+# manifest, which only the verifier sees.
 
 DECOY_NOTES = {
     "genuine_single_gpu": "gpu_count=1 and parallelism=tp1 are correct for a t4 single-GPU recipe.",
@@ -303,7 +308,6 @@ def build_corpus(seed: int, n_runs: int) -> tuple[list[Run], dict]:
     short = build_run(rng, RECIPES[8], 900, base + timedelta(days=60))
     short.declared_sweep = [1, 2, 4, 8]
     short.sub_runs = short.sub_runs[:4]
-    short.blob_extra["decoy"] = "genuine_short_sweep"
     runs.append(short)
 
     # Decoy 2: correctly-recorded fp8. Must not be read as a defaulted precision.
@@ -311,12 +315,10 @@ def build_corpus(seed: int, n_runs: int) -> tuple[list[Run], dict]:
     fp8.blob_extra["server_args"] = (
         f"vllm serve {fp8.recipe.model} --pipeline-parallel-size 4 --quantization fp8"
     )
-    fp8.blob_extra["decoy"] = "genuine_fp8"
     runs.append(fp8)
 
     # Decoy 3: a real single-GPU run.
     single = build_run(rng, RECIPES[8], 902, base + timedelta(days=62))
-    single.blob_extra["decoy"] = "genuine_single_gpu"
     runs.append(single)
 
     # Apply defects to a deterministic, disjoint selection of the corpus.

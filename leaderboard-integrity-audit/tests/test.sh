@@ -13,7 +13,7 @@ EXIT=$?
 
 if [ ! -s /logs/verifier/reward.json ]; then
   echo "checker produced no reward file; recording zero" >&2
-  printf '{"overall": 0.0, "functional_correctness": 0.0, "constraint_satisfaction": 0.0, "robustness": 0.0, "artifact_quality": 0.0}\n' \
+  printf '{"overall": 0.0, "functional_correctness": 0.0, "constraint_satisfaction": 0.0, "robustness": 0.0, "artifact_quality": 0.0, "completeness": 0.0}\n' \
     > /logs/verifier/reward.json
 fi
 

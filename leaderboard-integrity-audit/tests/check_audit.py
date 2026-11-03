@@ -2,14 +2,17 @@
 Verifier for the leaderboard-integrity-audit task.
 
 Standard library only, by design: the task runs with network_mode="no-network",
-so grading must not depend on fetching anything. Four independently scored
+so grading must not depend on fetching anything. Five independently scored
 dimensions are combined into a weighted overall reward.
 
-  functional_correctness (0.40)  the submitted validator, run against a larger
-                                 corpus it has never seen, scored by F1
-  constraint_satisfaction (0.30)  the corrected leaderboard, compared exactly
-  robustness (0.20)               specificity on valid runs, plus determinism
-  artifact_quality (0.10)         findings over the local corpus, scored by F1
+  functional_correctness (0.35)  the submitted validator, run against a larger
+                                 corpus it has never seen, macro-F1 over classes
+  constraint_satisfaction (0.25)  the corrected leaderboard, compared exactly
+  robustness (0.15)               specificity on valid runs, scaled by recall,
+                                  plus a determinism check
+  artifact_quality (0.10)         findings over the local corpus, macro-F1
+  completeness (0.15)             every defect class reported, and an exact
+                                  leaderboard -- scored as a yes or no
 
 The held-out corpus is what makes shallow solutions fail: a validator that
 recognises run identifiers, or hardcodes counts from the local database,
