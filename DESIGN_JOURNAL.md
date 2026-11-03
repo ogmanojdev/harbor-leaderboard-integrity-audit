@@ -354,3 +354,45 @@ novelty claim, but the list endpoint omits `parallelism` and the raw `metrics`
 blob, so an MCP-only agent could not observe a NULL parallelism column directly.
 Unsolvable is the one failure the brief disqualifies outright; a decorative
 second access path is a much cheaper price.
+
+---
+
+## 2026-11-03 (late) — Docker finally up; first real Harbor trial
+
+Docker Desktop 4.41.2 installed and running (daemon 28.1.1). The image builds
+natively on arm64: 1.05 GB, both `--require-hashes` installs, the build-time
+`initdb` and seed, in roughly four minutes.
+
+Verified with `--network none`, which is what Harbor applies: PostgreSQL, the
+REST API and `aistudio-mcp` all come up on loopback, the MCP server reports
+**31 tools** with writes disabled, an unauthenticated call gets 401, and the
+admin token completes an `initialize` handshake and opens a session.
+
+One fix needed along the way: the DNS-rebinding guard rejected the call with
+421 "Invalid Host header", because `MCP_ALLOWED_HOSTS` listed `127.0.0.1` but
+callers send `127.0.0.1:8081`. The upstream code's own warning text says to list
+the name with and without the port; it is now listed both ways.
+
+### Two bugs the first trial found that local testing could not
+
+**`ModuleNotFoundError: No module named 'psycopg2'`.** The oracle's `audit.py`
+runs under the system interpreter, and the Dockerfile rewrite for the MCP work
+dropped `python3-psycopg2`. Local validation never caught it because the local
+runs used a `uv` environment that had the driver. Fixed by reinstating the apt
+package.
+
+**`/tests/test.sh: No such file or directory` in the verifier container.**
+Reading `resolve_verifier_environment_definition` explained it: setting
+`[verifier.environment].docker_image` marks the definition `bundled_tests=True`,
+so Harbor skips uploading `tests/` and expects them to already exist in that
+image — which a stock `python:3.12-slim` obviously does not.
+
+The supported pattern is a `tests/Dockerfile` that bundles them itself, which is
+exactly what `harbor init` scaffolds and which I deleted earlier when switching
+to shared mode. Restored, with no package installs in it at all: the checker is
+standard-library only, so the verifier image needs nothing but Python and a
+`COPY . /tests/`.
+
+Worth recording as a general lesson: both bugs were in the seams between
+components, and neither was reachable by testing the components individually.
+The first end-to-end run found both in fifty seconds.

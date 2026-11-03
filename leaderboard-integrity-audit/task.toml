@@ -52,10 +52,9 @@ environment_mode = "separate"
 [verifier.env]
 
 [verifier.environment]
-# A stock Python image is enough: the verifier uses only the standard library.
-# The task is offline in both phases (network_mode = "no-network"), so grading
-# must never depend on fetching a test dependency at run time.
-docker_image = "python:3.12.7-slim-bookworm"
+# Built from tests/Dockerfile, which bundles the tests into the image. Setting
+# docker_image here instead would make Harbor skip uploading them and expect a
+# /tests directory the stock image does not have.
 network_mode = "no-network"
 os = "linux"
 cpus = 2

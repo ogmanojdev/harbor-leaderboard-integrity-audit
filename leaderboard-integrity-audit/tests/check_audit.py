@@ -293,13 +293,17 @@ def main() -> int:
     }
     overall = sum(scores[k] * w for k, w in WEIGHTS.items())
 
+    # Harbor requires every value in reward.json to be numeric, so the
+    # human-readable diagnostics go to a sibling file (and to stdout, which
+    # Harbor captures as test-stdout.txt).
     payload = {"overall": round(overall, 4),
-               **{k: round(v, 4) for k, v in scores.items()},
-               "notes": notes}
+               **{k: round(v, 4) for k, v in scores.items()}}
 
     os.makedirs("/logs/verifier", exist_ok=True)
     with open("/logs/verifier/reward.json", "w") as fh:
         json.dump(payload, fh, indent=2)
+    with open("/logs/verifier/report.txt", "w") as fh:
+        fh.write("\n".join(notes) + "\n")
 
     note(f"OVERALL {overall:.4f}")
     return 0
@@ -314,6 +318,5 @@ if __name__ == "__main__":
         with open("/logs/verifier/reward.json", "w") as fh:
             json.dump({"overall": 0.0, "functional_correctness": 0.0,
                        "constraint_satisfaction": 0.0, "robustness": 0.0,
-                       "artifact_quality": 0.0,
-                       "notes": ["verifier crashed"]}, fh, indent=2)
+                       "artifact_quality": 0.0}, fh, indent=2)
         sys.exit(0)

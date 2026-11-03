@@ -18,7 +18,7 @@ ENV PGDATA=/var/lib/pgdata \
 
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
-      python3 python3-venv python3-pip \
+      python3 python3-venv python3-pip python3-psycopg2 \
       jq curl ca-certificates iproute2 iputils-ping openssh-client git \
  && rm -rf /var/lib/apt/lists/*
 
@@ -71,7 +71,6 @@ RUN chmod 0755 /usr/local/bin/entrypoint.sh
 ENV POSTGRES_HOST=127.0.0.1 \
     POSTGRES_PORT=5432 \
     POSTGRES_USERNAME=aistudio \
-    POSTGRES_PASSWORD=aistudio \
     POSTGRES_DATABASE=aistudio \
     PORT=8001 \
     PYTHONPATH=/app
@@ -93,12 +92,12 @@ ENV AISTUDIO_API_URL=http://127.0.0.1:8001 \
     REPO_PATH=/app \
     READABLE_ROOTS=/app \
     NODE_ALLOWED_CIDRS= \
-    MCP_ALLOWED_HOSTS=127.0.0.1,localhost
+    MCP_ALLOWED_HOSTS=127.0.0.1:8081,localhost:8081,127.0.0.1,localhost
 
 RUN touch /opt/mcp-server/.env
 
 # Client-facing socket for psql convenience.
-ENV PGHOST=127.0.0.1 PGUSER=aistudio PGPASSWORD=aistudio PGDATABASE=aistudio
+ENV PGHOST=127.0.0.1 PGUSER=aistudio PGDATABASE=aistudio
 
 WORKDIR /app
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
