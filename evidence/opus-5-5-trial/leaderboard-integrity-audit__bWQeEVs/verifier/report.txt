@@ -1,0 +1,5 @@
+functional_correctness: held-out macro-F1=1.000 (tp=16 fp=0 fn=0) over 65 unseen runs
+constraint_satisfaction: leaderboard F1=1.000 (correct=9 spurious=0 missing=0 of 9 expected)
+robustness: specificity=1.000 (0 of 49 healthy runs wrongly flagged), held-out recall=1.000, engagement=1.000
+artifact_quality: findings macro-F1=1.000 (tp=16 fp=0 fn=0)
+completeness: audit complete

@@ -348,7 +348,65 @@ author knows which runs are decoys and stops seeing the label.
 
 ## 8. Model runs
 
-See section 9 for the target-model trial and failure analysis.
+### Oracle
+
+`harbor run -p ./leaderboard-integrity-audit -a oracle` — **1.000** on all five
+dimensions, 0 exceptions, 40s. Reproduced across every revision of the task.
+
+### Target model: Claude Opus 5.5, Claude Code harness
+
+`harbor run -p ./leaderboard-integrity-audit -a claude-code -m opus-5-5`
+
+| | |
+|---|---|
+| overall | **1.000** |
+| functional_correctness | 1.000 (macro-F1 over 65 unseen runs) |
+| constraint_satisfaction | 1.000 (leaderboard exact, 9 of 9) |
+| robustness | 1.000 (0 of 49 healthy runs flagged) |
+| artifact_quality | 1.000 |
+| completeness | 1.000 (audit complete) |
+| runtime | 3m 56s of a 90-minute budget |
+| cost | $0.79 |
+
+**The task did not expose a failure.** It was solved completely, on the first
+attempt, in under four minutes.
+
+### What the trajectory shows
+
+```
+32 assistant turns · 14 tool calls · 0 MCP tool calls
+Bash x13 (psql and python), Write x1
+```
+
+The model read `app/routers/ingest.py`, ran five SQL queries across the three
+tables, wrote one extraction script to project records, wrote the validator, and
+stopped. There was **no iteration**: no failed attempt, no revision, no
+verification loop. It did not use the MCP server at all — `psql` was available
+and more direct.
+
+### Why this happened, stated plainly
+
+Three design judgements account for it, and all three were mine:
+
+1. **The published vocabulary did most of the enumeration.** Listing nine defect
+   codes with a sentence of meaning each turns "what could be wrong with this
+   data?" into "check these nine things." That was a deliberate trade for
+   non-brittle grading, and it cost more difficulty than estimated.
+2. **`psql` made the forensics a SQL exercise.** Keeping it was a deliberate
+   hedge against unsolvability through MCP alone. The hedge worked; it also
+   removed the tool-use discipline the task was supposed to probe, and the MCP
+   server went unused.
+3. **There is no feedback loop.** The agent cannot check its own work, so there
+   is nothing to iterate against. Tasks that break frontier models almost always
+   contain a loop — attempt, observe failure, revise — and this one does not.
+   It is a single-pass extraction exercise with a large surface, and Opus 5.5 is
+   extremely good at those.
+
+The honest conclusion is that the task is **fair, reproducible and well
+verified, but not hard** for this model. Difficulty was measured against
+deliberately weak solvers rather than against a strong one, and those
+measurements were accurate about what they tested and silent about this.
+
 
 ## 9. Limitations, stated plainly
 
@@ -394,8 +452,13 @@ address, hostname or node identifier refers to real infrastructure.
 ## 11. Reproduction
 
 ```bash
+# Harbor resolves the MCP header's ${AISTUDIO_MCP_TOKEN} from the shell before
+# launching, so export it from the file that ships in this repository. The
+# oracle does not use the MCP server and runs without it.
+export AISTUDIO_MCP_TOKEN="$(cat leaderboard-integrity-audit/environment/gateway/agent-token.jwt)"
+
 harbor run -p ./leaderboard-integrity-audit -a oracle
-harbor run -p ./leaderboard-integrity-audit -a claude -m opus-5-5
+harbor run -p ./leaderboard-integrity-audit -a claude-code -m opus-5-5
 harbor view ./jobs
 ```
 

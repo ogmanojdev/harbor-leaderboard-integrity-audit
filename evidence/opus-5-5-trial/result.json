@@ -1,0 +1,69 @@
+{
+    "id": "18b2766a-018a-4f42-8294-bfaa340064e1",
+    "started_at": "2026-11-03T21:57:25.273155",
+    "updated_at": "2026-11-03T22:01:21.520668",
+    "finished_at": "2026-11-03T22:01:21.520668",
+    "n_total_trials": 1,
+    "stats": {
+        "n_completed_trials": 1,
+        "n_errored_trials": 0,
+        "n_running_trials": 0,
+        "n_pending_trials": 0,
+        "n_cancelled_trials": 0,
+        "n_retries": 0,
+        "evals": {
+            "claude-code__claude-opus-5.5__adhoc": {
+                "n_trials": 1,
+                "n_errors": 0,
+                "metrics": [
+                    {
+                        "artifact_quality": 1.0,
+                        "completeness": 1.0,
+                        "constraint_satisfaction": 1.0,
+                        "functional_correctness": 1.0,
+                        "overall": 1.0,
+                        "robustness": 1.0
+                    }
+                ],
+                "pass_at_k": {},
+                "reward_stats": {
+                    "overall": {
+                        "1.0": [
+                            "leaderboard-integrity-audit__bWQeEVs"
+                        ]
+                    },
+                    "functional_correctness": {
+                        "1.0": [
+                            "leaderboard-integrity-audit__bWQeEVs"
+                        ]
+                    },
+                    "constraint_satisfaction": {
+                        "1.0": [
+                            "leaderboard-integrity-audit__bWQeEVs"
+                        ]
+                    },
+                    "robustness": {
+                        "1.0": [
+                            "leaderboard-integrity-audit__bWQeEVs"
+                        ]
+                    },
+                    "artifact_quality": {
+                        "1.0": [
+                            "leaderboard-integrity-audit__bWQeEVs"
+                        ]
+                    },
+                    "completeness": {
+                        "1.0": [
+                            "leaderboard-integrity-audit__bWQeEVs"
+                        ]
+                    }
+                },
+                "exception_stats": {}
+            }
+        },
+        "n_input_tokens": 782527,
+        "n_cache_tokens": 716614,
+        "n_output_tokens": 19880,
+        "cost_usd": 0.8704578000000001
+    }
+}

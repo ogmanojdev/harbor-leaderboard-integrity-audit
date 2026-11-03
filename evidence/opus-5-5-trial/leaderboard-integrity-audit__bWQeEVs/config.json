@@ -1,0 +1,13 @@
+{
+    "task": {
+        "path": "leaderboard-integrity-audit"
+    },
+    "trial_name": "leaderboard-integrity-audit__bWQeEVs",
+    "trials_dir": "jobs/2026-11-03__21-57-22",
+    "agent": {
+        "name": "claude-code",
+        "model_name": "anthropic/claude-opus-5.5",
+        "base_url": "https://openrouter.ai/api"
+    },
+    "job_id": "18b2766a-018a-4f42-8294-bfaa340064e1"
+}

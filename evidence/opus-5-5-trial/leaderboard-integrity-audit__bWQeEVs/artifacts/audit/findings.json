@@ -1,0 +1,116 @@
+{
+  "findings": [
+    {
+      "run_id": "h100-llama31-70b-20260907-ee54df",
+      "defects": [
+        "duplicate_logical_run"
+      ],
+      "evidence": "every per-concurrency throughput/TTFT identical to earlier run h100-llama31-70b-20260907-239856 (same node 10.6.12.56, started later)"
+    },
+    {
+      "run_id": "h100-llama31-70b-20260924-ae3a09",
+      "defects": [
+        "defaulted_precision"
+      ],
+      "evidence": "precision recorded as fp16; tasks.task_config says bf16"
+    },
+    {
+      "run_id": "h100-llama31-70b-20261006-fbb328",
+      "defects": [
+        "missing_parallelism"
+      ],
+      "evidence": "parallelism NULL; tasks.task_config shows tp=2 pp=1 on 2 GPUs"
+    },
+    {
+      "run_id": "h100-llama31-70b-20261007-0835e6",
+      "defects": [
+        "duplicate_logical_run"
+      ],
+      "evidence": "every per-concurrency throughput/TTFT identical to earlier run h100-llama31-70b-20261007-d1f6a4 (same node 10.6.12.99, started later)"
+    },
+    {
+      "run_id": "mi210-llama31-70b-20260902-e09611",
+      "defects": [
+        "truncated_sweep"
+      ],
+      "evidence": "declared sweep [1, 2, 4, 8, 16, 32, 64, 128], recorded only [1, 2, 4, 8, 16], status success"
+    },
+    {
+      "run_id": "mi210-llama31-70b-20261017-527fb0",
+      "defects": [
+        "defaulted_precision"
+      ],
+      "evidence": "precision recorded as fp16; tasks.task_config says bf16"
+    },
+    {
+      "run_id": "rtx5090-qwen25-32b-20260905-cc4d28",
+      "defects": [
+        "missing_parallelism"
+      ],
+      "evidence": "parallelism NULL; tasks.task_config shows tp=4 pp=1 on 4 GPUs"
+    },
+    {
+      "run_id": "rtx5090-qwen25-32b-20260923-8b8291",
+      "defects": [
+        "defaulted_precision"
+      ],
+      "evidence": "precision recorded as fp16; tasks.task_config says fp8"
+    },
+    {
+      "run_id": "rtx5090-qwen25-32b-20261017-4f16d3",
+      "defects": [
+        "truncated_sweep"
+      ],
+      "evidence": "declared sweep [1, 2, 4, 8, 16, 32, 64, 128], recorded only [1, 2, 4], status success"
+    },
+    {
+      "run_id": "rtx5090-qwen25-32b-20261021-49534a",
+      "defects": [
+        "zero_token_config"
+      ],
+      "evidence": "input/output tokens recorded as 0/0; actual 1024/1024"
+    },
+    {
+      "run_id": "t4-tinyllama-1.1b-20260907-e28ed1",
+      "defects": [
+        "defaulted_gpu_count"
+      ],
+      "evidence": "gpu_count recorded as 1; tasks.task_config says 2 (tp2 pp1)"
+    },
+    {
+      "run_id": "t4-tinyllama-1.1b-20260908-ad92bd",
+      "defects": [
+        "defaulted_gpu_count"
+      ],
+      "evidence": "gpu_count recorded as 1; tasks.task_config says 2 (tp2 pp1)"
+    },
+    {
+      "run_id": "t4-tinyllama-1.1b-20260921-ddc081",
+      "defects": [
+        "defaulted_gpu_count"
+      ],
+      "evidence": "gpu_count recorded as 1; tasks.task_config says 2 (tp2 pp1)"
+    },
+    {
+      "run_id": "t4-tinyllama-1.1b-20260930-cbb322",
+      "defects": [
+        "missing_parallelism"
+      ],
+      "evidence": "parallelism NULL; tasks.task_config shows tp=2 pp=1 on 2 GPUs"
+    },
+    {
+      "run_id": "t4-tinyllama-1.1b-20261006-bc3df0",
+      "defects": [
+        "zero_token_config"
+      ],
+      "evidence": "input/output tokens recorded as 0/0; actual 512/512"
+    },
+    {
+      "run_id": "t4-tinyllama-1.1b-20261020-fa3080",
+      "defects": [
+        "truncated_sweep"
+      ],
+      "evidence": "declared sweep [1, 2, 4, 8, 16, 32, 64, 128], recorded only [1, 2, 4], status success"
+    }
+  ]
+}

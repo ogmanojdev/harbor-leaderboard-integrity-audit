@@ -9,11 +9,25 @@ and model-run evidence are in [`../RUN_REPORT.md`](../RUN_REPORT.md).
 
 ## Reproduce
 
+The MCP server inside the container verifies a bearer token, and Harbor
+resolves `${AISTUDIO_MCP_TOKEN}` in the MCP header from the shell before it
+launches. The token ships in this repository, so export it from the file:
+
 ```bash
+export AISTUDIO_MCP_TOKEN="$(cat leaderboard-integrity-audit/environment/gateway/agent-token.jwt)"
+
 harbor run -p ./leaderboard-integrity-audit -a oracle
-harbor run -p ./leaderboard-integrity-audit -a claude -m opus-5-5
+harbor run -p ./leaderboard-integrity-audit -a claude-code -m opus-5-5
 harbor view ./jobs
 ```
+
+Nothing secret is involved: the token addresses a server on loopback inside an
+offline container, and `tools/mint_gateway_key.py` regenerates a fresh set.
+The oracle does not use the MCP server, so it runs without the export.
+
+The registered agent is `claude-code`. To reach the model through a proxy rather
+than Anthropic's first-party API, add
+`-m anthropic/claude-opus-5.5 --base-url https://openrouter.ai/api`.
 
 Static checks:
 

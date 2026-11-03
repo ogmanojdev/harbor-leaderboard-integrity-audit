@@ -20,6 +20,7 @@ RUN apt-get update \
  && apt-get install -y --no-install-recommends \
       python3 python3-venv python3-pip python3-psycopg2 \
       jq curl ca-certificates iproute2 iputils-ping openssh-client git \
+      procps xz-utils \
  && rm -rf /var/lib/apt/lists/*
 
 # Two virtualenvs on purpose: the API and the MCP server pin conflicting
@@ -63,6 +64,38 @@ RUN mkdir -p /app/audit && chmod 0777 /app/audit
 # ── MCP tool server ──────────────────────────────────────────────────────────
 COPY mcp-server/app /opt/mcp-server/app
 COPY gateway/jwks.json /opt/gateway/jwks.json
+
+# ── Agent harness, baked in ─────────────────────────────────────────────────
+# The task runs with no network, so Claude Code cannot bootstrap itself at run
+# time: its installer would apt-get nodejs and npm, and fail. Harbor skips that
+# step entirely when `claude` is already on PATH, so it is installed here while
+# the build still has network. That also pins the harness into the image rather
+# than fetching a different version on every run.
+#
+# Debian bookworm ships Node 18; the CLI needs >= 22, so an official binary is
+# used. The architecture is resolved at build time so the image builds on both
+# amd64 and arm64.
+ARG NODE_VERSION=22.23.4
+ARG CLAUDE_CODE_VERSION=2.1.317
+RUN set -eux; \
+    arch="$(dpkg --print-architecture)"; \
+    case "$arch" in \
+      amd64) node_arch='x64' ;; \
+      arm64) node_arch='arm64' ;; \
+      *) echo "unsupported architecture: $arch" >&2; exit 1 ;; \
+    esac; \
+    curl -fsSL "https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-${node_arch}.tar.xz" \
+      -o /tmp/node.tar.xz; \
+    mkdir -p /opt/node; \
+    tar -xJf /tmp/node.tar.xz -C /opt/node --strip-components=1; \
+    rm /tmp/node.tar.xz; \
+    ln -sf /opt/node/bin/node /usr/local/bin/node; \
+    ln -sf /opt/node/bin/npm /usr/local/bin/npm; \
+    ln -sf /opt/node/bin/npx /usr/local/bin/npx; \
+    node --version; \
+    npm install -g "@anthropic-ai/claude-code@${CLAUDE_CODE_VERSION}"; \
+    ln -sf /opt/node/bin/claude /usr/local/bin/claude; \
+    claude --version
 
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod 0755 /usr/local/bin/entrypoint.sh

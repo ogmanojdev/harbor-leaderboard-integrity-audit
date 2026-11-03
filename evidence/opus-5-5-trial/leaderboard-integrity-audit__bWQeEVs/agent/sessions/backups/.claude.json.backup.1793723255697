@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "aistudio": {
+      "type": "http",
+      "url": "http://127.0.0.1:8081/mcp",
+      "headers": {
+        "Authorization": "${MCP_AUTH_BAA685DF0D094E319A7BEB5312E1FEF9_0_0}"
+      }
+    }
+  }
+}
