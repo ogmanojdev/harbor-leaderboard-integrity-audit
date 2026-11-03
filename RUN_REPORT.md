@@ -186,6 +186,65 @@ nothing scored a perfect 1.0 for never having made a mistake — 0.20 of the
 reward for doing nothing. Specificity is now scaled by held-out recall, so
 restraint earns credit only when there is something to be restrained about.
 
+### Can the task be shortcut by reasoning about the numbers?
+
+A frontier model carries priors about inference throughput, and the corpus also
+permits outlier analysis within itself. Either could in principle substitute for
+reading the evidence. This was measured rather than argued.
+
+A validator was built that uses **only** the recorded metrics in
+`benchmark_results` -- no `task_config`, no `task_logs`, no joins -- flagging
+runs whose per-GPU throughput deviates from the median of its
+`(model_name, gpu_type)` peers. It was then scored end to end:
+
+| | numbers only | oracle |
+|---|---|---|
+| defective runs identified | 4 of 16 | 16 of 16 |
+| held-out F1 | 0.316 | 1.000 |
+| leaderboard | 17 entries, 13 spurious | 9, exact |
+| **overall** | **0.334** | **1.000** |
+
+That figure is a *generous* upper bound: the numbers-only solver was handed the
+leaderboard aggregation rule for free, which it could not otherwise have had.
+
+Which classes are numerically visible:
+
+| Defect class | Caught by numbers alone |
+|---|---|
+| `defaulted_gpu_count` | 3 of 3 |
+| `truncated_sweep` | 1 of 3 (incidental -- a truncated run has a low peak) |
+| `defaulted_precision` | 0 of 3 |
+| `missing_parallelism` | 0 of 3 |
+| `duplicate_logical_run` | 0 of 2 |
+| `zero_token_config` | 0 of 2 |
+
+Only `defaulted_gpu_count` has a real numeric signature, and it does not depend
+on training data at all: a row recording one GPU while reporting eight GPUs'
+throughput is arithmetically impossible. Any competent analyst sees it. That is
+one class of six, and it is a legitimate way to form the hypothesis.
+
+`defaulted_precision` turns out **not** to be numerically detectable here, which
+was not predicted. The fp8 recipes also use a different token configuration
+(2048/512 against 1024/1024), so their throughput is not comparable to the bf16
+runs by raw numbers; "suspiciously fast for fp16" cannot be separated from
+"different workload shape" without reading the configuration or the launch line.
+The remaining four classes are structural facts with no numeric signature at all.
+
+There is also a structural reason the shortcut cannot close: the published
+leaderboard rule requires each run's **declared concurrency sweep**, which exists
+only in `task_config` or `task_logs`. No amount of numeric reasoning produces the
+required deliverable without performing the joins.
+
+**The fairness result matters more than the difficulty result.** The numbers-only
+analysis produced **zero false positives** -- it never wrongly condemned a valid
+run. The risk worth worrying about was the reverse of the one asked about: that
+synthetic throughput figures would look implausible to a model with real-world
+priors, causing it to flag healthy runs and fail for a reason that is not its
+fault. That does not happen here. The two decoys most likely to attract suspicion
+-- the genuinely fp8 run and the genuine single-GPU run -- both carry evidence
+that exonerates them, so noticing "this looks fast" and then checking is exactly
+the behaviour they reward.
+
 ## 8. Model runs
 
 See section 9 for the target-model trial and failure analysis.

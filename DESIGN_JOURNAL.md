@@ -396,3 +396,52 @@ standard-library only, so the verifier image needs nothing but Python and a
 Worth recording as a general lesson: both bugs were in the seams between
 components, and neither was reachable by testing the components individually.
 The first end-to-end run found both in fifty seconds.
+
+---
+
+## 2026-11-03 (late) — Validity check: can the numbers alone give it away?
+
+Raised as a threat to validity: a frontier model knows roughly what vLLM
+throughput looks like on an H100, and the corpus also permits outlier analysis
+within itself. Either could substitute for reading evidence, which would make
+the forensics optional and the task much easier than claimed.
+
+Measured instead of argued. Built a validator using only the recorded metrics in
+`benchmark_results` -- no `task_config`, no `task_logs`, no joins -- flagging
+per-GPU throughput that deviates from its `(model_name, gpu_type)` peers, and
+scored it end to end.
+
+```
+numbers only : 4 of 16 runs, held-out F1 0.316, leaderboard 17 entries
+               (13 spurious), OVERALL 0.334
+oracle       : 16 of 16,     held-out F1 1.000, leaderboard 9 exact,
+               OVERALL 1.000
+```
+
+Generous upper bound: the numbers-only solver was given the leaderboard
+aggregation rule for free.
+
+Per class: `defaulted_gpu_count` 3/3, `truncated_sweep` 1/3 (incidental -- a
+truncated run peaks low), and **zero** for `defaulted_precision`,
+`missing_parallelism`, `duplicate_logical_run` and `zero_token_config`.
+
+Two findings I did not expect:
+
+- `defaulted_precision` is **not** numerically detectable in this corpus. The
+  fp8 recipes also carry a different token configuration, so "too fast for fp16"
+  cannot be separated from "different workload shape" without reading the config
+  or the launch line. The confound I worried about protects the task instead.
+- The only numerically visible class does not need training-data priors at all.
+  A row claiming one GPU while reporting eight GPUs' throughput is
+  arithmetically impossible on its face.
+
+Structural backstop: the leaderboard rule needs each run's declared concurrency
+sweep, which lives only in `task_config` or `task_logs`. Numeric reasoning cannot
+produce the deliverable without the joins, whatever it infers about defects.
+
+**The fairness result is the more valuable half.** Zero false positives -- the
+numbers-only pass never condemned a valid run. The risk worth worrying about was
+the opposite of the one raised: that synthetic figures would look wrong to a
+model with real priors, making it flag healthy runs and fail for something that
+is not its fault. It does not happen, and the two decoys most likely to draw
+suspicion both carry exonerating evidence.
