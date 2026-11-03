@@ -18,8 +18,7 @@ Three artifacts are required:
 
 ## 2. Why the defects are real rather than planted
 
-This is the part of the design I care most about. The task contains no invented
-corruption. Every defect is the natural output of a defaulting code path in the
+The task contains no invented corruption. Every defect is the natural output of a defaulting code path in the
 real ingest endpoint, `app/routers/ingest.py`:
 
 ```python

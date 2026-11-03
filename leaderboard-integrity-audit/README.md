@@ -4,10 +4,8 @@ A long-horizon Harbor task. The agent audits a GPU benchmark leaderboard for
 runs that are invalid or not comparable, publishes a corrected leaderboard, and
 patches the ingest validator so the same defects cannot recur.
 
-Full rationale, fairness audit, verifier design and model-run evidence are in
-[`../RUN_REPORT.md`](../RUN_REPORT.md). The decision trail, including rejected
-designs and bugs found during development, is in
-[`../DESIGN_JOURNAL.md`](../DESIGN_JOURNAL.md).
+Full rationale, fairness audit, verifier design, shortcut-resistance analysis
+and model-run evidence are in [`../RUN_REPORT.md`](../RUN_REPORT.md).
 
 ## Reproduce
 
