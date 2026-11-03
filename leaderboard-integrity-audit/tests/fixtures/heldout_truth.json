@@ -1,0 +1,1148 @@
+{
+  "counts": {
+    "defective_runs": 16,
+    "result_rows": 504,
+    "runs": 65
+  },
+  "decoy_notes": {
+    "genuine_fp8": "precision=fp8 is correctly recorded, not defaulted.",
+    "genuine_short_sweep": "recipe declares a 4-point sweep, so 4 sub-runs is complete.",
+    "genuine_single_gpu": "gpu_count=1 and parallelism=tp1 are correct for a t4 single-GPU recipe."
+  },
+  "defect_codes": [
+    "missing_parallelism",
+    "defaulted_precision",
+    "defaulted_gpu_count",
+    "zero_token_config",
+    "duplicate_logical_run",
+    "truncated_sweep"
+  ],
+  "expected_leaderboard": [
+    {
+      "gpu_count": 8,
+      "gpu_type": "mi210",
+      "input_tokens": 1024,
+      "model_name": "deepseek-r1-70b",
+      "output_tokens": 2048,
+      "parallelism": "tp8",
+      "per_gpu_throughput": 471.76,
+      "precision": "bf16",
+      "rank_within_model": 1,
+      "total_token_throughput": 3774.08
+    },
+    {
+      "gpu_count": 2,
+      "gpu_type": "h100",
+      "input_tokens": 2048,
+      "model_name": "llama31-70b",
+      "output_tokens": 512,
+      "parallelism": "tp2",
+      "per_gpu_throughput": 2621.24,
+      "precision": "fp8",
+      "rank_within_model": 1,
+      "total_token_throughput": 5242.47
+    },
+    {
+      "gpu_count": 2,
+      "gpu_type": "h100",
+      "input_tokens": 1024,
+      "model_name": "llama31-70b",
+      "output_tokens": 1024,
+      "parallelism": "tp2",
+      "per_gpu_throughput": 1678.46,
+      "precision": "bf16",
+      "rank_within_model": 2,
+      "total_token_throughput": 3356.92
+    },
+    {
+      "gpu_count": 4,
+      "gpu_type": "mi210",
+      "input_tokens": 1024,
+      "model_name": "llama31-70b",
+      "output_tokens": 1024,
+      "parallelism": "tp4",
+      "per_gpu_throughput": 581.71,
+      "precision": "bf16",
+      "rank_within_model": 3,
+      "total_token_throughput": 2326.85
+    },
+    {
+      "gpu_count": 8,
+      "gpu_type": "mi210",
+      "input_tokens": 1024,
+      "model_name": "llama31-70b",
+      "output_tokens": 1024,
+      "parallelism": "tp8",
+      "per_gpu_throughput": 525.05,
+      "precision": "bf16",
+      "rank_within_model": 4,
+      "total_token_throughput": 4200.37
+    },
+    {
+      "gpu_count": 8,
+      "gpu_type": "mi210",
+      "input_tokens": 1024,
+      "model_name": "llama33-70b",
+      "output_tokens": 1024,
+      "parallelism": "tp8",
+      "per_gpu_throughput": 507.0,
+      "precision": "bf16",
+      "rank_within_model": 1,
+      "total_token_throughput": 4055.97
+    },
+    {
+      "gpu_count": 4,
+      "gpu_type": "rtx5090",
+      "input_tokens": 1024,
+      "model_name": "qwen25-32b",
+      "output_tokens": 1024,
+      "parallelism": "pp4",
+      "per_gpu_throughput": 1574.18,
+      "precision": "fp8",
+      "rank_within_model": 1,
+      "total_token_throughput": 6296.74
+    },
+    {
+      "gpu_count": 4,
+      "gpu_type": "rtx5090",
+      "input_tokens": 1024,
+      "model_name": "qwen25-32b",
+      "output_tokens": 1024,
+      "parallelism": "tp4",
+      "per_gpu_throughput": 967.59,
+      "precision": "bf16",
+      "rank_within_model": 2,
+      "total_token_throughput": 3870.36
+    },
+    {
+      "gpu_count": 1,
+      "gpu_type": "t4",
+      "input_tokens": 512,
+      "model_name": "tinyllama-1.1b",
+      "output_tokens": 512,
+      "parallelism": "tp1",
+      "per_gpu_throughput": 3395.89,
+      "precision": "fp16",
+      "rank_within_model": 1,
+      "total_token_throughput": 3395.89
+    },
+    {
+      "gpu_count": 2,
+      "gpu_type": "t4",
+      "input_tokens": 512,
+      "model_name": "tinyllama-1.1b",
+      "output_tokens": 512,
+      "parallelism": "tp2",
+      "per_gpu_throughput": 2915.53,
+      "precision": "fp16",
+      "rank_within_model": 2,
+      "total_token_throughput": 5831.06
+    }
+  ],
+  "generator_seed": 777001,
+  "runs": {
+    "h100-llama31-70b-20260905-6fe38f": {
+      "declared_sweep": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "defects": [],
+      "recipe": "h100/llama31-70b-c128",
+      "valid": true
+    },
+    "h100-llama31-70b-20260908-31c38d": {
+      "declared_sweep": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "defects": [],
+      "recipe": "h100/llama31-70b-c128",
+      "valid": true
+    },
+    "h100-llama31-70b-20260910-cad518": {
+      "declared_sweep": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "defects": [],
+      "recipe": "h100/llama31-70b-c128",
+      "valid": true
+    },
+    "h100-llama31-70b-20260911-821e8f": {
+      "declared_sweep": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "defects": [
+        "missing_parallelism"
+      ],
+      "recipe": "h100/llama31-70b-c256",
+      "valid": false
+    },
+    "h100-llama31-70b-20260923-9cff74": {
+      "declared_sweep": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "defects": [],
+      "recipe": "h100/llama31-70b-c128",
+      "valid": true
+    },
+    "h100-llama31-70b-20260926-5e6cc3": {
+      "declared_sweep": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "defects": [],
+      "recipe": "h100/llama31-70b-c256",
+      "valid": true
+    },
+    "h100-llama31-70b-20260927-07f670": {
+      "declared_sweep": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "defects": [],
+      "recipe": "h100/llama31-70b-c256",
+      "valid": true
+    },
+    "h100-llama31-70b-20260929-3aff9d": {
+      "declared_sweep": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "defects": [],
+      "recipe": "h100/llama31-70b-c256",
+      "valid": true
+    },
+    "h100-llama31-70b-20261007-190f0f": {
+      "declared_sweep": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "defects": [],
+      "recipe": "h100/llama31-70b-c128",
+      "valid": true
+    },
+    "h100-llama31-70b-20261007-1f9ef0": {
+      "declared_sweep": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "defects": [],
+      "recipe": "h100/llama31-70b-c128",
+      "valid": true
+    },
+    "h100-llama31-70b-20261007-5f54bc": {
+      "declared_sweep": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "defects": [
+        "truncated_sweep"
+      ],
+      "recipe": "h100/llama31-70b-c256",
+      "valid": false
+    },
+    "h100-llama31-70b-20261015-45b3f5": {
+      "declared_sweep": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "defects": [],
+      "recipe": "h100/llama31-70b-c256",
+      "valid": true
+    },
+    "h100-llama31-70b-20261016-9c3d68": {
+      "declared_sweep": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "defects": [
+        "truncated_sweep"
+      ],
+      "recipe": "h100/llama31-70b-c256",
+      "valid": false
+    },
+    "mi210-deepseek-r1-70b-20260920-a7e754": {
+      "declared_sweep": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "defects": [
+        "defaulted_gpu_count"
+      ],
+      "recipe": "mi210/deepseek-r1-70b-tp8",
+      "valid": false
+    },
+    "mi210-deepseek-r1-70b-20260921-aa5b6b": {
+      "declared_sweep": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "defects": [],
+      "recipe": "mi210/deepseek-r1-70b-tp8",
+      "valid": true
+    },
+    "mi210-deepseek-r1-70b-20260922-60c443": {
+      "declared_sweep": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "defects": [],
+      "recipe": "mi210/deepseek-r1-70b-tp8",
+      "valid": true
+    },
+    "mi210-deepseek-r1-70b-20260924-6fa58c": {
+      "declared_sweep": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "defects": [],
+      "recipe": "mi210/deepseek-r1-70b-tp8",
+      "valid": true
+    },
+    "mi210-deepseek-r1-70b-20260926-4103a0": {
+      "declared_sweep": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "defects": [],
+      "recipe": "mi210/deepseek-r1-70b-tp8",
+      "valid": true
+    },
+    "mi210-deepseek-r1-70b-20261001-5678ab": {
+      "declared_sweep": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "defects": [],
+      "recipe": "mi210/deepseek-r1-70b-tp8",
+      "valid": true
+    },
+    "mi210-deepseek-r1-70b-20261001-b1687d": {
+      "declared_sweep": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "defects": [
+        "duplicate_logical_run"
+      ],
+      "recipe": "mi210/deepseek-r1-70b-tp8",
+      "valid": false
+    },
+    "mi210-deepseek-r1-70b-20261004-638b20": {
+      "declared_sweep": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "defects": [],
+      "recipe": "mi210/deepseek-r1-70b-tp8",
+      "valid": true
+    },
+    "mi210-llama31-70b-20260905-bd15af": {
+      "declared_sweep": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "defects": [],
+      "recipe": "mi210/llama31-70b-tp4",
+      "valid": true
+    },
+    "mi210-llama31-70b-20260906-43b981": {
+      "declared_sweep": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "defects": [],
+      "recipe": "mi210/llama31-70b-tp4",
+      "valid": true
+    },
+    "mi210-llama31-70b-20260907-45273d": {
+      "declared_sweep": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "defects": [],
+      "recipe": "mi210/llama31-70b-tp4",
+      "valid": true
+    },
+    "mi210-llama31-70b-20260910-39a81a": {
+      "declared_sweep": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "defects": [],
+      "recipe": "mi210/llama31-70b-tp4",
+      "valid": true
+    },
+    "mi210-llama31-70b-20260911-891af2": {
+      "declared_sweep": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "defects": [
+        "defaulted_precision"
+      ],
+      "recipe": "mi210/llama31-70b-tp4",
+      "valid": false
+    },
+    "mi210-llama31-70b-20260913-05e3b4": {
+      "declared_sweep": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "defects": [
+        "truncated_sweep"
+      ],
+      "recipe": "mi210/llama31-70b-tp4",
+      "valid": false
+    },
+    "mi210-llama31-70b-20260913-1d5d28": {
+      "declared_sweep": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "defects": [],
+      "recipe": "mi210/llama31-70b-tp4",
+      "valid": true
+    },
+    "mi210-llama31-70b-20260915-8c1d6d": {
+      "declared_sweep": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "defects": [
+        "zero_token_config"
+      ],
+      "recipe": "mi210/llama31-70b-tp8",
+      "valid": false
+    },
+    "mi210-llama31-70b-20260916-3ba71e": {
+      "declared_sweep": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "defects": [],
+      "recipe": "mi210/llama31-70b-tp8",
+      "valid": true
+    },
+    "mi210-llama31-70b-20260916-7c5f6d": {
+      "declared_sweep": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "defects": [],
+      "recipe": "mi210/llama31-70b-tp8",
+      "valid": true
+    },
+    "mi210-llama31-70b-20260923-3c5ed0": {
+      "declared_sweep": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "defects": [
+        "missing_parallelism"
+      ],
+      "recipe": "mi210/llama31-70b-tp8",
+      "valid": false
+    },
+    "mi210-llama31-70b-20260924-91ac9c": {
+      "declared_sweep": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "defects": [],
+      "recipe": "mi210/llama31-70b-tp8",
+      "valid": true
+    },
+    "mi210-llama31-70b-20260925-a5f087": {
+      "declared_sweep": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "defects": [],
+      "recipe": "mi210/llama31-70b-tp8",
+      "valid": true
+    },
+    "mi210-llama31-70b-20261018-9ea3b3": {
+      "declared_sweep": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "defects": [
+        "defaulted_gpu_count"
+      ],
+      "recipe": "mi210/llama31-70b-tp8",
+      "valid": false
+    },
+    "mi210-llama33-70b-20260915-8a45be": {
+      "declared_sweep": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "defects": [],
+      "recipe": "mi210/llama33-70b-tp8",
+      "valid": true
+    },
+    "mi210-llama33-70b-20261002-b87efa": {
+      "declared_sweep": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "defects": [],
+      "recipe": "mi210/llama33-70b-tp8",
+      "valid": true
+    },
+    "mi210-llama33-70b-20261004-6f79cb": {
+      "declared_sweep": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "defects": [
+        "duplicate_logical_run"
+      ],
+      "recipe": "mi210/llama33-70b-tp8",
+      "valid": false
+    },
+    "mi210-llama33-70b-20261004-cdb90d": {
+      "declared_sweep": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "defects": [],
+      "recipe": "mi210/llama33-70b-tp8",
+      "valid": true
+    },
+    "mi210-llama33-70b-20261004-df7022": {
+      "declared_sweep": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "defects": [],
+      "recipe": "mi210/llama33-70b-tp8",
+      "valid": true
+    },
+    "mi210-llama33-70b-20261009-e7aad1": {
+      "declared_sweep": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "defects": [],
+      "recipe": "mi210/llama33-70b-tp8",
+      "valid": true
+    },
+    "mi210-llama33-70b-20261017-5395c4": {
+      "declared_sweep": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "defects": [],
+      "recipe": "mi210/llama33-70b-tp8",
+      "valid": true
+    },
+    "mi210-llama33-70b-20261020-361c83": {
+      "declared_sweep": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "defects": [],
+      "recipe": "mi210/llama33-70b-tp8",
+      "valid": true
+    },
+    "rtx5090-qwen25-32b-20260906-7a6e99": {
+      "declared_sweep": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "defects": [
+        "missing_parallelism"
+      ],
+      "recipe": "rtx5090/qwen25-32b-tp4-bf16",
+      "valid": false
+    },
+    "rtx5090-qwen25-32b-20260911-0de51f": {
+      "declared_sweep": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "defects": [],
+      "recipe": "rtx5090/qwen25-32b-tp4-bf16",
+      "valid": true
+    },
+    "rtx5090-qwen25-32b-20260913-275aa4": {
+      "declared_sweep": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "defects": [],
+      "recipe": "rtx5090/qwen25-32b-pp4-fp8",
+      "valid": true
+    },
+    "rtx5090-qwen25-32b-20260917-021ce3": {
+      "declared_sweep": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "defects": [],
+      "recipe": "rtx5090/qwen25-32b-tp4-bf16",
+      "valid": true
+    },
+    "rtx5090-qwen25-32b-20260919-650fe7": {
+      "declared_sweep": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "defects": [],
+      "recipe": "rtx5090/qwen25-32b-pp4-fp8",
+      "valid": true
+    },
+    "rtx5090-qwen25-32b-20260920-eab9f1": {
+      "declared_sweep": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "defects": [
+        "defaulted_precision"
+      ],
+      "recipe": "rtx5090/qwen25-32b-tp4-bf16",
+      "valid": false
+    },
+    "rtx5090-qwen25-32b-20260926-ac1904": {
+      "declared_sweep": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "defects": [
+        "defaulted_precision"
+      ],
+      "recipe": "rtx5090/qwen25-32b-tp4-bf16",
+      "valid": false
+    },
+    "rtx5090-qwen25-32b-20261006-844c28": {
+      "declared_sweep": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "defects": [],
+      "recipe": "rtx5090/qwen25-32b-tp4-bf16",
+      "valid": true
+    },
+    "rtx5090-qwen25-32b-20261014-78afce": {
+      "declared_sweep": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "defects": [],
+      "recipe": "rtx5090/qwen25-32b-tp4-bf16",
+      "valid": true
+    },
+    "rtx5090-qwen25-32b-20261101-8fd460": {
+      "declared_sweep": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "defects": [],
+      "recipe": "rtx5090/qwen25-32b-pp4-fp8",
+      "valid": true
+    },
+    "t4-tinyllama-1.1b-20260902-f5ab14": {
+      "declared_sweep": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "defects": [],
+      "recipe": "t4/tinyllama-tp1",
+      "valid": true
+    },
+    "t4-tinyllama-1.1b-20260910-03c816": {
+      "declared_sweep": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "defects": [],
+      "recipe": "t4/tinyllama-tp1",
+      "valid": true
+    },
+    "t4-tinyllama-1.1b-20260914-ba010a": {
+      "declared_sweep": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "defects": [
+        "zero_token_config"
+      ],
+      "recipe": "t4/tinyllama-tp1",
+      "valid": false
+    },
+    "t4-tinyllama-1.1b-20260921-e46ce3": {
+      "declared_sweep": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "defects": [],
+      "recipe": "t4/tinyllama-tp2",
+      "valid": true
+    },
+    "t4-tinyllama-1.1b-20260925-bf2780": {
+      "declared_sweep": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "defects": [],
+      "recipe": "t4/tinyllama-tp2",
+      "valid": true
+    },
+    "t4-tinyllama-1.1b-20260929-dfaed2": {
+      "declared_sweep": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "defects": [],
+      "recipe": "t4/tinyllama-tp1",
+      "valid": true
+    },
+    "t4-tinyllama-1.1b-20261002-9bcd60": {
+      "declared_sweep": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "defects": [
+        "defaulted_gpu_count"
+      ],
+      "recipe": "t4/tinyllama-tp2",
+      "valid": false
+    },
+    "t4-tinyllama-1.1b-20261014-28bf50": {
+      "declared_sweep": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "defects": [],
+      "recipe": "t4/tinyllama-tp2",
+      "valid": true
+    },
+    "t4-tinyllama-1.1b-20261020-f9c62b": {
+      "declared_sweep": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "defects": [],
+      "recipe": "t4/tinyllama-tp2",
+      "valid": true
+    },
+    "t4-tinyllama-1.1b-20261021-115343": {
+      "declared_sweep": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "defects": [],
+      "recipe": "t4/tinyllama-tp2",
+      "valid": true
+    },
+    "t4-tinyllama-1.1b-20261031-b68661": {
+      "declared_sweep": [
+        1,
+        2,
+        4,
+        8
+      ],
+      "defects": [],
+      "recipe": "t4/tinyllama-tp1",
+      "valid": true
+    },
+    "t4-tinyllama-1.1b-20261102-fbba26": {
+      "declared_sweep": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ],
+      "defects": [],
+      "recipe": "t4/tinyllama-tp1",
+      "valid": true
+    }
+  }
+}
