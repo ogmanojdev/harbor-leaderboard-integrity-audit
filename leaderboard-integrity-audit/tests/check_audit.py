@@ -61,10 +61,11 @@ VOCABULARY = {
 }
 
 WEIGHTS = {
-    "functional_correctness": 0.40,
-    "constraint_satisfaction": 0.30,
-    "robustness": 0.20,
+    "functional_correctness": 0.35,
+    "constraint_satisfaction": 0.25,
+    "robustness": 0.15,
     "artifact_quality": 0.10,
+    "completeness": 0.15,
 }
 
 notes: list[str] = []
@@ -89,6 +90,34 @@ def f1(got: set, exp: set) -> tuple[float, int, int, int]:
     precision = tp / (tp + fp)
     recall = tp / (tp + fn)
     return 2 * precision * recall / (precision + recall), tp, fp, fn
+
+
+def macro_f1(got: set, exp: set) -> tuple[float, int, int, int]:
+    """
+    F1 averaged over defect classes, not over (run, defect) pairs.
+
+    The task is to find every class of defect. Micro-averaging lets a whole
+    class be missed for roughly a tenth of the score, because each class covers
+    only two or three runs; averaging over classes makes missing one cost a
+    sixth of the dimension, which is what the instruction actually asks for.
+
+    A class that does not occur and was not reported is skipped. Reporting a
+    class that does not occur scores zero for that class, so inventing defects
+    is not free.
+    """
+    scores = []
+    for code in sorted(VOCABULARY):
+        g = {p for p in got if p[1] == code}
+        e = {p for p in exp if p[1] == code}
+        if not g and not e:
+            continue
+        if not e:
+            scores.append(0.0)
+            continue
+        scores.append(f1(g, e)[0])
+    overall = sum(scores) / len(scores) if scores else 0.0
+    tp = len(got & exp)
+    return overall, tp, len(got - exp), len(exp - got)
 
 
 class Timeout(Exception):
@@ -169,8 +198,8 @@ def score_functional(fn) -> float:
         note(f"WARN codes outside the published vocabulary ignored: {sorted(bad)}")
         got = {(r, c) for r, c in got if c in VOCABULARY}
 
-    score, tp, fp, fn_ = f1(got, expected_pairs(truth))
-    note(f"functional_correctness: held-out F1={score:.3f} "
+    score, tp, fp, fn_ = macro_f1(got, expected_pairs(truth))
+    note(f"functional_correctness: held-out macro-F1={score:.3f} "
          f"(tp={tp} fp={fp} fn={fn_}) over {len(records)} unseen runs")
     return score
 
@@ -185,10 +214,12 @@ def _norm(entry: dict) -> tuple:
         round(float(entry.get("total_token_throughput") or 0.0), 2),
         round(float(entry.get("per_gpu_throughput") or 0.0), 2),
         int(entry.get("rank_within_model") or 0),
+        int(entry.get("runs_counted") or 0),
     )
 
 
 def score_leaderboard() -> float:
+    score_leaderboard.last_exact = False
     path = LEADERBOARD_PATH
     if not os.path.isfile(path):
         note("FAIL leaderboard.json missing")
@@ -212,6 +243,7 @@ def score_leaderboard() -> float:
     exp = {_norm(e) for e in expected}
 
     score, tp, fp, fn_ = f1(got, exp)
+    score_leaderboard.last_exact = (fp == 0 and fn_ == 0 and tp == len(exp))
     note(f"constraint_satisfaction: leaderboard F1={score:.3f} "
          f"(correct={tp} spurious={fp} missing={fn_} of {len(exp)} expected)")
     return score
@@ -277,9 +309,47 @@ def score_findings() -> float:
                 got.add((rid, str(code)))
 
     truth = load_json(os.path.join(FIXTURES, "seed_truth.json"))
-    score, tp, fp, fn_ = f1(got, expected_pairs(truth))
-    note(f"artifact_quality: findings F1={score:.3f} (tp={tp} fp={fp} fn={fn_})")
+    score, tp, fp, fn_ = macro_f1(got, expected_pairs(truth))
+    note(f"artifact_quality: findings macro-F1={score:.3f} (tp={tp} fp={fp} fn={fn_})")
     return score
+
+
+# ── Dimension 5: was the audit actually finished? ────────────────────────────
+def score_completeness(validator) -> float:
+    """
+    One question, answered yes or no: is the audit complete?
+
+    Partial credit across the other four dimensions means a submission that
+    misses an entire class of defect still scores near 0.9, because each class
+    covers only two or three of sixteen runs. But an audit that overlooks a
+    whole category of integrity problem has not done the job, however many
+    individual runs it got right. This dimension says so plainly.
+
+    Both halves must hold: every defect class present in the corpus is reported
+    at least once, and the corrected leaderboard matches exactly.
+    """
+    if validator is None:
+        note("completeness: no validator")
+        return 0.0
+    records = load_json(os.path.join(FIXTURES, "heldout_records.json"))
+    truth = load_json(os.path.join(FIXTURES, "heldout_truth.json"))
+    result = run_validator(validator, records)
+    if result is None:
+        return 0.0
+
+    expected_classes = {d for i in truth["runs"].values() for d in i["defects"]}
+    found_classes = {c for _, c in pairs_from(result) if c in VOCABULARY}
+    missed = sorted(expected_classes - found_classes)
+
+    leaderboard_exact = score_leaderboard.last_exact
+
+    if missed:
+        note(f"completeness: defect classes never reported: {missed}")
+    if not leaderboard_exact:
+        note("completeness: corrected leaderboard is not exact")
+    complete = not missed and leaderboard_exact
+    note(f"completeness: {'audit complete' if complete else 'audit incomplete'}")
+    return 1.0 if complete else 0.0
 
 
 def main() -> int:
@@ -291,6 +361,7 @@ def main() -> int:
         "robustness": score_robustness(validator),
         "artifact_quality": score_findings(),
     }
+    scores["completeness"] = score_completeness(validator)
     overall = sum(scores[k] * w for k, w in WEIGHTS.items())
 
     # Harbor requires every value in reward.json to be numeric, so the
@@ -318,5 +389,6 @@ if __name__ == "__main__":
         with open("/logs/verifier/reward.json", "w") as fh:
             json.dump({"overall": 0.0, "functional_correctness": 0.0,
                        "constraint_satisfaction": 0.0, "robustness": 0.0,
-                       "artifact_quality": 0.0}, fh, indent=2)
+                       "artifact_quality": 0.0, "completeness": 0.0},
+                      fh, indent=2)
         sys.exit(0)

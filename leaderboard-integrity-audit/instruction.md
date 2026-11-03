@@ -37,6 +37,11 @@ the SQLAlchemy models, the ingest endpoint at `app/routers/ingest.py`, and the
 Pydantic schemas. Reading the ingest path is the fastest way to understand how a
 result row can end up misdescribing the run that produced it.
 
+Two caveats about the records, both ordinary operational wear rather than
+anything hidden: some tasks predate the configuration snapshot and store an
+empty one, and some log streams dropped mid-task, so their earliest lines were
+never captured. Neither source is complete on its own. No run is missing both.
+
 **The platform's own MCP tools**, connected as the `aistudio` server. They are
 the tools the team uses day to day -- listing and fetching benchmark runs,
 reading dashboard totals, comparing a run against past runs, following a task's
@@ -92,15 +97,18 @@ necessarily occurs in this database; report only those you find evidence for.
 The corrected leaderboard, computed with this rule exactly:
 
 1. Consider only runs that have **no** integrity defect.
-2. A run's **peak** is its `total_token_throughput` at the highest concurrency
-   in that run's declared concurrency sweep. A run that has no result row at
-   that concurrency has no peak and is excluded.
-3. Group the remaining runs by the tuple
+2. A run is eligible only if it also recorded a result at **every** concurrency
+   in its declared concurrency sweep. A run that did not finish its sweep is an
+   unfinished measurement rather than a slow one, and is excluded.
+3. An eligible run's **peak** is its highest `total_token_throughput` across its
+   recorded results.
+4. Group the eligible runs by the tuple
    `(model_name, gpu_type, precision, parallelism, gpu_count, input_tokens, output_tokens)`.
-4. A group's `total_token_throughput` is the **maximum** peak among its runs.
-5. `per_gpu_throughput` is `total_token_throughput / gpu_count`, rounded to 2
+5. A group's `total_token_throughput` is the **maximum** peak among its runs,
+   and `runs_counted` is how many runs went into that group.
+6. `per_gpu_throughput` is `total_token_throughput / gpu_count`, rounded to 2
    decimal places.
-6. Within each `model_name`, assign `rank_within_model` by `per_gpu_throughput`
+7. Within each `model_name`, assign `rank_within_model` by `per_gpu_throughput`
    descending, ties broken by `(gpu_type, precision, parallelism)` ascending.
    Ranks start at 1.
 
@@ -117,6 +125,7 @@ The corrected leaderboard, computed with this rule exactly:
       "output_tokens": 512,
       "total_token_throughput": 5374.26,
       "per_gpu_throughput": 2687.13,
+      "runs_counted": 3,
       "rank_within_model": 1
     }
   ]

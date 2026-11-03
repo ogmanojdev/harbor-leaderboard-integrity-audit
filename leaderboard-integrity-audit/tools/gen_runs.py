@@ -150,6 +150,10 @@ class Run:
     # config. Those runs can only be reconstructed from the task logs, so a
     # pure SQL diff of requested-vs-recorded will not find them.
     snapshot_missing: bool = False
+    # Runs whose SSE log capture dropped: the early lines were never written to
+    # task_logs, so their intent survives only in the config snapshot. Evidence
+    # is deliberately complementary -- neither source alone covers the corpus.
+    log_gap: bool = False
 
 
 def build_run(rng: random.Random, recipe: Recipe, idx: int, day: datetime) -> Run:
@@ -366,6 +370,16 @@ def build_corpus(seed: int, n_runs: int) -> tuple[list[Run], dict]:
     for r in clean[:n_more]:
         r.snapshot_missing = True
 
+    # A run never loses both sources: that would make it unprovable. Runs with a
+    # config snapshot may lose their early log lines; runs without one keep them.
+    gap_pool = [r for r in runs if not r.snapshot_missing]
+    rng.shuffle(gap_pool)
+    for r in [r for r in gap_pool if r.defects][:3]:
+        r.log_gap = True
+    still = [r for r in gap_pool if not r.log_gap]
+    for r in still[:max(0, int(0.22 * len(runs)) - 3)]:
+        r.log_gap = True
+
     truth = {
         "generator_seed": seed,
         "defect_codes": ALL_DEFECTS,
@@ -381,6 +395,44 @@ def build_corpus(seed: int, n_runs: int) -> tuple[list[Run], dict]:
         },
     }
     return runs, truth
+
+
+def log_lines_for(run: Run, machine_hid: str = "node-000000") -> list[str]:
+    """
+    The log stream as `task_logs` captured it.
+
+    A run whose capture dropped has no recipe, node, declared sweep or launch
+    line -- only the reconnect marker and whatever arrived afterwards. The
+    marker is left in deliberately: an agent must be able to tell that the
+    stream is incomplete rather than conclude the run never launched.
+
+    Nothing marks a truncated sweep. A worker killed mid-run writes no farewell,
+    so an incomplete sweep is only visible by counting what arrived against what
+    was declared.
+    """
+    lines: list[str] = []
+    if run.log_gap:
+        lines.append("[sse] log stream reconnected after transport error; "
+                     "earlier output for this task was not captured")
+    else:
+        lines.extend([
+            f"[bench] recipe={run.recipe.name}",
+            f"[bench] node={machine_hid} ip={run.node_ips[0]} "
+            f"gpus={run.recipe.gpu_count} ({run.recipe.gpu_model})",
+            f"[bench] concurrency sweep: "
+            f"{' '.join(str(c) for c in run.declared_sweep)}",
+            f"[bench] launching: vllm serve {run.recipe.model} "
+            f"--tensor-parallel-size {run.recipe.tp} "
+            f"--pipeline-parallel-size {run.recipe.pp} "
+            f"--quantization {run.recipe.precision} "
+            f"--max-model-len {run.recipe.input_tokens + run.recipe.output_tokens}",
+        ])
+    for sub in run.sub_runs:
+        lines.append("BENCH_RESULT:" + json.dumps(
+            {"concurrency": sub.concurrency,
+             "total_token_throughput": sub.total_token_throughput},
+            sort_keys=True))
+    return lines
 
 
 # ── Expected corrected leaderboard ────────────────────────────────────────────
@@ -399,26 +451,30 @@ def build_corpus(seed: int, n_runs: int) -> tuple[list[Run], dict]:
 #      broken by (gpu_type, precision, parallelism) ascending.
 
 def expected_leaderboard(runs: list[Run]) -> list[dict]:
-    groups: dict[tuple, float] = {}
+    groups: dict[tuple, list] = {}
     for r in runs:
         if r.defects:
             continue
-        target = max(r.declared_sweep)
-        peak = next(
-            (s.total_token_throughput for s in r.sub_runs if s.concurrency == target),
-            None,
-        )
-        if peak is None:
+        # A run is eligible only if it recorded a result at every concurrency it
+        # declared. An incomplete sweep is not a slower run, it is an unfinished
+        # measurement, and averaging it in would understate the configuration.
+        present = {s.concurrency for s in r.sub_runs}
+        if not set(r.declared_sweep).issubset(present):
             continue
+        peak = max(s.total_token_throughput for s in r.sub_runs)
         key = (
             r.recipe.model, r.recipe.gpu_type, r.rec_precision,
             r.rec_parallelism, r.rec_gpu_count,
             r.rec_input_tokens, r.rec_output_tokens,
         )
-        groups[key] = max(groups.get(key, 0.0), peak)
+        if key in groups:
+            groups[key][0] = max(groups[key][0], peak)
+            groups[key][1] += 1
+        else:
+            groups[key] = [peak, 1]
 
     rows = []
-    for key, thr in groups.items():
+    for key, (thr, counted) in groups.items():
         model, gpu_type, precision, parallelism, gpu_count, itok, otok = key
         rows.append({
             "model_name": model,
@@ -430,6 +486,7 @@ def expected_leaderboard(runs: list[Run]) -> list[dict]:
             "output_tokens": otok,
             "total_token_throughput": round(thr, 2),
             "per_gpu_throughput": round(thr / gpu_count, 2),
+            "runs_counted": counted,
         })
     rows.sort(key=lambda r: (r["model_name"], -r["per_gpu_throughput"],
                              r["gpu_type"], r["precision"], str(r["parallelism"])))
@@ -553,27 +610,7 @@ def emit_sql(runs: list[Run]) -> str:
         # Logs. The declared sweep and the launch arguments live here, which is
         # what makes a truncated or mis-recorded run provable for the runs whose
         # task_config snapshot is empty.
-        lines = [
-            f"[bench] recipe={r.recipe.name}",
-            f"[bench] node={machine_hid} ip={r.node_ips[0]} "
-            f"gpus={r.recipe.gpu_count} ({r.recipe.gpu_model})",
-            f"[bench] concurrency sweep: {' '.join(str(c) for c in r.declared_sweep)}",
-            f"[bench] launching: vllm serve {r.recipe.model} "
-            f"--tensor-parallel-size {r.recipe.tp} "
-            f"--pipeline-parallel-size {r.recipe.pp} "
-            f"--quantization {r.recipe.precision} "
-            f"--max-model-len {r.recipe.input_tokens + r.recipe.output_tokens}",
-        ]
-        for s in r.sub_runs:
-            payload = {"concurrency": s.concurrency,
-                       "total_token_throughput": s.total_token_throughput}
-            lines.append("BENCH_RESULT:" + json.dumps(payload, sort_keys=True))
-        if TRUNCATED_SWEEP in r.defects:
-            nxt = r.declared_sweep[len(r.sub_runs)]
-            lines.append(f"[bench] starting concurrency={nxt}")
-            lines.append("[bench] ERROR: ssh channel closed unexpectedly")
-        else:
-            lines.append("[bench] sweep complete")
+        lines = log_lines_for(r, machine_hid)
 
         for i, line in enumerate(lines):
             out.append(
@@ -609,27 +646,7 @@ def emit_records(runs: list[Run]) -> list[dict]:
             "concurrency_sweep": r.declared_sweep,
             "pipeline_version": r.recipe.pipeline_version,
         }
-        lines = [
-            f"[bench] recipe={r.recipe.name}",
-            f"[bench] node=node-xxxxxx ip={r.node_ips[0]} "
-            f"gpus={r.recipe.gpu_count} ({r.recipe.gpu_model})",
-            f"[bench] concurrency sweep: {' '.join(str(c) for c in r.declared_sweep)}",
-            f"[bench] launching: vllm serve {r.recipe.model} "
-            f"--tensor-parallel-size {r.recipe.tp} "
-            f"--pipeline-parallel-size {r.recipe.pp} "
-            f"--quantization {r.recipe.precision} "
-            f"--max-model-len {r.recipe.input_tokens + r.recipe.output_tokens}",
-        ]
-        for s in r.sub_runs:
-            lines.append("BENCH_RESULT:" + json.dumps(
-                {"concurrency": s.concurrency,
-                 "total_token_throughput": s.total_token_throughput},
-                sort_keys=True))
-        if TRUNCATED_SWEEP in r.defects:
-            lines.append(f"[bench] starting concurrency={r.declared_sweep[len(r.sub_runs)]}")
-            lines.append("[bench] ERROR: ssh channel closed unexpectedly")
-        else:
-            lines.append("[bench] sweep complete")
+        lines = log_lines_for(r)
 
         rows = []
         for s in r.sub_runs:

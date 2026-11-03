@@ -65,7 +65,7 @@ def build_records(cur) -> list[dict]:
 
 def build_leaderboard(records: list[dict], defects: dict[str, list[str]]) -> list[dict]:
     """The published rule, applied to runs that survived the audit."""
-    groups: dict[tuple, float] = {}
+    groups: dict[tuple, list] = {}
 
     for rec in records:
         if defects.get(rec["run_id"]):
@@ -73,21 +73,21 @@ def build_leaderboard(records: list[dict], defects: dict[str, list[str]]) -> lis
         sweep = _declared(rec)["sweep"]
         if not sweep:
             continue
-        target = max(sweep)
-        peak = next(
-            (r["total_token_throughput"] for r in rec["results"]
-             if r["concurrency"] == target),
-            None,
-        )
-        if peak is None:
+        present = {r["concurrency"] for r in rec["results"]}
+        if not set(sweep).issubset(present):
             continue
+        peak = max(r["total_token_throughput"] for r in rec["results"])
         f = rec["results"][0]
         key = (f["model_name"], f["gpu_type"], f["precision"], f["parallelism"],
                f["gpu_count"], f["input_tokens"], f["output_tokens"])
-        groups[key] = max(groups.get(key, 0.0), float(peak))
+        if key in groups:
+            groups[key][0] = max(groups[key][0], float(peak))
+            groups[key][1] += 1
+        else:
+            groups[key] = [float(peak), 1]
 
     entries = []
-    for key, thr in groups.items():
+    for key, (thr, counted) in groups.items():
         model, gpu_type, precision, parallelism, gpu_count, itok, otok = key
         entries.append({
             "model_name": model,
@@ -99,6 +99,7 @@ def build_leaderboard(records: list[dict], defects: dict[str, list[str]]) -> lis
             "output_tokens": otok,
             "total_token_throughput": round(thr, 2),
             "per_gpu_throughput": round(thr / gpu_count, 2),
+            "runs_counted": counted,
         })
 
     entries.sort(key=lambda e: (e["model_name"], -e["per_gpu_throughput"],

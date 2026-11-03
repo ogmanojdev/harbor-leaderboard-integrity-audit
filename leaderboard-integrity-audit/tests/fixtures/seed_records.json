@@ -2,7 +2,7 @@
  {
   "log_lines": [
    "[bench] recipe=t4/tinyllama-tp2",
-   "[bench] node=node-xxxxxx ip=10.6.12.41 gpus=2 (Tesla T4)",
+   "[bench] node=node-000000 ip=10.6.12.41 gpus=2 (Tesla T4)",
    "[bench] concurrency sweep: 1 2 4 8 16 32 64 128",
    "[bench] launching: vllm serve tinyllama-1.1b --tensor-parallel-size 2 --pipeline-parallel-size 1 --quantization fp16 --max-model-len 1024",
    "BENCH_RESULT:{\"concurrency\": 1, \"total_token_throughput\": 856.47}",
@@ -12,8 +12,7 @@
    "BENCH_RESULT:{\"concurrency\": 16, \"total_token_throughput\": 4360.2}",
    "BENCH_RESULT:{\"concurrency\": 32, \"total_token_throughput\": 5048.65}",
    "BENCH_RESULT:{\"concurrency\": 64, \"total_token_throughput\": 5481.39}",
-   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 5726.83}",
-   "[bench] sweep complete"
+   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 5726.83}"
   ],
   "results": [
    {
@@ -247,7 +246,7 @@
  {
   "log_lines": [
    "[bench] recipe=rtx5090/qwen25-32b-tp4-bf16",
-   "[bench] node=node-xxxxxx ip=10.6.12.142 gpus=4 (NVIDIA GeForce RTX 5090)",
+   "[bench] node=node-000000 ip=10.6.12.142 gpus=4 (NVIDIA GeForce RTX 5090)",
    "[bench] concurrency sweep: 1 2 4 8 16 32 64 128",
    "[bench] launching: vllm serve qwen25-32b --tensor-parallel-size 4 --pipeline-parallel-size 1 --quantization bf16 --max-model-len 2048",
    "BENCH_RESULT:{\"concurrency\": 1, \"total_token_throughput\": 586.69}",
@@ -257,8 +256,7 @@
    "BENCH_RESULT:{\"concurrency\": 16, \"total_token_throughput\": 2986.77}",
    "BENCH_RESULT:{\"concurrency\": 32, \"total_token_throughput\": 3458.36}",
    "BENCH_RESULT:{\"concurrency\": 64, \"total_token_throughput\": 3754.79}",
-   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 3922.92}",
-   "[bench] sweep complete"
+   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 3922.92}"
   ],
   "results": [
    {
@@ -492,7 +490,7 @@
  {
   "log_lines": [
    "[bench] recipe=t4/tinyllama-tp2",
-   "[bench] node=node-xxxxxx ip=10.6.12.163 gpus=2 (Tesla T4)",
+   "[bench] node=node-000000 ip=10.6.12.163 gpus=2 (Tesla T4)",
    "[bench] concurrency sweep: 1 2 4 8 16 32 64 128",
    "[bench] launching: vllm serve tinyllama-1.1b --tensor-parallel-size 2 --pipeline-parallel-size 1 --quantization fp16 --max-model-len 1024",
    "BENCH_RESULT:{\"concurrency\": 1, \"total_token_throughput\": 872.38}",
@@ -502,8 +500,7 @@
    "BENCH_RESULT:{\"concurrency\": 16, \"total_token_throughput\": 4441.2}",
    "BENCH_RESULT:{\"concurrency\": 32, \"total_token_throughput\": 5142.44}",
    "BENCH_RESULT:{\"concurrency\": 64, \"total_token_throughput\": 5583.23}",
-   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 5833.22}",
-   "[bench] sweep complete"
+   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 5833.22}"
   ],
   "results": [
    {
@@ -765,7 +762,7 @@
  {
   "log_lines": [
    "[bench] recipe=mi210/llama31-70b-tp4",
-   "[bench] node=node-xxxxxx ip=10.6.12.123 gpus=4 (AMD Instinct MI210)",
+   "[bench] node=node-000000 ip=10.6.12.123 gpus=4 (AMD Instinct MI210)",
    "[bench] concurrency sweep: 1 2 4 8 16 32 64 128",
    "[bench] launching: vllm serve llama31-70b --tensor-parallel-size 4 --pipeline-parallel-size 1 --quantization bf16 --max-model-len 2048",
    "BENCH_RESULT:{\"concurrency\": 1, \"total_token_throughput\": 341.04}",
@@ -775,8 +772,7 @@
    "BENCH_RESULT:{\"concurrency\": 16, \"total_token_throughput\": 1736.2}",
    "BENCH_RESULT:{\"concurrency\": 32, \"total_token_throughput\": 2010.34}",
    "BENCH_RESULT:{\"concurrency\": 64, \"total_token_throughput\": 2182.65}",
-   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 2280.38}",
-   "[bench] sweep complete"
+   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 2280.38}"
   ],
   "results": [
    {
@@ -1010,7 +1006,7 @@
  {
   "log_lines": [
    "[bench] recipe=t4/tinyllama-tp2",
-   "[bench] node=node-xxxxxx ip=10.6.12.138 gpus=2 (Tesla T4)",
+   "[bench] node=node-000000 ip=10.6.12.138 gpus=2 (Tesla T4)",
    "[bench] concurrency sweep: 1 2 4 8 16 32 64 128",
    "[bench] launching: vllm serve tinyllama-1.1b --tensor-parallel-size 2 --pipeline-parallel-size 1 --quantization fp16 --max-model-len 1024",
    "BENCH_RESULT:{\"concurrency\": 1, \"total_token_throughput\": 858.02}",
@@ -1020,8 +1016,7 @@
    "BENCH_RESULT:{\"concurrency\": 16, \"total_token_throughput\": 4368.12}",
    "BENCH_RESULT:{\"concurrency\": 32, \"total_token_throughput\": 5057.82}",
    "BENCH_RESULT:{\"concurrency\": 64, \"total_token_throughput\": 5491.35}",
-   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 5737.23}",
-   "[bench] sweep complete"
+   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 5737.23}"
   ],
   "results": [
    {
@@ -1255,7 +1250,7 @@
  {
   "log_lines": [
    "[bench] recipe=h100/llama31-70b-c128",
-   "[bench] node=node-xxxxxx ip=10.6.12.28 gpus=2 (NVIDIA H100 80GB HBM3)",
+   "[bench] node=node-000000 ip=10.6.12.28 gpus=2 (NVIDIA H100 80GB HBM3)",
    "[bench] concurrency sweep: 1 2 4 8 16 32 64 128",
    "[bench] launching: vllm serve llama31-70b --tensor-parallel-size 2 --pipeline-parallel-size 1 --quantization bf16 --max-model-len 2048",
    "BENCH_RESULT:{\"concurrency\": 1, \"total_token_throughput\": 499.87}",
@@ -1265,8 +1260,7 @@
    "BENCH_RESULT:{\"concurrency\": 16, \"total_token_throughput\": 2544.78}",
    "BENCH_RESULT:{\"concurrency\": 32, \"total_token_throughput\": 2946.59}",
    "BENCH_RESULT:{\"concurrency\": 64, \"total_token_throughput\": 3199.15}",
-   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 3342.4}",
-   "[bench] sweep complete"
+   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 3342.4}"
   ],
   "results": [
    {
@@ -1500,14 +1494,12 @@
  {
   "log_lines": [
    "[bench] recipe=t4/tinyllama-tp1",
-   "[bench] node=node-xxxxxx ip=10.6.12.15 gpus=1 (Tesla T4)",
+   "[bench] node=node-000000 ip=10.6.12.15 gpus=1 (Tesla T4)",
    "[bench] concurrency sweep: 1 2 4 8 16 32 64 128",
    "[bench] launching: vllm serve tinyllama-1.1b --tensor-parallel-size 1 --pipeline-parallel-size 1 --quantization fp16 --max-model-len 1024",
    "BENCH_RESULT:{\"concurrency\": 1, \"total_token_throughput\": 511.78}",
    "BENCH_RESULT:{\"concurrency\": 2, \"total_token_throughput\": 895.62}",
-   "BENCH_RESULT:{\"concurrency\": 4, \"total_token_throughput\": 1432.99}",
-   "[bench] starting concurrency=8",
-   "[bench] ERROR: ssh channel closed unexpectedly"
+   "BENCH_RESULT:{\"concurrency\": 4, \"total_token_throughput\": 1432.99}"
   ],
   "results": [
    {
@@ -1600,10 +1592,7 @@
  },
  {
   "log_lines": [
-   "[bench] recipe=rtx5090/qwen25-32b-pp4-fp8",
-   "[bench] node=node-xxxxxx ip=10.6.12.226 gpus=4 (NVIDIA GeForce RTX 5090)",
-   "[bench] concurrency sweep: 1 2 4 8 16 32 64 128",
-   "[bench] launching: vllm serve qwen25-32b --tensor-parallel-size 1 --pipeline-parallel-size 4 --quantization fp8 --max-model-len 2048",
+   "[sse] log stream reconnected after transport error; earlier output for this task was not captured",
    "BENCH_RESULT:{\"concurrency\": 1, \"total_token_throughput\": 904.05}",
    "BENCH_RESULT:{\"concurrency\": 2, \"total_token_throughput\": 1582.08}",
    "BENCH_RESULT:{\"concurrency\": 4, \"total_token_throughput\": 2531.33}",
@@ -1611,8 +1600,7 @@
    "BENCH_RESULT:{\"concurrency\": 16, \"total_token_throughput\": 4602.41}",
    "BENCH_RESULT:{\"concurrency\": 32, \"total_token_throughput\": 5329.11}",
    "BENCH_RESULT:{\"concurrency\": 64, \"total_token_throughput\": 5785.89}",
-   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 6044.96}",
-   "[bench] sweep complete"
+   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 6044.96}"
   ],
   "results": [
    {
@@ -1881,10 +1869,7 @@
  },
  {
   "log_lines": [
-   "[bench] recipe=t4/tinyllama-tp2",
-   "[bench] node=node-xxxxxx ip=10.6.12.212 gpus=2 (Tesla T4)",
-   "[bench] concurrency sweep: 1 2 4 8 16 32 64 128",
-   "[bench] launching: vllm serve tinyllama-1.1b --tensor-parallel-size 2 --pipeline-parallel-size 1 --quantization fp16 --max-model-len 1024",
+   "[sse] log stream reconnected after transport error; earlier output for this task was not captured",
    "BENCH_RESULT:{\"concurrency\": 1, \"total_token_throughput\": 849.41}",
    "BENCH_RESULT:{\"concurrency\": 2, \"total_token_throughput\": 1486.46}",
    "BENCH_RESULT:{\"concurrency\": 4, \"total_token_throughput\": 2378.33}",
@@ -1892,8 +1877,7 @@
    "BENCH_RESULT:{\"concurrency\": 16, \"total_token_throughput\": 4324.25}",
    "BENCH_RESULT:{\"concurrency\": 32, \"total_token_throughput\": 5007.02}",
    "BENCH_RESULT:{\"concurrency\": 64, \"total_token_throughput\": 5436.19}",
-   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 5679.61}",
-   "[bench] sweep complete"
+   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 5679.61}"
   ],
   "results": [
    {
@@ -2211,7 +2195,7 @@
  {
   "log_lines": [
    "[bench] recipe=t4/tinyllama-tp2",
-   "[bench] node=node-xxxxxx ip=10.6.12.146 gpus=2 (Tesla T4)",
+   "[bench] node=node-000000 ip=10.6.12.146 gpus=2 (Tesla T4)",
    "[bench] concurrency sweep: 1 2 4 8 16 32 64 128",
    "[bench] launching: vllm serve tinyllama-1.1b --tensor-parallel-size 2 --pipeline-parallel-size 1 --quantization fp16 --max-model-len 1024",
    "BENCH_RESULT:{\"concurrency\": 1, \"total_token_throughput\": 852.52}",
@@ -2221,8 +2205,7 @@
    "BENCH_RESULT:{\"concurrency\": 16, \"total_token_throughput\": 4340.09}",
    "BENCH_RESULT:{\"concurrency\": 32, \"total_token_throughput\": 5025.37}",
    "BENCH_RESULT:{\"concurrency\": 64, \"total_token_throughput\": 5456.12}",
-   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 5700.42}",
-   "[bench] sweep complete"
+   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 5700.42}"
   ],
   "results": [
    {
@@ -2540,7 +2523,7 @@
  {
   "log_lines": [
    "[bench] recipe=rtx5090/qwen25-32b-tp4-bf16",
-   "[bench] node=node-xxxxxx ip=10.6.12.155 gpus=4 (NVIDIA GeForce RTX 5090)",
+   "[bench] node=node-000000 ip=10.6.12.155 gpus=4 (NVIDIA GeForce RTX 5090)",
    "[bench] concurrency sweep: 1 2 4 8 16 32 64 128",
    "[bench] launching: vllm serve qwen25-32b --tensor-parallel-size 4 --pipeline-parallel-size 1 --quantization bf16 --max-model-len 2048",
    "BENCH_RESULT:{\"concurrency\": 1, \"total_token_throughput\": 576.68}",
@@ -2550,8 +2533,7 @@
    "BENCH_RESULT:{\"concurrency\": 16, \"total_token_throughput\": 2935.8}",
    "BENCH_RESULT:{\"concurrency\": 32, \"total_token_throughput\": 3399.35}",
    "BENCH_RESULT:{\"concurrency\": 64, \"total_token_throughput\": 3690.72}",
-   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 3855.98}",
-   "[bench] sweep complete"
+   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 3855.98}"
   ],
   "results": [
    {
@@ -2837,7 +2819,7 @@
  {
   "log_lines": [
    "[bench] recipe=mi210/llama31-70b-tp4",
-   "[bench] node=node-xxxxxx ip=10.6.12.132 gpus=4 (AMD Instinct MI210)",
+   "[bench] node=node-000000 ip=10.6.12.132 gpus=4 (AMD Instinct MI210)",
    "[bench] concurrency sweep: 1 2 4 8 16 32 64 128",
    "[bench] launching: vllm serve llama31-70b --tensor-parallel-size 4 --pipeline-parallel-size 1 --quantization bf16 --max-model-len 2048",
    "BENCH_RESULT:{\"concurrency\": 1, \"total_token_throughput\": 346.49}",
@@ -2847,8 +2829,7 @@
    "BENCH_RESULT:{\"concurrency\": 16, \"total_token_throughput\": 1763.95}",
    "BENCH_RESULT:{\"concurrency\": 32, \"total_token_throughput\": 2042.47}",
    "BENCH_RESULT:{\"concurrency\": 64, \"total_token_throughput\": 2217.54}",
-   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 2316.83}",
-   "[bench] sweep complete"
+   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 2316.83}"
   ],
   "results": [
    {
@@ -3117,10 +3098,7 @@
  },
  {
   "log_lines": [
-   "[bench] recipe=h100/llama31-70b-c128",
-   "[bench] node=node-xxxxxx ip=10.6.12.99 gpus=2 (NVIDIA H100 80GB HBM3)",
-   "[bench] concurrency sweep: 1 2 4 8 16 32 64 128",
-   "[bench] launching: vllm serve llama31-70b --tensor-parallel-size 2 --pipeline-parallel-size 1 --quantization bf16 --max-model-len 2048",
+   "[sse] log stream reconnected after transport error; earlier output for this task was not captured",
    "BENCH_RESULT:{\"concurrency\": 1, \"total_token_throughput\": 493.93}",
    "BENCH_RESULT:{\"concurrency\": 2, \"total_token_throughput\": 864.38}",
    "BENCH_RESULT:{\"concurrency\": 4, \"total_token_throughput\": 1383.02}",
@@ -3128,8 +3106,7 @@
    "BENCH_RESULT:{\"concurrency\": 16, \"total_token_throughput\": 2514.57}",
    "BENCH_RESULT:{\"concurrency\": 32, \"total_token_throughput\": 2911.61}",
    "BENCH_RESULT:{\"concurrency\": 64, \"total_token_throughput\": 3161.18}",
-   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 3302.72}",
-   "[bench] sweep complete"
+   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 3302.72}"
   ],
   "results": [
    {
@@ -3383,7 +3360,7 @@
  {
   "log_lines": [
    "[bench] recipe=mi210/deepseek-r1-70b-tp8",
-   "[bench] node=node-xxxxxx ip=10.6.12.68 gpus=8 (AMD Instinct MI210)",
+   "[bench] node=node-000000 ip=10.6.12.68 gpus=8 (AMD Instinct MI210)",
    "[bench] concurrency sweep: 1 2 4 8 16 32 64 128",
    "[bench] launching: vllm serve deepseek-r1-70b --tensor-parallel-size 8 --pipeline-parallel-size 1 --quantization bf16 --max-model-len 3072",
    "BENCH_RESULT:{\"concurrency\": 1, \"total_token_throughput\": 545.38}",
@@ -3393,8 +3370,7 @@
    "BENCH_RESULT:{\"concurrency\": 16, \"total_token_throughput\": 2776.49}",
    "BENCH_RESULT:{\"concurrency\": 32, \"total_token_throughput\": 3214.89}",
    "BENCH_RESULT:{\"concurrency\": 64, \"total_token_throughput\": 3490.45}",
-   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 3646.74}",
-   "[bench] sweep complete"
+   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 3646.74}"
   ],
   "results": [
    {
@@ -3648,7 +3624,7 @@
  {
   "log_lines": [
    "[bench] recipe=rtx5090/qwen25-32b-pp4-fp8",
-   "[bench] node=node-xxxxxx ip=10.6.12.86 gpus=4 (NVIDIA GeForce RTX 5090)",
+   "[bench] node=node-000000 ip=10.6.12.86 gpus=4 (NVIDIA GeForce RTX 5090)",
    "[bench] concurrency sweep: 1 2 4 8 16 32 64 128",
    "[bench] launching: vllm serve qwen25-32b --tensor-parallel-size 1 --pipeline-parallel-size 4 --quantization fp8 --max-model-len 2048",
    "BENCH_RESULT:{\"concurrency\": 1, \"total_token_throughput\": 900.36}",
@@ -3658,8 +3634,7 @@
    "BENCH_RESULT:{\"concurrency\": 16, \"total_token_throughput\": 4583.64}",
    "BENCH_RESULT:{\"concurrency\": 32, \"total_token_throughput\": 5307.37}",
    "BENCH_RESULT:{\"concurrency\": 64, \"total_token_throughput\": 5762.29}",
-   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 6020.3}",
-   "[bench] sweep complete"
+   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 6020.3}"
   ],
   "results": [
    {
@@ -3913,7 +3888,7 @@
  {
   "log_lines": [
    "[bench] recipe=h100/llama31-70b-c256",
-   "[bench] node=node-xxxxxx ip=10.6.12.206 gpus=2 (NVIDIA H100 80GB HBM3)",
+   "[bench] node=node-000000 ip=10.6.12.206 gpus=2 (NVIDIA H100 80GB HBM3)",
    "[bench] concurrency sweep: 1 2 4 8 16 32 64 128",
    "[bench] launching: vllm serve llama31-70b --tensor-parallel-size 2 --pipeline-parallel-size 1 --quantization fp8 --max-model-len 2560",
    "BENCH_RESULT:{\"concurrency\": 1, \"total_token_throughput\": 806.37}",
@@ -3923,8 +3898,7 @@
    "BENCH_RESULT:{\"concurrency\": 16, \"total_token_throughput\": 4105.17}",
    "BENCH_RESULT:{\"concurrency\": 32, \"total_token_throughput\": 4753.36}",
    "BENCH_RESULT:{\"concurrency\": 64, \"total_token_throughput\": 5160.79}",
-   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 5391.87}",
-   "[bench] sweep complete"
+   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 5391.87}"
   ],
   "results": [
    {
@@ -4157,10 +4131,7 @@
  },
  {
   "log_lines": [
-   "[bench] recipe=mi210/llama33-70b-tp8",
-   "[bench] node=node-xxxxxx ip=10.6.12.26 gpus=8 (AMD Instinct MI210)",
-   "[bench] concurrency sweep: 1 2 4 8 16 32 64 128",
-   "[bench] launching: vllm serve llama33-70b --tensor-parallel-size 8 --pipeline-parallel-size 1 --quantization bf16 --max-model-len 2048",
+   "[sse] log stream reconnected after transport error; earlier output for this task was not captured",
    "BENCH_RESULT:{\"concurrency\": 1, \"total_token_throughput\": 617.21}",
    "BENCH_RESULT:{\"concurrency\": 2, \"total_token_throughput\": 1080.12}",
    "BENCH_RESULT:{\"concurrency\": 4, \"total_token_throughput\": 1728.2}",
@@ -4168,8 +4139,7 @@
    "BENCH_RESULT:{\"concurrency\": 16, \"total_token_throughput\": 3142.18}",
    "BENCH_RESULT:{\"concurrency\": 32, \"total_token_throughput\": 3638.32}",
    "BENCH_RESULT:{\"concurrency\": 64, \"total_token_throughput\": 3950.17}",
-   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 4127.04}",
-   "[bench] sweep complete"
+   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 4127.04}"
   ],
   "results": [
    {
@@ -4423,7 +4393,7 @@
  {
   "log_lines": [
    "[bench] recipe=h100/llama31-70b-c256",
-   "[bench] node=node-xxxxxx ip=10.6.12.56 gpus=2 (NVIDIA H100 80GB HBM3)",
+   "[bench] node=node-000000 ip=10.6.12.56 gpus=2 (NVIDIA H100 80GB HBM3)",
    "[bench] concurrency sweep: 1 2 4 8 16 32 64 128",
    "[bench] launching: vllm serve llama31-70b --tensor-parallel-size 2 --pipeline-parallel-size 1 --quantization fp8 --max-model-len 2560",
    "BENCH_RESULT:{\"concurrency\": 1, \"total_token_throughput\": 807.23}",
@@ -4433,8 +4403,7 @@
    "BENCH_RESULT:{\"concurrency\": 16, \"total_token_throughput\": 4109.55}",
    "BENCH_RESULT:{\"concurrency\": 32, \"total_token_throughput\": 4758.43}",
    "BENCH_RESULT:{\"concurrency\": 64, \"total_token_throughput\": 5166.29}",
-   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 5397.62}",
-   "[bench] sweep complete"
+   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 5397.62}"
   ],
   "results": [
    {
@@ -4688,7 +4657,7 @@
  {
   "log_lines": [
    "[bench] recipe=mi210/llama31-70b-tp4",
-   "[bench] node=node-xxxxxx ip=10.6.12.107 gpus=4 (AMD Instinct MI210)",
+   "[bench] node=node-000000 ip=10.6.12.107 gpus=4 (AMD Instinct MI210)",
    "[bench] concurrency sweep: 1 2 4 8 16 32 64 128",
    "[bench] launching: vllm serve llama31-70b --tensor-parallel-size 4 --pipeline-parallel-size 1 --quantization bf16 --max-model-len 2048",
    "BENCH_RESULT:{\"concurrency\": 1, \"total_token_throughput\": 344.22}",
@@ -4698,8 +4667,7 @@
    "BENCH_RESULT:{\"concurrency\": 16, \"total_token_throughput\": 1752.42}",
    "BENCH_RESULT:{\"concurrency\": 32, \"total_token_throughput\": 2029.12}",
    "BENCH_RESULT:{\"concurrency\": 64, \"total_token_throughput\": 2203.04}",
-   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 2301.68}",
-   "[bench] sweep complete"
+   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 2301.68}"
   ],
   "results": [
    {
@@ -4933,7 +4901,7 @@
  {
   "log_lines": [
    "[bench] recipe=h100/llama31-70b-c128",
-   "[bench] node=node-xxxxxx ip=10.6.12.149 gpus=2 (NVIDIA H100 80GB HBM3)",
+   "[bench] node=node-000000 ip=10.6.12.149 gpus=2 (NVIDIA H100 80GB HBM3)",
    "[bench] concurrency sweep: 1 2 4 8 16 32 64 128",
    "[bench] launching: vllm serve llama31-70b --tensor-parallel-size 2 --pipeline-parallel-size 1 --quantization bf16 --max-model-len 2048",
    "BENCH_RESULT:{\"concurrency\": 1, \"total_token_throughput\": 478.02}",
@@ -4943,8 +4911,7 @@
    "BENCH_RESULT:{\"concurrency\": 16, \"total_token_throughput\": 2433.54}",
    "BENCH_RESULT:{\"concurrency\": 32, \"total_token_throughput\": 2817.78}",
    "BENCH_RESULT:{\"concurrency\": 64, \"total_token_throughput\": 3059.31}",
-   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 3196.29}",
-   "[bench] sweep complete"
+   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 3196.29}"
   ],
   "results": [
    {
@@ -5214,7 +5181,7 @@
  {
   "log_lines": [
    "[bench] recipe=rtx5090/qwen25-32b-tp4-bf16",
-   "[bench] node=node-xxxxxx ip=10.6.12.120 gpus=4 (NVIDIA GeForce RTX 5090)",
+   "[bench] node=node-000000 ip=10.6.12.120 gpus=4 (NVIDIA GeForce RTX 5090)",
    "[bench] concurrency sweep: 1 2 4 8 16 32 64 128",
    "[bench] launching: vllm serve qwen25-32b --tensor-parallel-size 4 --pipeline-parallel-size 1 --quantization bf16 --max-model-len 2048",
    "BENCH_RESULT:{\"concurrency\": 1, \"total_token_throughput\": 575.59}",
@@ -5224,8 +5191,7 @@
    "BENCH_RESULT:{\"concurrency\": 16, \"total_token_throughput\": 2930.28}",
    "BENCH_RESULT:{\"concurrency\": 32, \"total_token_throughput\": 3392.96}",
    "BENCH_RESULT:{\"concurrency\": 64, \"total_token_throughput\": 3683.78}",
-   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 3848.73}",
-   "[bench] sweep complete"
+   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 3848.73}"
   ],
   "results": [
    {
@@ -5479,7 +5445,7 @@
  {
   "log_lines": [
    "[bench] recipe=mi210/deepseek-r1-70b-tp8",
-   "[bench] node=node-xxxxxx ip=10.6.12.122 gpus=8 (AMD Instinct MI210)",
+   "[bench] node=node-000000 ip=10.6.12.122 gpus=8 (AMD Instinct MI210)",
    "[bench] concurrency sweep: 1 2 4 8 16 32 64 128",
    "[bench] launching: vllm serve deepseek-r1-70b --tensor-parallel-size 8 --pipeline-parallel-size 1 --quantization bf16 --max-model-len 3072",
    "BENCH_RESULT:{\"concurrency\": 1, \"total_token_throughput\": 550.18}",
@@ -5489,8 +5455,7 @@
    "BENCH_RESULT:{\"concurrency\": 16, \"total_token_throughput\": 2800.9}",
    "BENCH_RESULT:{\"concurrency\": 32, \"total_token_throughput\": 3243.15}",
    "BENCH_RESULT:{\"concurrency\": 64, \"total_token_throughput\": 3521.13}",
-   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 3678.79}",
-   "[bench] sweep complete"
+   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 3678.79}"
   ],
   "results": [
    {
@@ -5744,7 +5709,7 @@
  {
   "log_lines": [
    "[bench] recipe=rtx5090/qwen25-32b-pp4-fp8",
-   "[bench] node=node-xxxxxx ip=10.6.12.112 gpus=4 (NVIDIA GeForce RTX 5090)",
+   "[bench] node=node-000000 ip=10.6.12.112 gpus=4 (NVIDIA GeForce RTX 5090)",
    "[bench] concurrency sweep: 1 2 4 8 16 32 64 128",
    "[bench] launching: vllm serve qwen25-32b --tensor-parallel-size 1 --pipeline-parallel-size 4 --quantization fp8 --max-model-len 2048",
    "BENCH_RESULT:{\"concurrency\": 1, \"total_token_throughput\": 914.77}",
@@ -5754,8 +5719,7 @@
    "BENCH_RESULT:{\"concurrency\": 16, \"total_token_throughput\": 4656.99}",
    "BENCH_RESULT:{\"concurrency\": 32, \"total_token_throughput\": 5392.31}",
    "BENCH_RESULT:{\"concurrency\": 64, \"total_token_throughput\": 5854.51}",
-   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 6116.65}",
-   "[bench] sweep complete"
+   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 6116.65}"
   ],
   "results": [
    {
@@ -5989,7 +5953,7 @@
  {
   "log_lines": [
    "[bench] recipe=h100/llama31-70b-c256",
-   "[bench] node=node-xxxxxx ip=10.6.12.218 gpus=2 (NVIDIA H100 80GB HBM3)",
+   "[bench] node=node-000000 ip=10.6.12.218 gpus=2 (NVIDIA H100 80GB HBM3)",
    "[bench] concurrency sweep: 1 2 4 8 16 32 64 128",
    "[bench] launching: vllm serve llama31-70b --tensor-parallel-size 2 --pipeline-parallel-size 1 --quantization fp8 --max-model-len 2560",
    "BENCH_RESULT:{\"concurrency\": 1, \"total_token_throughput\": 806.63}",
@@ -5999,8 +5963,7 @@
    "BENCH_RESULT:{\"concurrency\": 16, \"total_token_throughput\": 4106.48}",
    "BENCH_RESULT:{\"concurrency\": 32, \"total_token_throughput\": 4754.87}",
    "BENCH_RESULT:{\"concurrency\": 64, \"total_token_throughput\": 5162.43}",
-   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 5393.58}",
-   "[bench] sweep complete"
+   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 5393.58}"
   ],
   "results": [
    {
@@ -6234,14 +6197,12 @@
  {
   "log_lines": [
    "[bench] recipe=rtx5090/qwen25-32b-pp4-fp8",
-   "[bench] node=node-xxxxxx ip=10.6.12.179 gpus=4 (NVIDIA GeForce RTX 5090)",
+   "[bench] node=node-000000 ip=10.6.12.179 gpus=4 (NVIDIA GeForce RTX 5090)",
    "[bench] concurrency sweep: 1 2 4 8 16 32 64 128",
    "[bench] launching: vllm serve qwen25-32b --tensor-parallel-size 1 --pipeline-parallel-size 4 --quantization fp8 --max-model-len 2048",
    "BENCH_RESULT:{\"concurrency\": 1, \"total_token_throughput\": 918.92}",
    "BENCH_RESULT:{\"concurrency\": 2, \"total_token_throughput\": 1608.1}",
-   "BENCH_RESULT:{\"concurrency\": 4, \"total_token_throughput\": 2572.96}",
-   "[bench] starting concurrency=8",
-   "[bench] ERROR: ssh channel closed unexpectedly"
+   "BENCH_RESULT:{\"concurrency\": 4, \"total_token_throughput\": 2572.96}"
   ],
   "results": [
    {
@@ -6355,7 +6316,7 @@
  {
   "log_lines": [
    "[bench] recipe=rtx5090/qwen25-32b-tp4-bf16",
-   "[bench] node=node-xxxxxx ip=10.6.12.106 gpus=4 (NVIDIA GeForce RTX 5090)",
+   "[bench] node=node-000000 ip=10.6.12.106 gpus=4 (NVIDIA GeForce RTX 5090)",
    "[bench] concurrency sweep: 1 2 4 8 16 32 64 128",
    "[bench] launching: vllm serve qwen25-32b --tensor-parallel-size 4 --pipeline-parallel-size 1 --quantization bf16 --max-model-len 2048",
    "BENCH_RESULT:{\"concurrency\": 1, \"total_token_throughput\": 576.09}",
@@ -6365,8 +6326,7 @@
    "BENCH_RESULT:{\"concurrency\": 16, \"total_token_throughput\": 2932.83}",
    "BENCH_RESULT:{\"concurrency\": 32, \"total_token_throughput\": 3395.9}",
    "BENCH_RESULT:{\"concurrency\": 64, \"total_token_throughput\": 3686.98}",
-   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 3852.07}",
-   "[bench] sweep complete"
+   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 3852.07}"
   ],
   "results": [
    {
@@ -6600,16 +6560,14 @@
  {
   "log_lines": [
    "[bench] recipe=mi210/llama31-70b-tp8",
-   "[bench] node=node-xxxxxx ip=10.6.12.192 gpus=8 (AMD Instinct MI210)",
+   "[bench] node=node-000000 ip=10.6.12.192 gpus=8 (AMD Instinct MI210)",
    "[bench] concurrency sweep: 1 2 4 8 16 32 64 128",
    "[bench] launching: vllm serve llama31-70b --tensor-parallel-size 8 --pipeline-parallel-size 1 --quantization bf16 --max-model-len 2048",
    "BENCH_RESULT:{\"concurrency\": 1, \"total_token_throughput\": 604.5}",
    "BENCH_RESULT:{\"concurrency\": 2, \"total_token_throughput\": 1057.87}",
    "BENCH_RESULT:{\"concurrency\": 4, \"total_token_throughput\": 1692.59}",
    "BENCH_RESULT:{\"concurrency\": 8, \"total_token_throughput\": 2417.99}",
-   "BENCH_RESULT:{\"concurrency\": 16, \"total_token_throughput\": 3077.44}",
-   "[bench] starting concurrency=32",
-   "[bench] ERROR: ssh channel closed unexpectedly"
+   "BENCH_RESULT:{\"concurrency\": 16, \"total_token_throughput\": 3077.44}"
   ],
   "results": [
    {
@@ -6778,10 +6736,7 @@
  },
  {
   "log_lines": [
-   "[bench] recipe=h100/llama31-70b-c128",
-   "[bench] node=node-xxxxxx ip=10.6.12.99 gpus=2 (NVIDIA H100 80GB HBM3)",
-   "[bench] concurrency sweep: 1 2 4 8 16 32 64 128",
-   "[bench] launching: vllm serve llama31-70b --tensor-parallel-size 2 --pipeline-parallel-size 1 --quantization bf16 --max-model-len 2048",
+   "[sse] log stream reconnected after transport error; earlier output for this task was not captured",
    "BENCH_RESULT:{\"concurrency\": 1, \"total_token_throughput\": 492.37}",
    "BENCH_RESULT:{\"concurrency\": 2, \"total_token_throughput\": 861.65}",
    "BENCH_RESULT:{\"concurrency\": 4, \"total_token_throughput\": 1378.64}",
@@ -6789,8 +6744,7 @@
    "BENCH_RESULT:{\"concurrency\": 16, \"total_token_throughput\": 2506.61}",
    "BENCH_RESULT:{\"concurrency\": 32, \"total_token_throughput\": 2902.39}",
    "BENCH_RESULT:{\"concurrency\": 64, \"total_token_throughput\": 3151.17}",
-   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 3292.27}",
-   "[bench] sweep complete"
+   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 3292.27}"
   ],
   "results": [
    {
@@ -7044,7 +6998,7 @@
  {
   "log_lines": [
    "[bench] recipe=t4/tinyllama-tp2",
-   "[bench] node=node-xxxxxx ip=10.6.12.78 gpus=2 (Tesla T4)",
+   "[bench] node=node-000000 ip=10.6.12.78 gpus=2 (Tesla T4)",
    "[bench] concurrency sweep: 1 2 4 8 16 32 64 128",
    "[bench] launching: vllm serve tinyllama-1.1b --tensor-parallel-size 2 --pipeline-parallel-size 1 --quantization fp16 --max-model-len 1024",
    "BENCH_RESULT:{\"concurrency\": 1, \"total_token_throughput\": 841.89}",
@@ -7054,8 +7008,7 @@
    "BENCH_RESULT:{\"concurrency\": 16, \"total_token_throughput\": 4286.0}",
    "BENCH_RESULT:{\"concurrency\": 32, \"total_token_throughput\": 4962.74}",
    "BENCH_RESULT:{\"concurrency\": 64, \"total_token_throughput\": 5388.12}",
-   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 5629.37}",
-   "[bench] sweep complete"
+   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 5629.37}"
   ],
   "results": [
    {
@@ -7309,7 +7262,7 @@
  {
   "log_lines": [
    "[bench] recipe=rtx5090/qwen25-32b-tp4-bf16",
-   "[bench] node=node-xxxxxx ip=10.6.12.174 gpus=4 (NVIDIA GeForce RTX 5090)",
+   "[bench] node=node-000000 ip=10.6.12.174 gpus=4 (NVIDIA GeForce RTX 5090)",
    "[bench] concurrency sweep: 1 2 4 8 16 32 64 128",
    "[bench] launching: vllm serve qwen25-32b --tensor-parallel-size 4 --pipeline-parallel-size 1 --quantization bf16 --max-model-len 2048",
    "BENCH_RESULT:{\"concurrency\": 1, \"total_token_throughput\": 578.45}",
@@ -7319,8 +7272,7 @@
    "BENCH_RESULT:{\"concurrency\": 16, \"total_token_throughput\": 2944.83}",
    "BENCH_RESULT:{\"concurrency\": 32, \"total_token_throughput\": 3409.81}",
    "BENCH_RESULT:{\"concurrency\": 64, \"total_token_throughput\": 3702.08}",
-   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 3867.84}",
-   "[bench] sweep complete"
+   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 3867.84}"
   ],
   "results": [
    {
@@ -7574,7 +7526,7 @@
  {
   "log_lines": [
    "[bench] recipe=mi210/deepseek-r1-70b-tp8",
-   "[bench] node=node-xxxxxx ip=10.6.12.208 gpus=8 (AMD Instinct MI210)",
+   "[bench] node=node-000000 ip=10.6.12.208 gpus=8 (AMD Instinct MI210)",
    "[bench] concurrency sweep: 1 2 4 8 16 32 64 128",
    "[bench] launching: vllm serve deepseek-r1-70b --tensor-parallel-size 8 --pipeline-parallel-size 1 --quantization bf16 --max-model-len 3072",
    "BENCH_RESULT:{\"concurrency\": 1, \"total_token_throughput\": 546.23}",
@@ -7584,8 +7536,7 @@
    "BENCH_RESULT:{\"concurrency\": 16, \"total_token_throughput\": 2780.8}",
    "BENCH_RESULT:{\"concurrency\": 32, \"total_token_throughput\": 3219.88}",
    "BENCH_RESULT:{\"concurrency\": 64, \"total_token_throughput\": 3495.87}",
-   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 3652.4}",
-   "[bench] sweep complete"
+   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 3652.4}"
   ],
   "results": [
    {
@@ -7819,7 +7770,7 @@
  {
   "log_lines": [
    "[bench] recipe=mi210/llama33-70b-tp8",
-   "[bench] node=node-xxxxxx ip=10.6.12.159 gpus=8 (AMD Instinct MI210)",
+   "[bench] node=node-000000 ip=10.6.12.159 gpus=8 (AMD Instinct MI210)",
    "[bench] concurrency sweep: 1 2 4 8 16 32 64 128",
    "[bench] launching: vllm serve llama33-70b --tensor-parallel-size 8 --pipeline-parallel-size 1 --quantization bf16 --max-model-len 2048",
    "BENCH_RESULT:{\"concurrency\": 1, \"total_token_throughput\": 621.26}",
@@ -7829,8 +7780,7 @@
    "BENCH_RESULT:{\"concurrency\": 16, \"total_token_throughput\": 3162.76}",
    "BENCH_RESULT:{\"concurrency\": 32, \"total_token_throughput\": 3662.14}",
    "BENCH_RESULT:{\"concurrency\": 64, \"total_token_throughput\": 3976.04}",
-   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 4154.07}",
-   "[bench] sweep complete"
+   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 4154.07}"
   ],
   "results": [
    {
@@ -8064,7 +8014,7 @@
  {
   "log_lines": [
    "[bench] recipe=rtx5090/qwen25-32b-tp4-bf16",
-   "[bench] node=node-xxxxxx ip=10.6.12.235 gpus=4 (NVIDIA GeForce RTX 5090)",
+   "[bench] node=node-000000 ip=10.6.12.235 gpus=4 (NVIDIA GeForce RTX 5090)",
    "[bench] concurrency sweep: 1 2 4 8 16 32 64 128",
    "[bench] launching: vllm serve qwen25-32b --tensor-parallel-size 4 --pipeline-parallel-size 1 --quantization bf16 --max-model-len 2048",
    "BENCH_RESULT:{\"concurrency\": 1, \"total_token_throughput\": 578.22}",
@@ -8074,8 +8024,7 @@
    "BENCH_RESULT:{\"concurrency\": 16, \"total_token_throughput\": 2943.67}",
    "BENCH_RESULT:{\"concurrency\": 32, \"total_token_throughput\": 3408.46}",
    "BENCH_RESULT:{\"concurrency\": 64, \"total_token_throughput\": 3700.61}",
-   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 3866.31}",
-   "[bench] sweep complete"
+   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 3866.31}"
   ],
   "results": [
    {
@@ -8329,7 +8278,7 @@
  {
   "log_lines": [
    "[bench] recipe=mi210/llama33-70b-tp8",
-   "[bench] node=node-xxxxxx ip=10.6.12.172 gpus=8 (AMD Instinct MI210)",
+   "[bench] node=node-000000 ip=10.6.12.172 gpus=8 (AMD Instinct MI210)",
    "[bench] concurrency sweep: 1 2 4 8 16 32 64 128",
    "[bench] launching: vllm serve llama33-70b --tensor-parallel-size 8 --pipeline-parallel-size 1 --quantization bf16 --max-model-len 2048",
    "BENCH_RESULT:{\"concurrency\": 1, \"total_token_throughput\": 615.01}",
@@ -8339,8 +8288,7 @@
    "BENCH_RESULT:{\"concurrency\": 16, \"total_token_throughput\": 3130.97}",
    "BENCH_RESULT:{\"concurrency\": 32, \"total_token_throughput\": 3625.33}",
    "BENCH_RESULT:{\"concurrency\": 64, \"total_token_throughput\": 3936.08}",
-   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 4112.32}",
-   "[bench] sweep complete"
+   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 4112.32}"
   ],
   "results": [
    {
@@ -8594,7 +8542,7 @@
  {
   "log_lines": [
    "[bench] recipe=mi210/deepseek-r1-70b-tp8",
-   "[bench] node=node-xxxxxx ip=10.6.12.61 gpus=8 (AMD Instinct MI210)",
+   "[bench] node=node-000000 ip=10.6.12.61 gpus=8 (AMD Instinct MI210)",
    "[bench] concurrency sweep: 1 2 4 8 16 32 64 128",
    "[bench] launching: vllm serve deepseek-r1-70b --tensor-parallel-size 8 --pipeline-parallel-size 1 --quantization bf16 --max-model-len 3072",
    "BENCH_RESULT:{\"concurrency\": 1, \"total_token_throughput\": 553.8}",
@@ -8604,8 +8552,7 @@
    "BENCH_RESULT:{\"concurrency\": 16, \"total_token_throughput\": 2819.35}",
    "BENCH_RESULT:{\"concurrency\": 32, \"total_token_throughput\": 3264.51}",
    "BENCH_RESULT:{\"concurrency\": 64, \"total_token_throughput\": 3544.33}",
-   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 3703.03}",
-   "[bench] sweep complete"
+   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 3703.03}"
   ],
   "results": [
    {
@@ -8859,7 +8806,7 @@
  {
   "log_lines": [
    "[bench] recipe=h100/llama31-70b-c256",
-   "[bench] node=node-xxxxxx ip=10.6.12.201 gpus=2 (NVIDIA H100 80GB HBM3)",
+   "[bench] node=node-000000 ip=10.6.12.201 gpus=2 (NVIDIA H100 80GB HBM3)",
    "[bench] concurrency sweep: 1 2 4 8 16 32 64 128",
    "[bench] launching: vllm serve llama31-70b --tensor-parallel-size 2 --pipeline-parallel-size 1 --quantization fp8 --max-model-len 2560",
    "BENCH_RESULT:{\"concurrency\": 1, \"total_token_throughput\": 812.5}",
@@ -8869,8 +8816,7 @@
    "BENCH_RESULT:{\"concurrency\": 16, \"total_token_throughput\": 4136.37}",
    "BENCH_RESULT:{\"concurrency\": 32, \"total_token_throughput\": 4789.48}",
    "BENCH_RESULT:{\"concurrency\": 64, \"total_token_throughput\": 5200.01}",
-   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 5432.84}",
-   "[bench] sweep complete"
+   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 5432.84}"
   ],
   "results": [
    {
@@ -9124,7 +9070,7 @@
  {
   "log_lines": [
    "[bench] recipe=mi210/deepseek-r1-70b-tp8",
-   "[bench] node=node-xxxxxx ip=10.6.12.228 gpus=8 (AMD Instinct MI210)",
+   "[bench] node=node-000000 ip=10.6.12.228 gpus=8 (AMD Instinct MI210)",
    "[bench] concurrency sweep: 1 2 4 8 16 32 64 128",
    "[bench] launching: vllm serve deepseek-r1-70b --tensor-parallel-size 8 --pipeline-parallel-size 1 --quantization bf16 --max-model-len 3072",
    "BENCH_RESULT:{\"concurrency\": 1, \"total_token_throughput\": 543.28}",
@@ -9134,8 +9080,7 @@
    "BENCH_RESULT:{\"concurrency\": 16, \"total_token_throughput\": 2765.77}",
    "BENCH_RESULT:{\"concurrency\": 32, \"total_token_throughput\": 3202.47}",
    "BENCH_RESULT:{\"concurrency\": 64, \"total_token_throughput\": 3476.97}",
-   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 3632.66}",
-   "[bench] sweep complete"
+   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 3632.66}"
   ],
   "results": [
    {
@@ -9388,10 +9333,7 @@
  },
  {
   "log_lines": [
-   "[bench] recipe=t4/tinyllama-tp2",
-   "[bench] node=node-xxxxxx ip=10.6.12.28 gpus=2 (Tesla T4)",
-   "[bench] concurrency sweep: 1 2 4 8 16 32 64 128",
-   "[bench] launching: vllm serve tinyllama-1.1b --tensor-parallel-size 2 --pipeline-parallel-size 1 --quantization fp16 --max-model-len 1024",
+   "[sse] log stream reconnected after transport error; earlier output for this task was not captured",
    "BENCH_RESULT:{\"concurrency\": 1, \"total_token_throughput\": 845.88}",
    "BENCH_RESULT:{\"concurrency\": 2, \"total_token_throughput\": 1480.29}",
    "BENCH_RESULT:{\"concurrency\": 4, \"total_token_throughput\": 2368.46}",
@@ -9399,8 +9341,7 @@
    "BENCH_RESULT:{\"concurrency\": 16, \"total_token_throughput\": 4306.29}",
    "BENCH_RESULT:{\"concurrency\": 32, \"total_token_throughput\": 4986.23}",
    "BENCH_RESULT:{\"concurrency\": 64, \"total_token_throughput\": 5413.62}",
-   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 5656.02}",
-   "[bench] sweep complete"
+   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 5656.02}"
   ],
   "results": [
    {
@@ -9718,7 +9659,7 @@
  {
   "log_lines": [
    "[bench] recipe=h100/llama31-70b-c128",
-   "[bench] node=node-xxxxxx ip=10.6.12.213 gpus=2 (NVIDIA H100 80GB HBM3)",
+   "[bench] node=node-000000 ip=10.6.12.213 gpus=2 (NVIDIA H100 80GB HBM3)",
    "[bench] concurrency sweep: 1 2 4 8 16 32 64 128",
    "[bench] launching: vllm serve llama31-70b --tensor-parallel-size 2 --pipeline-parallel-size 1 --quantization bf16 --max-model-len 2048",
    "BENCH_RESULT:{\"concurrency\": 1, \"total_token_throughput\": 500.58}",
@@ -9728,8 +9669,7 @@
    "BENCH_RESULT:{\"concurrency\": 16, \"total_token_throughput\": 2548.41}",
    "BENCH_RESULT:{\"concurrency\": 32, \"total_token_throughput\": 2950.79}",
    "BENCH_RESULT:{\"concurrency\": 64, \"total_token_throughput\": 3203.72}",
-   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 3347.17}",
-   "[bench] sweep complete"
+   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 3347.17}"
   ],
   "results": [
    {
@@ -9991,7 +9931,7 @@
  {
   "log_lines": [
    "[bench] recipe=mi210/llama31-70b-tp4",
-   "[bench] node=node-xxxxxx ip=10.6.12.224 gpus=4 (AMD Instinct MI210)",
+   "[bench] node=node-000000 ip=10.6.12.224 gpus=4 (AMD Instinct MI210)",
    "[bench] concurrency sweep: 1 2 4 8 16 32 64 128",
    "[bench] launching: vllm serve llama31-70b --tensor-parallel-size 4 --pipeline-parallel-size 1 --quantization bf16 --max-model-len 2048",
    "BENCH_RESULT:{\"concurrency\": 1, \"total_token_throughput\": 332.48}",
@@ -10001,8 +9941,7 @@
    "BENCH_RESULT:{\"concurrency\": 16, \"total_token_throughput\": 1692.63}",
    "BENCH_RESULT:{\"concurrency\": 32, \"total_token_throughput\": 1959.89}",
    "BENCH_RESULT:{\"concurrency\": 64, \"total_token_throughput\": 2127.88}",
-   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 2223.16}",
-   "[bench] sweep complete"
+   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 2223.16}"
   ],
   "results": [
    {
@@ -10256,7 +10195,7 @@
  {
   "log_lines": [
    "[bench] recipe=t4/tinyllama-tp2",
-   "[bench] node=node-xxxxxx ip=10.6.12.47 gpus=2 (Tesla T4)",
+   "[bench] node=node-000000 ip=10.6.12.47 gpus=2 (Tesla T4)",
    "[bench] concurrency sweep: 1 2 4 8 16 32 64 128",
    "[bench] launching: vllm serve tinyllama-1.1b --tensor-parallel-size 2 --pipeline-parallel-size 1 --quantization fp16 --max-model-len 1024",
    "BENCH_RESULT:{\"concurrency\": 1, \"total_token_throughput\": 860.3}",
@@ -10266,8 +10205,7 @@
    "BENCH_RESULT:{\"concurrency\": 16, \"total_token_throughput\": 4379.68}",
    "BENCH_RESULT:{\"concurrency\": 32, \"total_token_throughput\": 5071.21}",
    "BENCH_RESULT:{\"concurrency\": 64, \"total_token_throughput\": 5505.89}",
-   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 5752.42}",
-   "[bench] sweep complete"
+   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 5752.42}"
   ],
   "results": [
    {
@@ -10521,7 +10459,7 @@
  {
   "log_lines": [
    "[bench] recipe=mi210/deepseek-r1-70b-tp8",
-   "[bench] node=node-xxxxxx ip=10.6.12.65 gpus=8 (AMD Instinct MI210)",
+   "[bench] node=node-000000 ip=10.6.12.65 gpus=8 (AMD Instinct MI210)",
    "[bench] concurrency sweep: 1 2 4 8 16 32 64 128",
    "[bench] launching: vllm serve deepseek-r1-70b --tensor-parallel-size 8 --pipeline-parallel-size 1 --quantization bf16 --max-model-len 3072",
    "BENCH_RESULT:{\"concurrency\": 1, \"total_token_throughput\": 546.7}",
@@ -10531,8 +10469,7 @@
    "BENCH_RESULT:{\"concurrency\": 16, \"total_token_throughput\": 2783.21}",
    "BENCH_RESULT:{\"concurrency\": 32, \"total_token_throughput\": 3222.66}",
    "BENCH_RESULT:{\"concurrency\": 64, \"total_token_throughput\": 3498.89}",
-   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 3655.55}",
-   "[bench] sweep complete"
+   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 3655.55}"
   ],
   "results": [
    {
@@ -10785,10 +10722,7 @@
  },
  {
   "log_lines": [
-   "[bench] recipe=rtx5090/qwen25-32b-tp4-bf16",
-   "[bench] node=node-xxxxxx ip=10.6.12.205 gpus=4 (NVIDIA GeForce RTX 5090)",
-   "[bench] concurrency sweep: 1 2 4 8 16 32 64 128",
-   "[bench] launching: vllm serve qwen25-32b --tensor-parallel-size 4 --pipeline-parallel-size 1 --quantization bf16 --max-model-len 2048",
+   "[sse] log stream reconnected after transport error; earlier output for this task was not captured",
    "BENCH_RESULT:{\"concurrency\": 1, \"total_token_throughput\": 558.16}",
    "BENCH_RESULT:{\"concurrency\": 2, \"total_token_throughput\": 976.77}",
    "BENCH_RESULT:{\"concurrency\": 4, \"total_token_throughput\": 1562.84}",
@@ -10796,8 +10730,7 @@
    "BENCH_RESULT:{\"concurrency\": 16, \"total_token_throughput\": 2841.52}",
    "BENCH_RESULT:{\"concurrency\": 32, \"total_token_throughput\": 3290.19}",
    "BENCH_RESULT:{\"concurrency\": 64, \"total_token_throughput\": 3572.2}",
-   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 3732.15}",
-   "[bench] sweep complete"
+   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 3732.15}"
   ],
   "results": [
    {
@@ -11050,10 +10983,7 @@
  },
  {
   "log_lines": [
-   "[bench] recipe=rtx5090/qwen25-32b-tp4-bf16",
-   "[bench] node=node-xxxxxx ip=10.6.12.121 gpus=4 (NVIDIA GeForce RTX 5090)",
-   "[bench] concurrency sweep: 1 2 4 8 16 32 64 128",
-   "[bench] launching: vllm serve qwen25-32b --tensor-parallel-size 4 --pipeline-parallel-size 1 --quantization bf16 --max-model-len 2048",
+   "[sse] log stream reconnected after transport error; earlier output for this task was not captured",
    "BENCH_RESULT:{\"concurrency\": 1, \"total_token_throughput\": 583.7}",
    "BENCH_RESULT:{\"concurrency\": 2, \"total_token_throughput\": 1021.48}",
    "BENCH_RESULT:{\"concurrency\": 4, \"total_token_throughput\": 1634.36}",
@@ -11061,8 +10991,7 @@
    "BENCH_RESULT:{\"concurrency\": 16, \"total_token_throughput\": 2971.57}",
    "BENCH_RESULT:{\"concurrency\": 32, \"total_token_throughput\": 3440.76}",
    "BENCH_RESULT:{\"concurrency\": 64, \"total_token_throughput\": 3735.69}",
-   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 3902.96}",
-   "[bench] sweep complete"
+   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 3902.96}"
   ],
   "results": [
    {
@@ -11323,10 +11252,7 @@
  },
  {
   "log_lines": [
-   "[bench] recipe=t4/tinyllama-tp1",
-   "[bench] node=node-xxxxxx ip=10.6.12.231 gpus=1 (Tesla T4)",
-   "[bench] concurrency sweep: 1 2 4 8 16 32 64 128",
-   "[bench] launching: vllm serve tinyllama-1.1b --tensor-parallel-size 1 --pipeline-parallel-size 1 --quantization fp16 --max-model-len 1024",
+   "[sse] log stream reconnected after transport error; earlier output for this task was not captured",
    "BENCH_RESULT:{\"concurrency\": 1, \"total_token_throughput\": 497.31}",
    "BENCH_RESULT:{\"concurrency\": 2, \"total_token_throughput\": 870.29}",
    "BENCH_RESULT:{\"concurrency\": 4, \"total_token_throughput\": 1392.46}",
@@ -11334,8 +11260,7 @@
    "BENCH_RESULT:{\"concurrency\": 16, \"total_token_throughput\": 2531.75}",
    "BENCH_RESULT:{\"concurrency\": 32, \"total_token_throughput\": 2931.5}",
    "BENCH_RESULT:{\"concurrency\": 64, \"total_token_throughput\": 3182.77}",
-   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 3325.28}",
-   "[bench] sweep complete"
+   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 3325.28}"
   ],
   "results": [
    {
@@ -11621,7 +11546,7 @@
  {
   "log_lines": [
    "[bench] recipe=rtx5090/qwen25-32b-tp4-bf16",
-   "[bench] node=node-xxxxxx ip=10.6.12.228 gpus=4 (NVIDIA GeForce RTX 5090)",
+   "[bench] node=node-000000 ip=10.6.12.228 gpus=4 (NVIDIA GeForce RTX 5090)",
    "[bench] concurrency sweep: 1 2 4 8 16 32 64 128",
    "[bench] launching: vllm serve qwen25-32b --tensor-parallel-size 4 --pipeline-parallel-size 1 --quantization bf16 --max-model-len 2048",
    "BENCH_RESULT:{\"concurrency\": 1, \"total_token_throughput\": 568.56}",
@@ -11631,8 +11556,7 @@
    "BENCH_RESULT:{\"concurrency\": 16, \"total_token_throughput\": 2894.5}",
    "BENCH_RESULT:{\"concurrency\": 32, \"total_token_throughput\": 3351.53}",
    "BENCH_RESULT:{\"concurrency\": 64, \"total_token_throughput\": 3638.8}",
-   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 3801.74}",
-   "[bench] sweep complete"
+   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 3801.74}"
   ],
   "results": [
    {
@@ -11886,7 +11810,7 @@
  {
   "log_lines": [
    "[bench] recipe=mi210/deepseek-r1-70b-tp8",
-   "[bench] node=node-xxxxxx ip=10.6.12.180 gpus=8 (AMD Instinct MI210)",
+   "[bench] node=node-000000 ip=10.6.12.180 gpus=8 (AMD Instinct MI210)",
    "[bench] concurrency sweep: 1 2 4 8 16 32 64 128",
    "[bench] launching: vllm serve deepseek-r1-70b --tensor-parallel-size 8 --pipeline-parallel-size 1 --quantization bf16 --max-model-len 3072",
    "BENCH_RESULT:{\"concurrency\": 1, \"total_token_throughput\": 544.0}",
@@ -11896,8 +11820,7 @@
    "BENCH_RESULT:{\"concurrency\": 16, \"total_token_throughput\": 2769.47}",
    "BENCH_RESULT:{\"concurrency\": 32, \"total_token_throughput\": 3206.75}",
    "BENCH_RESULT:{\"concurrency\": 64, \"total_token_throughput\": 3481.61}",
-   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 3637.51}",
-   "[bench] sweep complete"
+   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 3637.51}"
   ],
   "results": [
    {
@@ -12150,10 +12073,7 @@
  },
  {
   "log_lines": [
-   "[bench] recipe=mi210/llama33-70b-tp8",
-   "[bench] node=node-xxxxxx ip=10.6.12.191 gpus=8 (AMD Instinct MI210)",
-   "[bench] concurrency sweep: 1 2 4 8 16 32 64 128",
-   "[bench] launching: vllm serve llama33-70b --tensor-parallel-size 8 --pipeline-parallel-size 1 --quantization bf16 --max-model-len 2048",
+   "[sse] log stream reconnected after transport error; earlier output for this task was not captured",
    "BENCH_RESULT:{\"concurrency\": 1, \"total_token_throughput\": 599.52}",
    "BENCH_RESULT:{\"concurrency\": 2, \"total_token_throughput\": 1049.16}",
    "BENCH_RESULT:{\"concurrency\": 4, \"total_token_throughput\": 1678.66}",
@@ -12161,8 +12081,7 @@
    "BENCH_RESULT:{\"concurrency\": 16, \"total_token_throughput\": 3052.11}",
    "BENCH_RESULT:{\"concurrency\": 32, \"total_token_throughput\": 3534.02}",
    "BENCH_RESULT:{\"concurrency\": 64, \"total_token_throughput\": 3836.93}",
-   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 4008.74}",
-   "[bench] sweep complete"
+   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 4008.74}"
   ],
   "results": [
    {
@@ -12416,14 +12335,13 @@
  {
   "log_lines": [
    "[bench] recipe=t4/tinyllama-tp1",
-   "[bench] node=node-xxxxxx ip=10.6.12.88 gpus=1 (Tesla T4)",
+   "[bench] node=node-000000 ip=10.6.12.88 gpus=1 (Tesla T4)",
    "[bench] concurrency sweep: 1 2 4 8",
    "[bench] launching: vllm serve tinyllama-1.1b --tensor-parallel-size 1 --pipeline-parallel-size 1 --quantization fp16 --max-model-len 1024",
    "BENCH_RESULT:{\"concurrency\": 1, \"total_token_throughput\": 487.87}",
    "BENCH_RESULT:{\"concurrency\": 2, \"total_token_throughput\": 853.77}",
    "BENCH_RESULT:{\"concurrency\": 4, \"total_token_throughput\": 1366.04}",
-   "BENCH_RESULT:{\"concurrency\": 8, \"total_token_throughput\": 1951.48}",
-   "[bench] sweep complete"
+   "BENCH_RESULT:{\"concurrency\": 8, \"total_token_throughput\": 1951.48}"
   ],
   "results": [
    {
@@ -12565,7 +12483,7 @@
  {
   "log_lines": [
    "[bench] recipe=rtx5090/qwen25-32b-pp4-fp8",
-   "[bench] node=node-xxxxxx ip=10.6.12.60 gpus=4 (NVIDIA GeForce RTX 5090)",
+   "[bench] node=node-000000 ip=10.6.12.60 gpus=4 (NVIDIA GeForce RTX 5090)",
    "[bench] concurrency sweep: 1 2 4 8 16 32 64 128",
    "[bench] launching: vllm serve qwen25-32b --tensor-parallel-size 1 --pipeline-parallel-size 4 --quantization fp8 --max-model-len 2048",
    "BENCH_RESULT:{\"concurrency\": 1, \"total_token_throughput\": 951.7}",
@@ -12575,8 +12493,7 @@
    "BENCH_RESULT:{\"concurrency\": 16, \"total_token_throughput\": 4845.03}",
    "BENCH_RESULT:{\"concurrency\": 32, \"total_token_throughput\": 5610.03}",
    "BENCH_RESULT:{\"concurrency\": 64, \"total_token_throughput\": 6090.89}",
-   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 6363.62}",
-   "[bench] sweep complete"
+   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 6363.62}"
   ],
   "results": [
    {
@@ -12846,7 +12763,7 @@
  {
   "log_lines": [
    "[bench] recipe=t4/tinyllama-tp1",
-   "[bench] node=node-xxxxxx ip=10.6.12.139 gpus=1 (Tesla T4)",
+   "[bench] node=node-000000 ip=10.6.12.139 gpus=1 (Tesla T4)",
    "[bench] concurrency sweep: 1 2 4 8 16 32 64 128",
    "[bench] launching: vllm serve tinyllama-1.1b --tensor-parallel-size 1 --pipeline-parallel-size 1 --quantization fp16 --max-model-len 1024",
    "BENCH_RESULT:{\"concurrency\": 1, \"total_token_throughput\": 489.26}",
@@ -12856,8 +12773,7 @@
    "BENCH_RESULT:{\"concurrency\": 16, \"total_token_throughput\": 2490.76}",
    "BENCH_RESULT:{\"concurrency\": 32, \"total_token_throughput\": 2884.04}",
    "BENCH_RESULT:{\"concurrency\": 64, \"total_token_throughput\": 3131.24}",
-   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 3271.45}",
-   "[bench] sweep complete"
+   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 3271.45}"
   ],
   "results": [
    {
@@ -13098,10 +13014,7 @@
  },
  {
   "log_lines": [
-   "[bench] recipe=h100/llama31-70b-c128",
-   "[bench] node=node-xxxxxx ip=10.6.12.99 gpus=2 (NVIDIA H100 80GB HBM3)",
-   "[bench] concurrency sweep: 1 2 4 8 16 32 64 128",
-   "[bench] launching: vllm serve llama31-70b --tensor-parallel-size 2 --pipeline-parallel-size 1 --quantization bf16 --max-model-len 2048",
+   "[sse] log stream reconnected after transport error; earlier output for this task was not captured",
    "BENCH_RESULT:{\"concurrency\": 1, \"total_token_throughput\": 492.37}",
    "BENCH_RESULT:{\"concurrency\": 2, \"total_token_throughput\": 861.65}",
    "BENCH_RESULT:{\"concurrency\": 4, \"total_token_throughput\": 1378.64}",
@@ -13109,8 +13022,7 @@
    "BENCH_RESULT:{\"concurrency\": 16, \"total_token_throughput\": 2506.61}",
    "BENCH_RESULT:{\"concurrency\": 32, \"total_token_throughput\": 2902.39}",
    "BENCH_RESULT:{\"concurrency\": 64, \"total_token_throughput\": 3151.17}",
-   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 3292.27}",
-   "[bench] sweep complete"
+   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 3292.27}"
   ],
   "results": [
    {
@@ -13364,7 +13276,7 @@
  {
   "log_lines": [
    "[bench] recipe=h100/llama31-70b-c256",
-   "[bench] node=node-xxxxxx ip=10.6.12.56 gpus=2 (NVIDIA H100 80GB HBM3)",
+   "[bench] node=node-000000 ip=10.6.12.56 gpus=2 (NVIDIA H100 80GB HBM3)",
    "[bench] concurrency sweep: 1 2 4 8 16 32 64 128",
    "[bench] launching: vllm serve llama31-70b --tensor-parallel-size 2 --pipeline-parallel-size 1 --quantization fp8 --max-model-len 2560",
    "BENCH_RESULT:{\"concurrency\": 1, \"total_token_throughput\": 807.23}",
@@ -13374,8 +13286,7 @@
    "BENCH_RESULT:{\"concurrency\": 16, \"total_token_throughput\": 4109.55}",
    "BENCH_RESULT:{\"concurrency\": 32, \"total_token_throughput\": 4758.43}",
    "BENCH_RESULT:{\"concurrency\": 64, \"total_token_throughput\": 5166.29}",
-   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 5397.62}",
-   "[bench] sweep complete"
+   "BENCH_RESULT:{\"concurrency\": 128, \"total_token_throughput\": 5397.62}"
   ],
   "results": [
    {

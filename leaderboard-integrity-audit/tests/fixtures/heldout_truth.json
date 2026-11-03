@@ -28,6 +28,7 @@
       "per_gpu_throughput": 471.76,
       "precision": "bf16",
       "rank_within_model": 1,
+      "runs_counted": 6,
       "total_token_throughput": 3774.08
     },
     {
@@ -40,6 +41,7 @@
       "per_gpu_throughput": 2621.24,
       "precision": "fp8",
       "rank_within_model": 1,
+      "runs_counted": 4,
       "total_token_throughput": 5242.47
     },
     {
@@ -52,6 +54,7 @@
       "per_gpu_throughput": 1678.46,
       "precision": "bf16",
       "rank_within_model": 2,
+      "runs_counted": 6,
       "total_token_throughput": 3356.92
     },
     {
@@ -64,6 +67,7 @@
       "per_gpu_throughput": 581.71,
       "precision": "bf16",
       "rank_within_model": 3,
+      "runs_counted": 5,
       "total_token_throughput": 2326.85
     },
     {
@@ -76,6 +80,7 @@
       "per_gpu_throughput": 525.05,
       "precision": "bf16",
       "rank_within_model": 4,
+      "runs_counted": 4,
       "total_token_throughput": 4200.37
     },
     {
@@ -88,6 +93,7 @@
       "per_gpu_throughput": 507.0,
       "precision": "bf16",
       "rank_within_model": 1,
+      "runs_counted": 7,
       "total_token_throughput": 4055.97
     },
     {
@@ -100,6 +106,7 @@
       "per_gpu_throughput": 1574.18,
       "precision": "fp8",
       "rank_within_model": 1,
+      "runs_counted": 3,
       "total_token_throughput": 6296.74
     },
     {
@@ -112,6 +119,7 @@
       "per_gpu_throughput": 967.59,
       "precision": "bf16",
       "rank_within_model": 2,
+      "runs_counted": 4,
       "total_token_throughput": 3870.36
     },
     {
@@ -124,6 +132,7 @@
       "per_gpu_throughput": 3395.89,
       "precision": "fp16",
       "rank_within_model": 1,
+      "runs_counted": 5,
       "total_token_throughput": 3395.89
     },
     {
@@ -136,6 +145,7 @@
       "per_gpu_throughput": 2915.53,
       "precision": "fp16",
       "rank_within_model": 2,
+      "runs_counted": 5,
       "total_token_throughput": 5831.06
     }
   ],

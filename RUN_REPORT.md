@@ -102,10 +102,27 @@ Four independently scored dimensions in `reward.json`:
 
 | Dimension | Weight | What it measures |
 |---|---|---|
-| `functional_correctness` | 0.40 | submitted validator's F1 on 65 unseen runs |
-| `constraint_satisfaction` | 0.30 | corrected leaderboard, compared exactly |
-| `robustness` | 0.20 | specificity on healthy runs, scaled by recall, times a determinism check |
-| `artifact_quality` | 0.10 | findings over the local corpus, by F1 |
+| `functional_correctness` | 0.35 | submitted validator on 65 unseen runs, macro-F1 over defect classes |
+| `constraint_satisfaction` | 0.25 | corrected leaderboard, compared exactly |
+| `robustness` | 0.15 | specificity on healthy runs, scaled by recall, times a determinism check |
+| `artifact_quality` | 0.10 | findings over the local corpus, macro-F1 |
+| `completeness` | 0.15 | every defect class reported at least once **and** an exact leaderboard |
+
+Two of those deserve explanation, because both exist to close holes that
+measurement exposed rather than reasoning.
+
+**Macro-averaging, not micro.** Each defect class covers only two or three of
+sixteen runs, so averaging over `(run, defect)` pairs let an entire class be
+missed for roughly a tenth of the score. Averaging over classes makes missing
+one cost a sixth of the dimension, which is what the instruction actually asks
+for. Reporting a class that does not occur scores zero for that class, so
+inventing defects is not free.
+
+**A completeness dimension.** Even with macro-averaging, partial credit across
+four dimensions left a submission that missed a whole class scoring near 0.9.
+An audit that overlooks an entire category of integrity problem has not done the
+job, however many individual runs it got right, so one dimension says so as a
+yes-or-no.
 
 Design choices worth stating:
 
@@ -128,24 +145,40 @@ Design choices worth stating:
 
 ## 6. Calibration against deliberately bad solutions
 
-Each strategy was run end-to-end, with artifacts regenerated per strategy:
+Each strategy run end to end, artifacts regenerated per strategy.
 
-| Strategy | overall | func | constraint | robust | artifact |
-|---|---|---|---|---|---|
-| Oracle, all six classes | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 |
-| Do nothing | 0.000 | 0.000 | 0.000 | 0.000 | 0.000 |
-| Flag everything | 0.030 | 0.074 | 0.000 | 0.000 | 0.000 |
-| Memorise the seed run ids | 0.000 | 0.000 | 0.000 | 0.000 | 0.000 |
-| Partial: 3 of 6 classes | 0.770 | 0.720 | 0.700 | 1.000 | 0.720 |
-| Column diff only, never reads logs | 0.770 | 0.933 | 0.333 | 1.000 | 0.968 |
+| Strategy | overall | verdict |
+|---|---|---|
+| Oracle, all six classes | 1.000 | pass |
+| Reads logs only, ignores the config snapshot | 0.932 | pass |
+| Reads the config snapshot only, ignores logs | 0.973 | pass |
+| Misses `truncated_sweep` | 0.775 | fail |
+| Misses `defaulted_gpu_count` | 0.762 | fail |
+| Misses `zero_token_config` | 0.750 | fail |
+| Misses `missing_parallelism` | 0.739 | fail |
+| Misses `defaulted_precision` | 0.739 | fail |
+| Misses `duplicate_logical_run` | 0.719 | fail |
+| Reasons only from the recorded numbers | 0.334 | fail |
+| Memorises the seed run ids | 0.000 | fail |
+| Flags everything | 0.030 | fail |
+| Does nothing | 0.000 | fail |
 
-The last row is the designed difficulty lever working. Diffing `task_config`
-against the recorded columns without ever reading `task_logs` detects 93% of
-defects and still produces a badly wrong leaderboard, because the defective runs
-whose config snapshot is empty survive the audit and corrupt the rankings.
+Pass bar 0.85. **Missing any single defect class fails.** A solution that works
+from one evidence source still passes if it finds every class and publishes an
+exact leaderboard, which is the correct outcome: that is a complete audit done
+efficiently, not a shortcut.
 
-Degenerate strategies collapse to ~0; plausible but incomplete ones land near
-0.77; only a complete solution reaches 1.0.
+### The task rewards thoroughness, not trap-avoidance
+
+Worth stating plainly, because an earlier draft of this report overstated it.
+This task is not a trick. A systematic agent that reads the logs for every run,
+cross-references the configuration snapshot, and checks for duplicates across
+runs will pass, and should. The difficulty is the volume and linkage of the
+work: six classes across three tables with no foreign keys between them, two
+defects invisible in any single row, three decoys, an exact aggregation rule,
+and a validator that has to generalise.
+
+The failure being probed is therefore incompleteness, not deception.
 
 ## 7. Fairness audit
 
@@ -184,6 +217,52 @@ match a bad corpus would have hidden the ambiguity rather than removed it.
 nothing scored a perfect 1.0 for never having made a mistake — 0.20 of the
 reward for doing nothing. Specificity is now scaled by held-out recall, so
 restraint earns credit only when there is something to be restrained about.
+
+### Were the two evidence sources actually both necessary?
+
+An earlier version of this task claimed that an empty `task_config` on ~30% of
+runs forced the agent to read `task_logs`. Measurement showed the claim was
+backwards: the logs carried the launch arguments, the GPU count, the declared
+sweep and every result line, so they were a strict **superset** of the config
+snapshot. A solver that simply always read the logs scored a perfect 1.000, and
+the difficulty lever defended against nothing — least of all against the
+behaviour a working engineer defaults to, which is to go and read the logs.
+
+The corpus now withholds something from each source. Some tasks predate the
+configuration snapshot and store an empty one. Others had their log capture drop
+mid-task, so the recipe, declared sweep and launch line were never written —
+realistic in a system that streams node output over SSE, and visible rather than
+silent, because the reconnect marker survives. No run is missing both: that
+would be unprovable.
+
+| Evidence available to the solver | detection | leaderboard | overall |
+|---|---|---|---|
+| config snapshot + logs | 1.000 | 1.000 | 1.000 |
+| logs only | 0.850 | 1.000 | 0.932 |
+| config snapshot only | 0.933 | 1.000 | 0.973 |
+
+Both single-source strategies now lose detection accuracy. Both still pass,
+which is the right answer: each finds every defect class and publishes an exact
+leaderboard. Reconciling the two sources is what recovers the last few runs.
+
+Two further holes closed by the same exercise:
+
+- **Nothing marks a truncated sweep any more.** The generator previously logged
+  `ERROR: ssh channel closed unexpectedly`, so one `grep` found every instance.
+  A worker killed mid-run writes no farewell; truncation now has to be found by
+  counting recorded results against the declared sweep. The trailing
+  `sweep complete` line was removed for the same reason — its *absence* was just
+  as greppable.
+- **An undetected duplicate now changes the answer.** Each leaderboard entry
+  carries `runs_counted`, so a redelivered run that was not excluded inflates it
+  and the entry is wrong. Previously a duplicate shared its original's metrics,
+  so `max()` returned the same figure and missing the defect cost nothing in the
+  deliverable.
+
+The eligibility rule was also amended: a run now qualifies only if it recorded a
+result at every concurrency it declared, and its peak is its highest recorded
+throughput. The declared sweep is therefore load-bearing for the leaderboard
+itself, not only for the audit.
 
 ### Can the task be shortcut by reasoning about the numbers?
 
