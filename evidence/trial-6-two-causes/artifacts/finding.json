@@ -1,0 +1,13 @@
+{
+  "condition": {
+    "any_of": [
+      {"all_of": [{"field": "driver", "op": "eq", "value": "570"},
+                  {"field": "precision", "op": "eq", "value": "fp8"},
+                  {"field": "tp", "op": "gte", "value": 4}]},
+      {"all_of": [{"field": "gpu", "op": "eq", "value": "mi210"},
+                  {"field": "chunked_prefill", "op": "eq", "value": 1},
+                  {"field": "tp", "op": "gte", "value": 4}]}
+    ]
+  },
+  "evidence": "Two independent regressions (0.55x): starting from the nightly config, slowdown vanished when changing driver to 550/560, precision to bf16/fp16, or tp to 1/2, but persisted across models (llama31, qwen25), GPUs (h100, rtx5090), chunked_prefill and tp 4/8; separately MI210 on driver 550 regressed at tp=8 with chunked_prefill=1 but was normal with chunked_prefill=0 or tp=1, independent of driver."
+}

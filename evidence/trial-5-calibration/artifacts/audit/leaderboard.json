@@ -1,0 +1,121 @@
+{
+  "entries": [
+    {
+      "model_name": "deepseek-r1-70b",
+      "gpu_type": "mi210",
+      "precision": "bf16",
+      "parallelism": "tp8",
+      "gpu_count": 8,
+      "input_tokens": 1024,
+      "output_tokens": 2048,
+      "total_token_throughput": 3757.7,
+      "per_gpu_throughput": 469.71,
+      "runs_counted": 5,
+      "rank_within_model": 1
+    },
+    {
+      "model_name": "llama31-70b",
+      "gpu_type": "h100",
+      "precision": "fp8",
+      "parallelism": "tp2",
+      "gpu_count": 2,
+      "input_tokens": 2048,
+      "output_tokens": 512,
+      "total_token_throughput": 5351.5,
+      "per_gpu_throughput": 2675.75,
+      "runs_counted": 3,
+      "rank_within_model": 1
+    },
+    {
+      "model_name": "llama31-70b",
+      "gpu_type": "h100",
+      "precision": "bf16",
+      "parallelism": "tp2",
+      "gpu_count": 2,
+      "input_tokens": 1024,
+      "output_tokens": 1024,
+      "total_token_throughput": 3338.25,
+      "per_gpu_throughput": 1669.12,
+      "runs_counted": 3,
+      "rank_within_model": 2
+    },
+    {
+      "model_name": "llama31-70b",
+      "gpu_type": "mi210",
+      "precision": "bf16",
+      "parallelism": "tp4",
+      "gpu_count": 4,
+      "input_tokens": 1024,
+      "output_tokens": 1024,
+      "total_token_throughput": 2305.68,
+      "per_gpu_throughput": 576.42,
+      "runs_counted": 2,
+      "rank_within_model": 3
+    },
+    {
+      "model_name": "llama31-70b",
+      "gpu_type": "mi210",
+      "precision": "bf16",
+      "parallelism": "tp8",
+      "gpu_count": 8,
+      "input_tokens": 1024,
+      "output_tokens": 1024,
+      "total_token_throughput": 4206.24,
+      "per_gpu_throughput": 525.78,
+      "runs_counted": 3,
+      "rank_within_model": 4
+    },
+    {
+      "model_name": "llama33-70b",
+      "gpu_type": "mi210",
+      "precision": "bf16",
+      "parallelism": "tp8",
+      "gpu_count": 8,
+      "input_tokens": 1024,
+      "output_tokens": 1024,
+      "total_token_throughput": 4041.28,
+      "per_gpu_throughput": 505.16,
+      "runs_counted": 1,
+      "rank_within_model": 1
+    },
+    {
+      "model_name": "qwen25-32b",
+      "gpu_type": "rtx5090",
+      "precision": "fp8",
+      "parallelism": "pp4",
+      "gpu_count": 4,
+      "input_tokens": 1024,
+      "output_tokens": 1024,
+      "total_token_throughput": 6362.04,
+      "per_gpu_throughput": 1590.51,
+      "runs_counted": 7,
+      "rank_within_model": 1
+    },
+    {
+      "model_name": "qwen25-32b",
+      "gpu_type": "rtx5090",
+      "precision": "bf16",
+      "parallelism": "tp4",
+      "gpu_count": 4,
+      "input_tokens": 1024,
+      "output_tokens": 1024,
+      "total_token_throughput": 3926.49,
+      "per_gpu_throughput": 981.62,
+      "runs_counted": 4,
+      "rank_within_model": 2
+    },
+    {
+      "model_name": "tinyllama-1.1b",
+      "gpu_type": "t4",
+      "precision": "fp16",
+      "parallelism": "tp1",
+      "gpu_count": 1,
+      "input_tokens": 512,
+      "output_tokens": 512,
+      "total_token_throughput": 3376.89,
+      "per_gpu_throughput": 3376.89,
+      "runs_counted": 4,
+      "rank_within_model": 1
+    }
+  ]
+}

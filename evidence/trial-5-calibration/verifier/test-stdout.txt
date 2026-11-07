@@ -1,0 +1,11 @@
+findings: tp=12 fp=0 fn=0 f1=1.000
+calibration: reported=9 true=9 tp=9 fp=0 fn=0 f1=1.000
+overclaimed on 0 of 9 undeterminable runs
+leaderboard: correct=9 spurious=0 missing=0 of 9
+{
+  "findings_correct": 1.0,
+  "calibration": 1.0,
+  "leaderboard_exact": 1.0,
+  "no_overclaim": 1.0,
+  "overall": 1.0
+}

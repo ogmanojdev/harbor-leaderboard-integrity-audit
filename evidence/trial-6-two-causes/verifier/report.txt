@@ -1,0 +1,6 @@
+/logs/artifacts: []
+/app: ['finding.json']
+/logs: ['artifacts', 'verifier']
+predicted=128 true=128 tp=128 fp=0 fn=0 f1=1.000
+clauses=0
+runs_used=16 of 16

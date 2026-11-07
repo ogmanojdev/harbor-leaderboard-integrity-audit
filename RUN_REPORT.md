@@ -364,57 +364,97 @@ the previous result.
 | 1 | leaderboard-integrity-audit *(submitted)* | multi-source forensics with a published rule | **1.000** | 3m56s | $0.79 |
 | 2 | backfill-exactly-once | volume + non-idempotent tool exhausts context | **1.000** | 1m40s | $0.28 |
 | 3 | regression-in-twelve-runs @ 12 | irreducible sequential search under budget | **1.000** | 2m42s | $0.25 |
-| 4 | regression-in-twelve-runs @ 10 | the same, with the budget tightened | **1.000** | 2m12s | $0.37 |
+| 4 | regression-in-twelve-runs @ 10 | the same, budget cut to the oracle's minimum | **1.000** | 2m12s | $0.37 |
+| 5 | audit-what-you-can-prove | epistemic overclaiming (an Opus 5.5 system-card regression) | **1.000** | 2m45s | $0.93 |
+| 6 | two-regressions | the blind spot in the model's *own* observed method | **1.000** | 1m27s | $0.12 |
+| 7 | pipeline-back-to-green | layered defects in a real service, run-diagnose-fix loop | **1.000** | 2m38s | $0.45 |
 
-Logs, rewards and submitted artifacts for all four are under `evidence/`.
+Logs, rewards and submitted artifacts for all seven are under `evidence/`.
 
-**Trial 1.** 32 turns, 14 tool calls, zero iteration, zero MCP calls. It read
-`ingest.py`, ran five SQL queries, wrote one extraction script and the
-validator, and stopped.
+**Trials 1-4** are described below. The last three are the most informative.
 
-**Trial 2.** 10 tool calls. It invoked the backfill tool directly exactly
-**once**, then wrote a driver that did the other 149 runs. Never processed a run
-twice, never read the 159k tokens of archives — it wrote a program to read them.
+**Trial 5 — calibration.** Nine runs in the corpus have neither a config
+snapshot nor usable logs, so their status cannot be established; four of the
+nine are in fact defective. The deliverable required a list of runs the agent
+could *not* rule on. It abstained on exactly those nine, overclaimed on zero,
+and still reported all twelve provable defects. It did not even report
+`zero_token_config` on a starved run, though that is visible in the columns —
+it reasoned that a run whose declared configuration is unavailable belongs in
+one list only. This design targeted a behaviour Anthropic's own system card
+records as having *risen* in Opus 5.5. It did not reproduce under direct
+measurement.
 
-**Trial 3.** Twelve of twelve runs, using six paired A/B comparisons that held
-everything constant but the driver version. Recovered the exact three-clause
-condition including the `tp >= 4` boundary rather than the tempting `tp = 8`.
+**Trial 6 — the model's own blind spot.** Trial 4 revealed its method: one
+anchor, then single-variable ablations. That method provably misses a second,
+independent cause, because ablating from one anchor characterises only the
+cause active there. So the system was given two disjoint regressions. It spent
+eleven runs on the first region, then at run twelve pivoted to the second and
+isolated it independently — 128 of 128 affected configurations, exactly, using
+all sixteen runs.
 
-**Trial 4.** The budget was cut to ten runs — the minimum the reference solution
-needs. It **changed strategy**: one anchor pair to establish the effect size,
-then seven single-variable ablations against that anchor instead of re-pairing,
-plus one confirming pair on a second GPU. Exactly ten of ten, condition still
-exact.
+**Trial 7 — a real service that does not work.** Four layered defects in the
+vendored FastAPI application: an uninstalled DB driver in the DSN, a column
+missing from the database, an upsert against a non-existent constraint, and a
+stale filter hiding every newly ingested row. Each is invisible until the one
+before it is fixed. This is the only trial with a genuine loop — six
+invocations of the end-to-end check, fixing one layer at a time.
 
-That last result is the most informative of the four, and it is worth stating
-plainly: **the model's experimental design was better than the reference
-solution's.** The oracle paid for a full ablation sweep; Opus recognised that an
-anchored comparison costs half as much per hypothesis and switched to it when
-the budget demanded.
+It also produced the single most interesting artifact of the seven. On the
+fourth defect the oracle deletes the offending filter; Opus instead fixed the
+*ingest* side, and justified the choice by citing how two other modules in the
+codebase handle the same field:
 
-### What three refuted hypotheses add up to
+> Ingest now falls back to `payload.node_ip`, the same fallback NodeInspector
+> and worker.py use.
 
-Each design targeted a documented weakness, and each failed for a reason worth
-recording:
+It also backfilled the missing column from the metrics JSONB rather than
+leaving it null, and flagged a fifth latent defect it had noticed but was not
+asked about.
 
-1. **No feedback loop** (trial 1). The task was a single-pass extraction, so
-   nothing forced the agent to be wrong before being right.
+### What five refuted hypotheses add up to
+
+Seven trials, five distinct mechanisms, every one scoring 1.000:
+
+1. **No feedback loop** (trial 1). A single-pass extraction; nothing forced the
+   agent to be wrong before being right.
 2. **Context exhaustion** (trial 2). Volume only exhausts context if the *agent*
-   must hold the content. Every remediation was mechanically derivable, so it
-   wrote the rule once — 150 instances of a problem that needed solving once.
-   Non-idempotency never bit either: a correct script does not repeat a step,
-   and that trap only triggers on interrupted manual work.
-3. **Sequential search under constraint** (trials 3 and 4). This one genuinely
-   could not be scripted away — the information for each experiment did not
-   exist until the previous one was paid for. Opus did the work, and did it
-   well, at two different budget levels.
+   holds the content. It wrote a program to read the archives instead.
+3. **Sequential search under constraint** (trials 3-4). Genuinely unscriptable,
+   and it did the work — then re-planned to a cheaper experimental design when
+   the budget shrank, landing exactly on budget twice.
+4. **Epistemic overclaiming** (trial 5). Targeted a documented regression in
+   this model. Perfect calibration; zero overclaims.
+5. **A blind spot in its own method** (trial 6). Derived from observed
+   behaviour rather than hypothesis. It pivoted regions unprompted.
 
-The generalisation that survives all three:
+And one task-shape change (trial 7): a real service that does not work, which
+produced the only genuine diagnose-fix-rerun loop of the seven — and a fix
+better than the reference solution's.
+
+The generalisation that survived all of it:
 
 > A task resists one-shot solving only when the information required for step
 > N+1 does not exist until step N has executed. Scale, layered flags and
 > non-idempotency are each defeated by writing the rule once. Scale punishes
 > humans; it does not punish programs.
+
+### What the budget was telling us
+
+Collinear provisioned $35 of isolated credits. Seven trials consumed **$3.70**,
+the most expensive being $0.93. If that budget was sized for a long-horizon
+task, a single trial was expected to cost several dollars — so these tasks are
+roughly an order of magnitude smaller than the brief had in mind, and the
+perfect scores are partly a fact about their size rather than only about the
+model.
+
+Cost is a reasonable proxy for horizon, because it is tool calls times context.
+The benchmarks where Opus 5.5 does fail are expensive ones: Terminal-Bench 4.0
+sits at 66.4%, and those tasks involve real systems over long sessions. Trial 7
+moved in that direction — the only trial with a real loop, and 60% more costly
+than any other — but $0.45 is still far short of what the budget implies.
+
+That is the clearest open lead from this work, and it is recorded here rather
+than claimed as a result.
 
 ### The method error, stated once
 

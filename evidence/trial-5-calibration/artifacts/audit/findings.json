@@ -1,0 +1,99 @@
+{
+  "findings": [
+    {
+      "run_id": "rtx5090-qwen25-32b-20260901-e9234f",
+      "defects": [
+        "defaulted_precision"
+      ],
+      "evidence": "benchmark_results.precision=['fp16'] but declared precision (tasks.task_config)=bf16; metrics.actual_dtype=['bf16']; ingest default is 'fp16'"
+    },
+    {
+      "run_id": "rtx5090-qwen25-32b-20260908-b78864",
+      "defects": [
+        "duplicate_logical_run"
+      ],
+      "evidence": "re-execution of rtx5090-qwen25-32b-20260908-a8ca39: same recipe rtx5090/qwen25-32b-tp4-bf16, same node node-16816b (original started 2026-09-08 18:00:00+00, this one 2026-09-08 18:37:00+00), and all 8 total_token_throughput values identical at every concurrency"
+    },
+    {
+      "run_id": "mi210-llama31-70b-20260923-f5c87e",
+      "defects": [
+        "truncated_sweep"
+      ],
+      "evidence": "declared concurrency_sweep (task_logs launch preamble) = [1, 2, 4, 8, 16, 32, 64, 128]; benchmark_results has only [1, 2, 4] (missing [8, 16, 32, 64, 128]); recorded status 'success' (tasks.status=success)"
+    },
+    {
+      "run_id": "rtx5090-qwen25-32b-20260924-94b51d",
+      "defects": [
+        "defaulted_gpu_count"
+      ],
+      "evidence": "benchmark_results.gpu_count=['1'] but declared gpu_count (tasks.task_config)=4; metrics.visible_devices=['[0, 1, 2, 3]']; ingest default is 1"
+    },
+    {
+      "run_id": "t4-tinyllama-1.1b-20260924-5d1104",
+      "defects": [
+        "duplicate_logical_run"
+      ],
+      "evidence": "re-execution of t4-tinyllama-1.1b-20260924-ec608d: same recipe t4/tinyllama-tp1, same node node-588109 (original started 2026-09-24 03:00:00+00, this one 2026-09-24 03:37:00+00), and all 8 total_token_throughput values identical at every concurrency"
+    },
+    {
+      "run_id": "h100-llama31-70b-20261004-59d725",
+      "defects": [
+        "defaulted_gpu_count"
+      ],
+      "evidence": "benchmark_results.gpu_count=['1'] but declared gpu_count (tasks.task_config)=2; metrics.visible_devices=['[0, 1]']; ingest default is 1"
+    },
+    {
+      "run_id": "rtx5090-qwen25-32b-20261005-c3981b",
+      "defects": [
+        "missing_parallelism"
+      ],
+      "evidence": "benchmark_results.parallelism is NULL but declared tensor_parallel_size=4, pipeline_parallel_size=1 (tasks.task_config) => tp4; metrics has no 'parallelism' dict; metrics.server_args=['vllm serve qwen25-32b --tensor-parallel-size 4 --pipeline-parallel-size 1 --dtype bf16']"
+    },
+    {
+      "run_id": "rtx5090-qwen25-32b-20261009-b5730f",
+      "defects": [
+        "truncated_sweep"
+      ],
+      "evidence": "declared concurrency_sweep (tasks.task_config) = [1, 2, 4, 8, 16, 32, 64, 128]; benchmark_results has only [1, 2, 4, 8, 16] (missing [32, 64, 128]); recorded status 'success' (tasks.status=success)"
+    },
+    {
+      "run_id": "mi210-deepseek-r1-70b-20261013-c25894",
+      "defects": [
+        "missing_parallelism"
+      ],
+      "evidence": "benchmark_results.parallelism is NULL but declared tensor_parallel_size=8, pipeline_parallel_size=1 (tasks.task_config) => tp8; metrics has no 'parallelism' dict; metrics.server_args=['vllm serve deepseek-r1-70b --tensor-parallel-size 8 --pipeline-parallel-size 1 --dtype bf16']"
+    },
+    {
+      "run_id": "h100-llama31-70b-20261020-af1871",
+      "defects": [
+        "defaulted_gpu_count"
+      ],
+      "evidence": "benchmark_results.gpu_count=['1'] but declared gpu_count (tasks.task_config)=2; metrics.visible_devices=['[0, 1]']; ingest default is 1"
+    },
+    {
+      "run_id": "t4-tinyllama-1.1b-20261021-b62c92",
+      "defects": [
+        "zero_token_config"
+      ],
+      "evidence": "8/8 result rows record input_tokens/output_tokens = 0; declared tokens (tasks.task_config) = (512, 512); metrics.request_params=[\"{'random_input_len': 512, 'random_output_len': 512}\"]"
+    },
+    {
+      "run_id": "h100-llama31-70b-20261022-e1ecf7",
+      "defects": [
+        "truncated_sweep"
+      ],
+      "evidence": "declared concurrency_sweep (tasks.task_config) = [1, 2, 4, 8, 16, 32, 64, 128]; benchmark_results has only [1, 2, 4, 8] (missing [16, 32, 64, 128]); recorded status 'success' (tasks.status=success)"
+    }
+  ],
+  "undeterminable": [
+    "rtx5090-qwen25-32b-20260906-c99aec",
+    "rtx5090-qwen25-32b-20260910-0f54c3",
+    "mi210-llama31-70b-20260923-a8529e",
+    "mi210-llama31-70b-20261008-ae2d99",
+    "rtx5090-qwen25-32b-20261011-0accdc",
+    "h100-llama31-70b-20261019-a1ee27",
+    "h100-llama31-70b-20261020-fe9fac",
+    "h100-llama31-70b-20261023-7560a8",
+    "t4-tinyllama-1.1b-20261031-4d6235"
+  ]
+}

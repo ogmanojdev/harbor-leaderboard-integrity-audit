@@ -1,0 +1,9 @@
+{
+  "api_healthy": 1.0,
+  "leaderboard_reads": 1.0,
+  "ingest_accepts": 1.0,
+  "run_appears": 1.0,
+  "data_intact": 1.0,
+  "fixes_documented": 1.0,
+  "overall": 1.0
+}
