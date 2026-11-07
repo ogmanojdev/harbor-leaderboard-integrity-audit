@@ -371,6 +371,41 @@ dimensions, 0 exceptions, 40s. Reproduced across every revision of the task.
 **The task did not expose a failure.** It was solved completely, on the first
 attempt, in under four minutes.
 
+### A second design, and a second negative result
+
+After the first trial, the diagnosis was that the task had no feedback loop. A
+second task was built to test that directly: 150 archived runs to be re-ingested
+through a deliberately **non-idempotent** tool, one run per invocation, with
+~159k tokens of archive material and 30 runs needing a remediation flag
+recoverable only from their own archive. The aim was context exhaustion — the
+failure mode Anthropic documents for long-running agents and that Terminal-Bench
+4.0 partly measures at 66.4%.
+
+Oracle passed at 1.000. Opus 5.5 then scored **1.000 in 1m40s using 10 tool
+calls, for $0.28** — and invoked `backfill process` directly exactly **once**
+before writing a driver script that did the remaining 149.
+
+The hole in the hypothesis is now nameable:
+
+> Volume only exhausts context if the *agent* must hold the content. It wrote a
+> program to read the archives, so it never read them.
+
+All five remediation categories were mechanically derivable — read a field,
+parse a flag from a log line, find the first null index. A single conditional
+covers every one, so 150 instances of a problem that needed solving once. The
+non-idempotency never bit either, because a correct script does not repeat a
+step; that trap only triggers on interrupted *manual* work, a state a scripting
+agent never enters.
+
+Both designs failed for the same underlying reason, which is the finding worth
+carrying:
+
+> A task resists one-shot solving only when the information required for step
+> N+1 does not exist until step N has been executed. Scale, layered flags and
+> non-idempotency are all defeated by the same move — write the rule once.
+
+Scale punishes humans. It does not punish programs.
+
 ### What the trajectory shows
 
 ```
