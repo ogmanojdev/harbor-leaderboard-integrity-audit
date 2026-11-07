@@ -1,0 +1,38 @@
+schema_version = "1.4"
+
+# Runs in the agent's container after the agent phase, re-deriving all three
+# gates independently. Not /app/gates.sh.
+[[verifier.collect]]
+service = "main"
+command = "bash /opt/verify.sh"
+
+[[artifacts]]
+source = "/app/.verify.json"
+destination = "verify.json"
+
+[[artifacts]]
+source = "/app/fixes.md"
+destination = "fixes.md"
+
+[task]
+name = "collinear-candidate/release-back-to-green"
+version = "0.1.0"
+description = "A bad merge left three release gates red across a 15k-line benchmarking backend: the pytest suite, the live ingest-to-leaderboard path, and the migration chain. The gates fail for unrelated reasons and one defect is only fixable by authoring a migration."
+
+[metadata]
+difficulty = "hard"
+category = "software_engineering"
+
+[agent]
+timeout_sec = 10800.0
+
+[verifier]
+timeout_sec = 1800.0
+environment_mode = "separate"
+
+[environment]
+network_mode = "no-network"
+build_timeout_sec = 3600.0
+os = "linux"
+cpus = 2
+memory_mb = 4096

@@ -456,6 +456,17 @@ than any other — but $0.45 is still far short of what the budget implies.
 That is the clearest open lead from this work, and it is recorded here rather
 than claimed as a result.
 
+**Trial 8 closed it, and the remedy proposed above is wrong.** A second task was
+built to move all three variables at once — defects 4 → 8, source surface 4,605
+→ 15,256 lines, verification surfaces 1 → 3 — and measured. It scored 1.000 for
+$0.79. Cost per defect was flat ($0.103 → $0.099) and calls per defect were
+identical at 3.75, while per-LOC and per-gate cost fell by 40% and 33%: cost
+tracks the number of distinct diagnoses, and neither scale nor realism nor
+layering moved it. Reaching the budget's implied size therefore needs 30 to 100
+planted defects in one task, which is a scavenger hunt rather than a long
+horizon. Full method, the three defect classes falsified during calibration, and
+a grading hole found and closed: **[COST_SCALING.md](COST_SCALING.md)**.
+
 ### The method error, stated once
 
 Difficulty on the submitted task was calibrated against deliberately weak

@@ -4,7 +4,7 @@ The submission contains exactly one task directory: `leaderboard-integrity-audit
 at the repository root. Nothing here is a Harbor task directory and nothing here
 is offered for grading.
 
-These are the two additional tasks built to test hypotheses about what makes a
+These are the additional tasks built to test hypotheses about what makes a
 frontier agent fail, after the submitted task did not. Only the mechanism and
 the instruction are reproduced, so the design can be read and checked:
 
@@ -12,7 +12,8 @@ the instruction are reproduced, so the design can be read and checked:
 |---|---|---|
 | `backfill-exactly-once/` | volume + a non-idempotent tool will exhaust context | refuted — Opus scripted it, 1m40s |
 | `regression-in-twelve-runs/` | irreducible sequential search under a measurement budget | refuted — Opus re-planned and landed exactly on budget, twice |
+| `release-back-to-green/` | the tasks are too small; scale, realism and more verification surfaces will raise the horizon | refuted — 2x defects, 3.3x surface, 3x gates bought 1.9x cost; cost tracks diagnoses alone ([COST_SCALING.md](../../COST_SCALING.md)) |
 
-Trial logs, rewards and submitted artifacts for all four runs are in the sibling
+Trial logs, rewards and submitted artifacts for every run are in the sibling
 `trial-*/` directories. The full runnable versions live in separate
 repositories, deliberately kept out of this one.
