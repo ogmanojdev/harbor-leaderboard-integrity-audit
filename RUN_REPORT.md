@@ -355,93 +355,87 @@ dimensions, 0 exceptions, 40s. Reproduced across every revision of the task.
 
 ### Target model: Claude Opus 5.5, Claude Code harness
 
-`harbor run -p ./leaderboard-integrity-audit -a claude-code -m opus-5-5`
+Four trials were run against three task designs. Every one scored 1.000. The
+designs are listed in the order they were built, because each was a response to
+the previous result.
 
-| | |
-|---|---|
-| overall | **1.000** |
-| functional_correctness | 1.000 (macro-F1 over 65 unseen runs) |
-| constraint_satisfaction | 1.000 (leaderboard exact, 9 of 9) |
-| robustness | 1.000 (0 of 49 healthy runs flagged) |
-| artifact_quality | 1.000 |
-| completeness | 1.000 (audit complete) |
-| runtime | 3m 56s of a 90-minute budget |
-| cost | $0.79 |
+| # | design | hypothesis under test | result | runtime | cost |
+|---|---|---|---|---|---|
+| 1 | leaderboard-integrity-audit *(submitted)* | multi-source forensics with a published rule | **1.000** | 3m56s | $0.79 |
+| 2 | backfill-exactly-once | volume + non-idempotent tool exhausts context | **1.000** | 1m40s | $0.28 |
+| 3 | regression-in-twelve-runs @ 12 | irreducible sequential search under budget | **1.000** | 2m42s | $0.25 |
+| 4 | regression-in-twelve-runs @ 10 | the same, with the budget tightened | **1.000** | 2m12s | $0.37 |
 
-**The task did not expose a failure.** It was solved completely, on the first
-attempt, in under four minutes.
+Logs, rewards and submitted artifacts for all four are under `evidence/`.
 
-### A second design, and a second negative result
+**Trial 1.** 32 turns, 14 tool calls, zero iteration, zero MCP calls. It read
+`ingest.py`, ran five SQL queries, wrote one extraction script and the
+validator, and stopped.
 
-After the first trial, the diagnosis was that the task had no feedback loop. A
-second task was built to test that directly: 150 archived runs to be re-ingested
-through a deliberately **non-idempotent** tool, one run per invocation, with
-~159k tokens of archive material and 30 runs needing a remediation flag
-recoverable only from their own archive. The aim was context exhaustion — the
-failure mode Anthropic documents for long-running agents and that Terminal-Bench
-4.0 partly measures at 66.4%.
+**Trial 2.** 10 tool calls. It invoked the backfill tool directly exactly
+**once**, then wrote a driver that did the other 149 runs. Never processed a run
+twice, never read the 159k tokens of archives — it wrote a program to read them.
 
-Oracle passed at 1.000. Opus 5.5 then scored **1.000 in 1m40s using 10 tool
-calls, for $0.28** — and invoked `backfill process` directly exactly **once**
-before writing a driver script that did the remaining 149.
+**Trial 3.** Twelve of twelve runs, using six paired A/B comparisons that held
+everything constant but the driver version. Recovered the exact three-clause
+condition including the `tp >= 4` boundary rather than the tempting `tp = 8`.
 
-The hole in the hypothesis is now nameable:
+**Trial 4.** The budget was cut to ten runs — the minimum the reference solution
+needs. It **changed strategy**: one anchor pair to establish the effect size,
+then seven single-variable ablations against that anchor instead of re-pairing,
+plus one confirming pair on a second GPU. Exactly ten of ten, condition still
+exact.
 
-> Volume only exhausts context if the *agent* must hold the content. It wrote a
-> program to read the archives, so it never read them.
+That last result is the most informative of the four, and it is worth stating
+plainly: **the model's experimental design was better than the reference
+solution's.** The oracle paid for a full ablation sweep; Opus recognised that an
+anchored comparison costs half as much per hypothesis and switched to it when
+the budget demanded.
 
-All five remediation categories were mechanically derivable — read a field,
-parse a flag from a log line, find the first null index. A single conditional
-covers every one, so 150 instances of a problem that needed solving once. The
-non-idempotency never bit either, because a correct script does not repeat a
-step; that trap only triggers on interrupted *manual* work, a state a scripting
-agent never enters.
+### What three refuted hypotheses add up to
 
-Both designs failed for the same underlying reason, which is the finding worth
-carrying:
+Each design targeted a documented weakness, and each failed for a reason worth
+recording:
+
+1. **No feedback loop** (trial 1). The task was a single-pass extraction, so
+   nothing forced the agent to be wrong before being right.
+2. **Context exhaustion** (trial 2). Volume only exhausts context if the *agent*
+   must hold the content. Every remediation was mechanically derivable, so it
+   wrote the rule once — 150 instances of a problem that needed solving once.
+   Non-idempotency never bit either: a correct script does not repeat a step,
+   and that trap only triggers on interrupted manual work.
+3. **Sequential search under constraint** (trials 3 and 4). This one genuinely
+   could not be scripted away — the information for each experiment did not
+   exist until the previous one was paid for. Opus did the work, and did it
+   well, at two different budget levels.
+
+The generalisation that survives all three:
 
 > A task resists one-shot solving only when the information required for step
-> N+1 does not exist until step N has been executed. Scale, layered flags and
-> non-idempotency are all defeated by the same move — write the rule once.
+> N+1 does not exist until step N has executed. Scale, layered flags and
+> non-idempotency are each defeated by writing the rule once. Scale punishes
+> humans; it does not punish programs.
 
-Scale punishes humans. It does not punish programs.
+### The method error, stated once
 
-### What the trajectory shows
+Difficulty on the submitted task was calibrated against deliberately weak
+solvers — do-nothing, memorise-the-ids, miss-a-defect-class. Those numbers were
+precise and said nothing about a strong solver. The cheap move not taken was
+trialling the real target on day one, for under a dollar, before investing in
+verifier quality and documentation. Every later design was built loop-first and
+trialled immediately, which is why trials 2, 3 and 4 cost two days between them
+rather than five.
 
-```
-32 assistant turns · 14 tool calls · 0 MCP tool calls
-Bash x13 (psql and python), Write x1
-```
+### Why no failure is reported
 
-The model read `app/routers/ingest.py`, ran five SQL queries across the three
-tables, wrote one extraction script to project records, wrote the validator, and
-stopped. There was **no iteration**: no failed attempt, no revision, no
-verification loop. It did not use the MCP server at all — `psql` was available
-and more direct.
+No trial produced one. The budget could have been cut to nine runs, below what
+the reference solution needs, and trial 4 would have failed — but that failure
+would measure the margin chosen rather than the model's planning, which is the
+kind of result the brief disqualifies. Two refusals are recorded here instead of
+a manufactured failure: that one, and forcing MCP-only access on the submitted
+task, which would have made six defective runs unprovable.
 
-### Why this happened, stated plainly
-
-Three design judgements account for it, and all three were mine:
-
-1. **The published vocabulary did most of the enumeration.** Listing nine defect
-   codes with a sentence of meaning each turns "what could be wrong with this
-   data?" into "check these nine things." That was a deliberate trade for
-   non-brittle grading, and it cost more difficulty than estimated.
-2. **`psql` made the forensics a SQL exercise.** Keeping it was a deliberate
-   hedge against unsolvability through MCP alone. The hedge worked; it also
-   removed the tool-use discipline the task was supposed to probe, and the MCP
-   server went unused.
-3. **There is no feedback loop.** The agent cannot check its own work, so there
-   is nothing to iterate against. Tasks that break frontier models almost always
-   contain a loop — attempt, observe failure, revise — and this one does not.
-   It is a single-pass extraction exercise with a large surface, and Opus 5.5 is
-   extremely good at those.
-
-The honest conclusion is that the task is **fair, reproducible and well
-verified, but not hard** for this model. Difficulty was measured against
-deliberately weak solvers rather than against a strong one, and those
-measurements were accurate about what they tested and silent about this.
-
+Total spend across all four trials and the quality check: **$2.20 of $35**.
 
 ## 9. Limitations, stated plainly
 

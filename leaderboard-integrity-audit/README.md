@@ -83,6 +83,14 @@ solution/
 tools/gen_runs.py         corpus generator; deliberately outside every image
 ```
 
+## Scope of this repository
+
+The submission is the single task directory `leaderboard-integrity-audit/`.
+`evidence/` at the repository root holds the target-model trial logs and the
+mechanism of two further probe tasks built to test what breaks a frontier
+agent; nothing in `evidence/` is a Harbor task directory or offered for grading.
+See `../RUN_REPORT.md` section 8.
+
 ## Provenance
 
 Created for this exercise. Not derived from any benchmark, public issue, CTF or

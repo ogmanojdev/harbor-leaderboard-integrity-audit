@@ -1,0 +1,7 @@
+{
+  "overall": 1.0,
+  "condition_exact": 1.0,
+  "condition_f1": 1.0,
+  "within_budget": 1.0,
+  "evidence_present": 1.0
+}

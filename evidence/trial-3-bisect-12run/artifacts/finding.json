@@ -1,0 +1,10 @@
+{
+  "condition": {
+    "all_of": [
+      {"field": "driver",    "op": "eq",  "value": "570"},
+      {"field": "precision", "op": "eq",  "value": "fp8"},
+      {"field": "tp",        "op": "gte", "value": 4}
+    ]
+  },
+  "evidence": "Paired driver-570 vs driver-560 runs showed a ~45% drop (ratio 0.55-0.56) for fp8 at tp=8 and tp=4 on h100, and for fp8 tp=8 on rtx5090 and on qwen25-32b with chunked_prefill=1, while fp8 at tp=2 and fp16 at tp=8 were unchanged across drivers (within 1%)."
+}

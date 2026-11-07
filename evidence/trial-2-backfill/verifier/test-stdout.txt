@@ -1,0 +1,9 @@
+artifact scan: {'ledger.db': '/app/ledger.db', 'report.json': '/app/report.json'}
+/logs contains: ['artifacts', 'verifier']
+entries=150 distinct=150 records=1182 total=1288996.01 dupes=0
+{
+  "overall": 1.0,
+  "exactly_once": 1.0,
+  "totals_match": 1.0,
+  "report_present": 1.0
+}

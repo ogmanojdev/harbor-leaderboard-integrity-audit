@@ -1,0 +1,10 @@
+{
+  "condition": {
+    "all_of": [
+      {"field": "driver",    "op": "eq",  "value": "570"},
+      {"field": "precision", "op": "eq",  "value": "fp8"},
+      {"field": "tp",        "op": "gte", "value": 4}
+    ]
+  },
+  "evidence": "The slow fp8/tp8 config recovers from 5832 to 10400 tok/s on driver 560 (a 0.56x factor, and rtx5090 shows the same 0.56x between 570 and 560); on driver 570, bf16 (6484) beats fp8, tp2 (3361) beats tp4 (3246), while chunked_prefill=1, llama33-70b, qwen25-32b and rtx5090 all stay degraded, so the drop needs driver 570, fp8 and tp>=4, regardless of model, GPU or chunked prefill."
+}

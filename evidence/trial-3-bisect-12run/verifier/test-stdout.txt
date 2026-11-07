@@ -1,0 +1,13 @@
+/logs/artifacts: []
+/app: ['finding.json']
+/logs: ['artifacts', 'verifier']
+predicted=64 true=64 tp=64 fp=0 fn=0 f1=1.000
+clauses=3
+runs_used=12 of 12
+{
+  "overall": 1.0,
+  "condition_exact": 1.0,
+  "condition_f1": 1.0,
+  "within_budget": 1.0,
+  "evidence_present": 1.0
+}
