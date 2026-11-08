@@ -1,7 +1,7 @@
 # Trial 8 — the size hypothesis, measured
 
 `RUN_REPORT.md` §8 closes on an open lead rather than a result: seven trials
-consumed $3.70 of a $35 budget, so the tasks are roughly an order of magnitude
+consumed $3.19 of a $35 budget, so the tasks are roughly an order of magnitude
 smaller than the budget implies, and the perfect scores are partly a fact about
 their size. The remedy suggested there was a bigger, more realistic, more
 layered task — one trial costing $3–10, meaning hundreds of tool calls.

@@ -355,21 +355,27 @@ dimensions, 0 exceptions, 40s. Reproduced across every revision of the task.
 
 ### Target model: Claude Opus 5.5, Claude Code harness
 
-Four trials were run against three task designs. Every one scored 1.000. The
-designs are listed in the order they were built, because each was a response to
-the previous result.
+Seven trials were run against six task designs, and an eighth against a
+seventh design after this section was first written (see
+[COST_SCALING.md](COST_SCALING.md)). Every one scored 1.000. The designs are
+listed in the order they were built, because each was a response to the
+previous result.
 
 | # | design | hypothesis under test | result | runtime | cost |
 |---|---|---|---|---|---|
-| 1 | leaderboard-integrity-audit *(submitted)* | multi-source forensics with a published rule | **1.000** | 3m56s | $0.79 |
-| 2 | backfill-exactly-once | volume + non-idempotent tool exhausts context | **1.000** | 1m40s | $0.28 |
-| 3 | regression-in-twelve-runs @ 12 | irreducible sequential search under budget | **1.000** | 2m42s | $0.25 |
-| 4 | regression-in-twelve-runs @ 10 | the same, budget cut to the oracle's minimum | **1.000** | 2m12s | $0.37 |
-| 5 | audit-what-you-can-prove | epistemic overclaiming (an Opus 5.5 system-card regression) | **1.000** | 2m45s | $0.93 |
-| 6 | two-regressions | the blind spot in the model's *own* observed method | **1.000** | 1m27s | $0.12 |
-| 7 | pipeline-back-to-green | layered defects in a real service, run-diagnose-fix loop | **1.000** | 2m38s | $0.45 |
+| 1 | leaderboard-integrity-audit *(submitted)* | multi-source forensics with a published rule | **1.000** | 3m56s | $0.87 |
+| 2 | backfill-exactly-once | volume + non-idempotent tool exhausts context | **1.000** | 1m40s | $0.24 |
+| 3 | regression-in-twelve-runs @ 12 | irreducible sequential search under budget | **1.000** | 2m42s | $0.36 |
+| 4 | regression-in-twelve-runs @ 10 | the same, budget cut to the oracle's minimum | **1.000** | 2m12s | $0.26 |
+| 5 | audit-what-you-can-prove | epistemic overclaiming (an Opus 5.5 system-card regression) | **1.000** | 2m45s | $0.89 |
+| 6 | two-regressions | the blind spot in the model's *own* observed method | **1.000** | 1m27s | $0.16 |
+| 7 | pipeline-back-to-green | layered defects in a real service, run-diagnose-fix loop | **1.000** | 2m38s | $0.41 |
+| 8 | release-back-to-green | scale, realism and more gates raise the horizon | **1.000** | 4m32s | $0.79 |
 
-Logs, rewards and submitted artifacts for all seven are under `evidence/`.
+Logs, rewards and submitted artifacts for all eight are under `evidence/`.
+Every cost above is the `cost_usd` recorded in that trial's `result.json`;
+runtimes are whole-trial wall clock, which is why they exceed agent execution
+time by the environment build and verifier.
 
 **Trials 1-4** are described below. The last three are the most informative.
 
@@ -440,8 +446,8 @@ The generalisation that survived all of it:
 
 ### What the budget was telling us
 
-Collinear provisioned $35 of isolated credits. Seven trials consumed **$3.70**,
-the most expensive being $0.93. If that budget was sized for a long-horizon
+Collinear provisioned $35 of isolated credits. Seven trials consumed **$3.19**,
+the most expensive being $0.89. If that budget was sized for a long-horizon
 task, a single trial was expected to cost several dollars — so these tasks are
 roughly an order of magnitude smaller than the brief had in mind, and the
 perfect scores are partly a fact about their size rather than only about the
@@ -450,8 +456,10 @@ model.
 Cost is a reasonable proxy for horizon, because it is tool calls times context.
 The benchmarks where Opus 5.5 does fail are expensive ones: Terminal-Bench 4.0
 sits at 66.4%, and those tasks involve real systems over long sessions. Trial 7
-moved in that direction — the only trial with a real loop, and 60% more costly
-than any other — but $0.45 is still far short of what the budget implies.
+moved in that direction — the only trial with a real diagnose-fix loop — but at
+$0.41 it was not even the most expensive of the seven, which sharpens the point
+rather than softening it: the one task that forced a genuine loop was mid-range
+in cost, and far short of what the budget implies.
 
 That is the clearest open lead from this work, and it is recorded here rather
 than claimed as a result.
@@ -486,7 +494,9 @@ kind of result the brief disqualifies. Two refusals are recorded here instead of
 a manufactured failure: that one, and forcing MCP-only access on the submitted
 task, which would have made six defective runs unprovable.
 
-Total spend across all four trials and the quality check: **$2.20 of $35**.
+Total spend across all eight trials: **$3.98 of $35**, each figure taken from
+the `cost_usd` in `evidence/trial-*/result.json`. The `harbor check` run is not
+included — its cost was not recorded in the evidence kept here.
 
 ## 9. Limitations, stated plainly
 
