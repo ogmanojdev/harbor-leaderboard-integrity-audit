@@ -1,0 +1,11 @@
+independent re-derivation: {'plan_parses': 1, 'schema_valid': 1, 'known_entities': 1, 'allowed_concurrencies': 1, 'coverage': 1, 'within_budget': 1, 'n_sweeps': 14, 'groups_total': 112, 'groups_short': 0, 'worst_shortfall': 0}
+{
+  "plan_parses": 1.0,
+  "schema_valid": 1.0,
+  "known_entities": 1.0,
+  "allowed_concurrencies": 1.0,
+  "coverage": 1.0,
+  "within_budget": 1.0,
+  "notes_written": 1.0,
+  "overall": 1.0
+}

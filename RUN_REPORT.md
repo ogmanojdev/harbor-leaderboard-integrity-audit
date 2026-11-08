@@ -355,9 +355,9 @@ dimensions, 0 exceptions, 40s. Reproduced across every revision of the task.
 
 ### Target model: Claude Opus 5.5, Claude Code harness
 
-Seven trials were run against six task designs, and an eighth against a
-seventh design after this section was first written (see
-[COST_SCALING.md](COST_SCALING.md)). Every one scored 1.000. The designs are
+Seven trials were run against six task designs. Three more followed against a
+seventh and eighth design after this section was first written, and they carry
+the main result of this work (see [COST_SCALING.md](COST_SCALING.md)). Every one scored 1.000. The designs are
 listed in the order they were built, because each was a response to the
 previous result.
 
@@ -371,8 +371,10 @@ previous result.
 | 6 | two-regressions | the blind spot in the model's *own* observed method | **1.000** | 1m27s | $0.16 |
 | 7 | pipeline-back-to-green | layered defects in a real service, run-diagnose-fix loop | **1.000** | 2m38s | $0.41 |
 | 8 | release-back-to-green | scale, realism and more gates raise the horizon | **1.000** | 4m32s | $0.79 |
+| 9 | comparable-baseline-plan | a plan, not a patch: the rule is implemented rather than stated | **1.000** | 3m58s | $0.83 |
+| 10 | comparable-baseline-plan, spec tightened | the same task said precisely | **1.000** | 2m15s | $0.48 |
 
-Logs, rewards and submitted artifacts for all eight are under `evidence/`.
+Logs, rewards and submitted artifacts for all ten are under `evidence/`.
 Every cost above is the `cost_usd` recorded in that trial's `result.json`;
 runtimes are whole-trial wall clock, which is why they exceed agent execution
 time by the environment build and verifier.
@@ -494,7 +496,7 @@ kind of result the brief disqualifies. Two refusals are recorded here instead of
 a manufactured failure: that one, and forcing MCP-only access on the submitted
 task, which would have made six defective runs unprovable.
 
-Total spend across all eight trials: **$3.98 of $35**, each figure taken from
+Total spend across all ten trials: **$5.30 of $35**, each figure taken from
 the `cost_usd` in `evidence/trial-*/result.json`. The `harbor check` run is not
 included — its cost was not recorded in the evidence kept here.
 

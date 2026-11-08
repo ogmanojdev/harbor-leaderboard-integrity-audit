@@ -1,0 +1,7 @@
+# Plan notes
+
+**Rule and where it lives.** `mcp-server/app/services/platform_api.py::comparable_results`, tested in `mcp-server/tests/test_platform_api.py::test_comparable_results_keep_only_the_identical_config`. A peer must match the target exactly on model, gpu_type, gpu_count, precision, input_tokens, output_tokens, concurrency and workload_type. It must also have status `success`, a non-null `total_token_throughput`, and a different `run_id`. Rows with 0/0 tokens therefore need 0/0 peers. The REST listing drops zero-valued filters, but that is the listing's behaviour, not the peer rule.
+
+**How I counted.** For each config, E is the number of distinct eligible run_ids. Each run_id has one row per config here. New runs also have to clear the floor, so every config needs E ≥ 4. That means max(0, 4 − E) sweeps per config. A sweep's concurrencies are limited to the levels that are short. I simulated the plan against the corpus: all 498 rows (324 historical plus 174 new) end up with at least 3 eligible peers.
+
+**Budget.** The deficits are 2+3+3+3+3+2+2+3+2 = 23 sweeps, the minimum possible, since each sweep adds only one run per concurrency level. The configs are llama31 h100×1 fp8, llama31 mi210×4, llama31 mi210×8 0/0, llama33 mi210×8, qwen rtx5090×1 fp8, qwen rtx5090×4 bf16 (c32–128 only), qwen ×4 fp16, tinyllama t4 0/0 and tinyllama t4 512/512. Only models and GPUs that are already in the corpus are used. The corpus was not modified.

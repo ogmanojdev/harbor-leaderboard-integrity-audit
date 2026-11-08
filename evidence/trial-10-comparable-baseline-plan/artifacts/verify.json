@@ -1,0 +1,12 @@
+{
+  "plan_parses": 1,
+  "schema_valid": 1,
+  "known_entities": 1,
+  "allowed_concurrencies": 1,
+  "coverage": 1,
+  "within_budget": 1,
+  "n_sweeps": 23,
+  "groups_total": 112,
+  "groups_short": 0,
+  "worst_shortfall": 0
+}

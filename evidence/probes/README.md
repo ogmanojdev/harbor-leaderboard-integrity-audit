@@ -19,6 +19,7 @@ itself rather than a probe.
 | `two-regressions/` | 6 | the blind spot in the model's *own* observed method: one anchor plus single-variable ablations cannot characterise a second, independent cause | refuted — pivoted to the second region at run twelve unprompted and isolated it exactly, 128 of 128 affected configurations |
 | `pipeline-back-to-green/` | 7 | layered defects in a real service, each invisible until the one before it is fixed, will force a genuine run-diagnose-fix loop | the loop appeared — six invocations of the end-to-end check, one layer at a time — and it still scored 1.000, fixing the last defect better than the oracle did |
 | `release-back-to-green/` | 8 | the tasks are too small; scale, realism and more verification surfaces will raise the horizon | refuted — 2× defects, 3.3× surface and 3× gates bought 1.9× cost; cost tracks distinct diagnoses alone ([COST_SCALING.md](../../COST_SCALING.md)) |
+| `comparable-baseline-plan/` | 9, 10 | remove what the model is good at: a plan rather than a patch, with the comparability rule implemented rather than stated and a validator declared incomplete | refuted — and trial 9 found two ambiguities in the task's own specification; tightened, trial 10 scored 1.000 for 42% less ([COST_SCALING.md](../../COST_SCALING.md)) |
 
 Trial logs, rewards and submitted artifacts for every run are in the sibling
 `trial-*/` directories. The full runnable versions live in separate

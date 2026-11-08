@@ -1,0 +1,431 @@
+{
+  "sweeps": [
+    {
+      "model_name": "llama31-70b",
+      "gpu_type": "h100",
+      "gpu_count": 1,
+      "precision": "fp8",
+      "input_tokens": 2048,
+      "output_tokens": 512,
+      "workload_type": "llm",
+      "concurrencies": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ]
+    },
+    {
+      "model_name": "llama31-70b",
+      "gpu_type": "h100",
+      "gpu_count": 1,
+      "precision": "fp8",
+      "input_tokens": 2048,
+      "output_tokens": 512,
+      "workload_type": "llm",
+      "concurrencies": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ]
+    },
+    {
+      "model_name": "llama31-70b",
+      "gpu_type": "mi210",
+      "gpu_count": 4,
+      "precision": "bf16",
+      "input_tokens": 1024,
+      "output_tokens": 1024,
+      "workload_type": "llm",
+      "concurrencies": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ]
+    },
+    {
+      "model_name": "llama31-70b",
+      "gpu_type": "mi210",
+      "gpu_count": 4,
+      "precision": "bf16",
+      "input_tokens": 1024,
+      "output_tokens": 1024,
+      "workload_type": "llm",
+      "concurrencies": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ]
+    },
+    {
+      "model_name": "llama31-70b",
+      "gpu_type": "mi210",
+      "gpu_count": 4,
+      "precision": "bf16",
+      "input_tokens": 1024,
+      "output_tokens": 1024,
+      "workload_type": "llm",
+      "concurrencies": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ]
+    },
+    {
+      "model_name": "llama31-70b",
+      "gpu_type": "mi210",
+      "gpu_count": 8,
+      "precision": "bf16",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "workload_type": "llm",
+      "concurrencies": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ]
+    },
+    {
+      "model_name": "llama31-70b",
+      "gpu_type": "mi210",
+      "gpu_count": 8,
+      "precision": "bf16",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "workload_type": "llm",
+      "concurrencies": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ]
+    },
+    {
+      "model_name": "llama31-70b",
+      "gpu_type": "mi210",
+      "gpu_count": 8,
+      "precision": "bf16",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "workload_type": "llm",
+      "concurrencies": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ]
+    },
+    {
+      "model_name": "llama33-70b",
+      "gpu_type": "mi210",
+      "gpu_count": 8,
+      "precision": "bf16",
+      "input_tokens": 1024,
+      "output_tokens": 1024,
+      "workload_type": "llm",
+      "concurrencies": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ]
+    },
+    {
+      "model_name": "llama33-70b",
+      "gpu_type": "mi210",
+      "gpu_count": 8,
+      "precision": "bf16",
+      "input_tokens": 1024,
+      "output_tokens": 1024,
+      "workload_type": "llm",
+      "concurrencies": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ]
+    },
+    {
+      "model_name": "llama33-70b",
+      "gpu_type": "mi210",
+      "gpu_count": 8,
+      "precision": "bf16",
+      "input_tokens": 1024,
+      "output_tokens": 1024,
+      "workload_type": "llm",
+      "concurrencies": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ]
+    },
+    {
+      "model_name": "qwen25-32b",
+      "gpu_type": "rtx5090",
+      "gpu_count": 1,
+      "precision": "fp8",
+      "input_tokens": 1024,
+      "output_tokens": 1024,
+      "workload_type": "llm",
+      "concurrencies": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ]
+    },
+    {
+      "model_name": "qwen25-32b",
+      "gpu_type": "rtx5090",
+      "gpu_count": 1,
+      "precision": "fp8",
+      "input_tokens": 1024,
+      "output_tokens": 1024,
+      "workload_type": "llm",
+      "concurrencies": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ]
+    },
+    {
+      "model_name": "qwen25-32b",
+      "gpu_type": "rtx5090",
+      "gpu_count": 1,
+      "precision": "fp8",
+      "input_tokens": 1024,
+      "output_tokens": 1024,
+      "workload_type": "llm",
+      "concurrencies": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ]
+    },
+    {
+      "model_name": "qwen25-32b",
+      "gpu_type": "rtx5090",
+      "gpu_count": 4,
+      "precision": "bf16",
+      "input_tokens": 1024,
+      "output_tokens": 1024,
+      "workload_type": "llm",
+      "concurrencies": [
+        32,
+        64,
+        128
+      ]
+    },
+    {
+      "model_name": "qwen25-32b",
+      "gpu_type": "rtx5090",
+      "gpu_count": 4,
+      "precision": "bf16",
+      "input_tokens": 1024,
+      "output_tokens": 1024,
+      "workload_type": "llm",
+      "concurrencies": [
+        32,
+        64,
+        128
+      ]
+    },
+    {
+      "model_name": "qwen25-32b",
+      "gpu_type": "rtx5090",
+      "gpu_count": 4,
+      "precision": "fp16",
+      "input_tokens": 1024,
+      "output_tokens": 1024,
+      "workload_type": "llm",
+      "concurrencies": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ]
+    },
+    {
+      "model_name": "qwen25-32b",
+      "gpu_type": "rtx5090",
+      "gpu_count": 4,
+      "precision": "fp16",
+      "input_tokens": 1024,
+      "output_tokens": 1024,
+      "workload_type": "llm",
+      "concurrencies": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ]
+    },
+    {
+      "model_name": "tinyllama-1.1b",
+      "gpu_type": "t4",
+      "gpu_count": 1,
+      "precision": "fp16",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "workload_type": "llm",
+      "concurrencies": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ]
+    },
+    {
+      "model_name": "tinyllama-1.1b",
+      "gpu_type": "t4",
+      "gpu_count": 1,
+      "precision": "fp16",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "workload_type": "llm",
+      "concurrencies": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ]
+    },
+    {
+      "model_name": "tinyllama-1.1b",
+      "gpu_type": "t4",
+      "gpu_count": 1,
+      "precision": "fp16",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "workload_type": "llm",
+      "concurrencies": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ]
+    },
+    {
+      "model_name": "tinyllama-1.1b",
+      "gpu_type": "t4",
+      "gpu_count": 1,
+      "precision": "fp16",
+      "input_tokens": 512,
+      "output_tokens": 512,
+      "workload_type": "llm",
+      "concurrencies": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ]
+    },
+    {
+      "model_name": "tinyllama-1.1b",
+      "gpu_type": "t4",
+      "gpu_count": 1,
+      "precision": "fp16",
+      "input_tokens": 512,
+      "output_tokens": 512,
+      "workload_type": "llm",
+      "concurrencies": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128
+      ]
+    }
+  ]
+}

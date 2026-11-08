@@ -18,7 +18,7 @@ Oracle passes at **1.000** on all five dimensions. `harbor lint` clean;
 
 ## The headline, stated plainly
 
-**No trial produced a failure.** Eight target-model trials across seven task
+**No trial produced a failure.** Ten target-model trials across eight task
 designs, every one scoring 1.000. That is the opposite of the assignment's
 stated goal, and this repository argues the absence is a result rather than an
 omission — because the eighth trial measured *why*:
@@ -33,9 +33,16 @@ surgically — 3.75 tool calls per defect, invariant across both measured points
 Reaching the horizon the $35 credit budget implies would take 30 to 100 planted
 defects in one task, which is a scavenger hunt rather than a long horizon.
 
+A second measurement explains the streak. The only lever found to change cost
+per unit of work was **specification ambiguity** — removing one from a task cut
+its cost 42% and its output tokens 54% — and that is the one lever a fair task
+is forbidden to pull, since the brief disqualifies vague instructions and hidden
+requirements by name. Everything it encourages was measured and did nothing.
+
 Five distinct failure mechanisms were predicted, built, and refuted on the way
 there; three further defect classes died during calibration, one of which was a
-layer of the submitted task.
+layer of the submitted task. On the last design the model audited the task's own
+specification and found two defects in it that the author had missed.
 
 ## Reading order
 

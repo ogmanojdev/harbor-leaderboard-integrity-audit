@@ -1,4 +1,4 @@
-# Trial 8 — the size hypothesis, measured
+# What makes these tasks expensive
 
 `RUN_REPORT.md` §8 closes on an open lead rather than a result: seven trials
 consumed $3.19 of a $35 budget, so the tasks are roughly an order of magnitude
@@ -6,11 +6,26 @@ smaller than the budget implies, and the perfect scores are partly a fact about
 their size. The remedy suggested there was a bigger, more realistic, more
 layered task — one trial costing $3–10, meaning hundreds of tool calls.
 
-This document reports the experiment that tested that remedy. It was built, run
-and measured, and the remedy is wrong. Not because the tasks are not small, but
-because the thing that makes them small is not the thing the lead identified.
+This document reports the three experiments that tested that remedy and then
+asked the sharper question behind it. Ten trials now stand at 1.000. Two things
+were found to move cost, and exactly one of them is available to a fair task.
 
-## The experiment
+**Measured here**
+
+1. **Cost tracks the number of distinct diagnoses, and nothing else.** Doubling
+   the planted defects doubled cost. Tripling the source surface and tripling
+   the number of independent verification surfaces moved it by nothing
+   measurable (trials 7 → 8).
+2. **Removing one specification ambiguity cut the same task's cost by 42% and
+   its output tokens by 54%** (trials 9 → 10). The ambiguity, not the planning,
+   was the expensive part.
+
+The second is the only lever that changed cost per unit of work — and it is the
+one the assignment forbids, since it disqualifies vague instructions and hidden
+requirements by name. Everything the brief encourages was measured and did
+nothing.
+
+## Experiment 1: scale, realism and more gates (trials 7 → 8)
 
 A new task, `collinear-candidate/release-back-to-green`, deliberately moved all
 three variables the lead named, in the direction it recommended:
@@ -125,6 +140,100 @@ exist until step N has executed — the generalisation already recorded in §8 �
 and crucially where each step's *diagnosis* is expensive, not merely each
 step's fix. Eight trials have not produced one.
 
+## Experiment 2: a task with nothing to patch (trials 9 → 10)
+
+Ten trials say Opus wins by reading precisely, diagnosing locally and patching
+surgically. So the third design removed the thing it is good at: there is no
+defect to find and no code to repair.
+
+`collinear-candidate/comparable-baseline-plan` asks for a **plan**. Every
+benchmark run in the historical corpus must reach a floor of three comparable
+peers other than itself, within a sweep budget. Three properties make it
+different from everything above:
+
+- **The rule is implemented, not stated.** What counts as a comparable peer, and
+  what makes a past run usable as one, live in `comparable_results` in the MCP
+  tool server and in the test that pins it. The instruction says to find and
+  apply it, and does not describe it.
+- **The provided validator is deliberately partial**, and says so in its own
+  header: it checks structure, and explicitly not coverage, not eligibility, and
+  not the budget. Passing it proves nothing.
+- **The corpus exercises the eligibility clause.** Two realistic ineligibility
+  patterns were added — an out-of-memory sub-run at the top of a sweep, and a
+  runner that wrote its row before dying without metrics. Counting every row
+  finds 48 configurations short; checking `status` alone finds 57; applying the
+  full clause finds 67.
+
+### Trial 9: it audited the specification
+
+**1.000** — and the interesting part is what its notes contained. It found two
+ambiguities in the task that the author had not seen:
+
+- `app/routers/results.py::_build_filter_conditions` drops any filter whose
+  value is unset or zero, so the 16 corpus rows with a zero token count match
+  every token setting through the REST path. "Comparable" was therefore
+  undefined for those configurations.
+- `comparable_results` excludes the target's own run, so a floor of three peers
+  *per run* requires four eligible runs per configuration, not three. The
+  verifier counted three.
+
+Both were checked against the source afterwards. Both held. It then computed
+that 10 sweeps met the strict reading, and spent the remaining 4 of its budget
+of 14 satisfying both readings at once — using the author's budget slack as
+insurance against the author's imprecision.
+
+That is not a model failure. On this task the model performed better
+specification analysis than the person who wrote the specification.
+
+### Trial 10: the same task, said precisely
+
+The spec was then tightened: the floor stated per run and excluding itself, the
+listing-endpoint disagreement declared with the peer-matching logic named as
+authoritative, and the budget set to the true optimum of 23 sweeps, leaving no
+slack to hedge with.
+
+| | trial 9 (ambiguous) | trial 10 (precise) | change |
+|---|---|---|---|
+| result | 1.000 | 1.000 | — |
+| cost | $0.834 | $0.483 | **−42%** |
+| tool calls | 21 | 16 | −24% |
+| output tokens | 17,128 | 7,914 | **−54%** |
+| agent time | 3m 24s | 1m 41s | −50% |
+| sweeps planned | 14 of 14 | 23 of 23 | optimal both times |
+
+Same task, same corpus, same container, same grading structure. The only
+variable was the precision of the requirement.
+
+> Ambiguity resolution was 42% of that task's cost. Trial 9 produced the highest
+> output-token count of any trial in this work — nearly three times trial 10's —
+> and it was not spent authoring code. It was spent reasoning about what the
+> requirement meant.
+
+Trial 10's notes also show it proving minimality unprompted: *"23 sweeps, the
+minimum possible, since each sweep adds only one run per concurrency level"*,
+and noticing that planned runs must themselves clear the floor.
+
+### What the two experiments add up to
+
+Across ten trials, two levers moved cost:
+
+| lever | effect | available to a fair task? |
+|---|---|---|
+| number of distinct diagnoses | linear, ~$0.10 and 3.75 calls each | yes, but reaching the budget's horizon needs 30–100 planted defects — a scavenger hunt |
+| specification ambiguity | 42% of task cost in a controlled pair | **no** — the brief disqualifies vague instructions and hidden requirements |
+| source surface (3.3×) | none measurable | yes |
+| independent verification surfaces (3×) | none measurable | yes |
+| forcing authored code over patches | none; output per unit *fell* | yes |
+
+That table is the whole result. The things that make a task expensive for this
+model are the things a fair task may not do, and the things the assignment
+encourages — scale, realism, layering, more verification surfaces, real systems
+over long sessions — were each measured and each did nothing.
+
+It also explains the streak mechanically rather than as luck. Ten 1.000s are
+not ten near-misses: they are what happens when every available lever is one
+the model is indifferent to.
+
 ## Three defect classes falsified during calibration
 
 Each was built, measured, and removed. The rejections are the reusable part.
@@ -192,12 +301,32 @@ writes to it, and the run predates the fix only in ordering, not in outcome.
   beyond them: it also masked IPs in detail sub-runs and normalised `model_name`
   and `precision`, having identified a `ck_gpu_type_lower` check constraint the
   task author had not accounted for.
+- `comparable-baseline-plan`: oracle at 23 sweeps, **1.000** on all seven
+  dimensions, `harbor lint` clean. Three deliberately wrong solvers fail three
+  *different* dimensions — ignoring eligibility plans 20 sweeps and fails
+  coverage; checking `status` alone plans exactly the oracle's 23 and still
+  fails coverage; counting correctly but scheduling one sweep per configuration
+  plans 174 and fails the budget. The verifier is diagnostic, not pass/fail.
 
 ## Limitations
 
 - Two points define a line. The 3.75-calls-per-defect figure is consistent
   across trials 7 and 8 but rests on two measurements, at 4 and 8 defects. It
   may bend at 20 or 40; nothing here tests that.
+- The 42% ambiguity figure is also a single pair. Trials 9 and 10 are a clean
+  controlled comparison — same container, same corpus, same grading, one
+  variable — but one comparison, at one task, with one ambiguity. It says that
+  ambiguity was expensive here, not how expensive ambiguity is in general.
+- Tightening the spec for trial 10 did two things at once: it removed the
+  ambiguity *and* it disclosed the falsy-filter behaviour, which was the
+  subtlest thing in the task. Part of the 42% is therefore a difficulty
+  reduction rather than a pure ambiguity removal. The direction is not in doubt;
+  the magnitude is an upper bound.
+- Trial 9's spec defects were found by the model, not by the author's own
+  review. Two deliberately wrong solvers and an oracle had all passed through
+  that task before the model read it. That is a limitation of the calibration
+  method used throughout this work: calibrators test the grader, not the
+  wording.
 - Both trials ran one attempt. Single-trial variance is unmeasured, so the
   1.9× cost ratio carries unknown error bars.
 - The three variables moved together. The design isolates defect count only
