@@ -14,6 +14,9 @@ What is reproduced here is everything that constitutes the *design*:
 | `tests/check.py` | scoring, and the suite hash that makes tampering score zero |
 | `solution/solve.sh` | the oracle |
 
+The full runnable task, with the vendored application, is at
+<https://github.com/ogmanojdev/harbor-release-back-to-green> (private).
+
 The measurement this task was built to make is in
 [`../../COST_SCALING.md`](../../COST_SCALING.md). Run log, reward and artifacts
 are in `../trial-8-release-back-to-green/`.

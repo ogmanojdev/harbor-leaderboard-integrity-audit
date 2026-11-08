@@ -215,7 +215,9 @@ writes to it, and the run predates the fix only in ordering, not in outcome.
 ## Reproduction
 
 ```bash
-# Task lives in the companion repository, branch scale-up.
+# Task: https://github.com/ogmanojdev/harbor-release-back-to-green (private,
+# branch scale-up or master). The vendored application is omitted from this
+# repository; `evidence/probes/release-back-to-green/` carries the design.
 harbor run -c job.yaml -a claude-code -m anthropic/claude-opus-5.5 \
   --base-url https://openrouter.ai/api --job-name scale-trial-1 --yes
 ```
