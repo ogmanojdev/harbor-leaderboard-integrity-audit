@@ -20,6 +20,11 @@ itself rather than a probe.
 | `pipeline-back-to-green/` | 7 | layered defects in a real service, each invisible until the one before it is fixed, will force a genuine run-diagnose-fix loop | the loop appeared — six invocations of the end-to-end check, one layer at a time — and it still scored 1.000, fixing the last defect better than the oracle did |
 | `release-back-to-green/` | 8 | the tasks are too small; scale, realism and more verification surfaces will raise the horizon | refuted — 2× defects, 3.3× surface and 3× gates bought 1.9× cost; cost tracks distinct diagnoses alone ([COST_SCALING.md](../../COST_SCALING.md)) |
 | `comparable-baseline-plan/` | 9, 10 | remove what the model is good at: a plan rather than a patch, with the comparability rule implemented rather than stated and a validator declared incomplete | refuted — and trial 9 found two ambiguities in the task's own specification; tightened, trial 10 scored 1.000 for 42% less ([COST_SCALING.md](../../COST_SCALING.md)) |
+| `qrh-exponent-optimiser/` | 12* | a *binary* gate escapes Law 4: an exact algebraic optimum has no cost tail to probe, and a floating-point optimiser can never certify it | refuted — given a reachability-provable surrogate with an unpublished surd optimum, Opus returned δ_c, ℓ\*, B\* = (81−√1537)/48 and its minimal polynomial exactly on the first pass, with no floating point and no `scipy`; the author's own constraint set was also found unreachable by 1.03×10⁻³ ([FINDINGS.md](../../FINDINGS.md)) |
+
+\* Trial 12 is a two-call capability probe rather than a Harbor run; its
+directory holds the derivation and both transcripts rather than a task
+instruction.
 
 Trial logs, rewards and submitted artifacts for every run are in the sibling
 `trial-*/` directories. The full runnable versions live in separate

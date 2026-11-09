@@ -1,13 +1,14 @@
 # Findings
 
 **The assignment was to build a Harbor task that fairly breaks Claude Opus 5.5.
-No task did.** Eleven trials across nine designs scored 1.000 every time, for
-$5.57 of a $35 budget.
+No task did.** Eleven trials across nine designs scored 1.000 every time, and a
+twelfth measurement refuted the most promising mechanism left, for $5.63 of a
+$35 budget.
 
 This page argues the absence is a **result** rather than an omission, because
 each trial was built to kill a specific hypothesis about what makes an agent
-task hard — and each one did, with numbers. Eight hypotheses, eight refutations,
-four laws.
+task hard — and each one did, with numbers. Nine hypotheses, nine refutations,
+five laws.
 
 ---
 
@@ -88,9 +89,83 @@ ranking buys 1 bit (107) and is not implementable, and grading on adversarially
 chosen isomorphs does nothing — across 18,000 valid puzzles neither codec ever
 exceeds 108 bits. **108 is the frontier, so no fair gate sits below it.**
 
+## Law 5 — reachability precedes discrimination
+
+> A gate the author's own solution cannot pass is unfalsifiable, not hard — and
+> that is a check on the arithmetic of the source, not something a trial finds.
+
+Law 4 appears to leave one escape: make the gate **binary** rather than
+thresholded. Trial 11's weakness was that 108 bits is a point on a cost
+distribution, so the model probed the tail on purpose and sized its codeword to
+the worst case. An *exact* objective has no tail to probe — a floating-point
+optimiser returns 0.8707376… and can never certify that it equals
+(81−√1537)/48. The twelfth measurement tested that escape on the strongest
+substrate available.
+
+Substrate: the October 2026 quasi-Riemann hypothesis results, and the follow-up
+[arXiv:2610.12234v1](https://arxiv.org/html/2610.12234v1) (Liu, Purdue), which
+sharpens the zero-free half-plane constant 7/8 by 4.293×10⁻⁵ to
+B_new = (1507−2√921)/1653. Real, exactly verifiable, provable oracle.
+
+**The design's own constraint set turned out to contain an unreachable gate, and
+arithmetic on the source caught it before any build time was spent.** The
+piecewise-linear exponent (d_J + 5ℓ − 1)/4 vanishes across every subset
+dimension 0 ≤ d_J ≤ ℓ exactly when 6ℓ ≤ 1, and ℓ = 1/6 saturates that with
+equality — which is *why* B = 7/8 is the convenient choice. But
+6ℓ_new = 1.00103 > 1: the published optimum lies **outside** the constraint the
+design named, because Liu's Part III replaces it with E = 0 at the critical zero
+class R\* = 2/3 plus a stationarity condition. A verifier built from the stated
+constraints would have rejected its own oracle by 1.03×10⁻³.
+
+So the probe used a reachability-provable surrogate — same idiom, two explicitly
+binding margin constraints, and an optimum **published nowhere**, so recall is
+unavailable by construction:
+
+> minimise B(ℓ) = 11/12 − ℓ/4 over δ ∈ (0, 1/2], subject to
+> **(C1)** critical-class feasibility, ℓ ≤ (5 − 6δ)/(9 + 18δ), and
+> **(C2)** strict saving margin, ℓ ≤ (1 + 3δ)/(7 + 12δ).
+
+| quantity | derived by hand | Opus 5.5, first pass |
+|---|---|---|
+| δ_c | (√1537 − 9)/84 | ✓ |
+| ℓ\* | (√1537 − 37)/12 | ✓ |
+| B\* | (81 − √1537)/48 | ✓ |
+| minimal polynomial of B\* | 72x² − 243x + 157 | ✓ |
+| margin over 7/8 | (√1537 − 39)/48 | ✓ |
+
+**No floating point anywhere; `scipy` was never reached for.** The derivation was
+sound rather than a lucky landing — it proved the two bounds strictly decreasing
+and strictly increasing, checked both endpoints to establish a unique interior
+crossing, argued that the minimum of an increasing and a decreasing function is
+maximised where they cross, reduced to 126δ² + 27δ − 26 = 0, and observed that
+the discriminant 13833 = 9 × 1537 with 1537 = 29 × 53 squarefree.
+
+**The premise under test was the author's own, and it was false.** The design
+predicted failure "by using `scipy.optimize` floating-point approximations that
+violate the strict saving margin". On a margin-critical algebraic optimum the
+model works exactly by default. The binary gate does not discriminate — not
+because it is probeable, but because **the model never lands on the wrong side of
+it.** Law 2 now holds across four axes: defect-finding, planning, open-ended
+optimisation, and exact algebra.
+
+A second result came free. Asked for B_new cold, with a confident premise and a
+specific-looking constant implied, the model said it had no record of the result
+and declined to invent one — then challenged the premise on correct grounds, that
+the known unconditional results are Vinogradov–Korobov zero-free *regions*
+shrinking toward Re s = 1 rather than fixed half-planes. That is a sixth data
+point against trial 5's hypothesis: a task built to catch fabrication on
+post-cutoff mathematics would not discriminate either.
+
+**Stated precisely:** this was two single-shot API calls costing $0.0541, not a
+Harbor agentic run, so it is a capability measurement rather than a twelfth
+trial. What it refutes is a claim about the model's default method, not a claim
+about agentic cost. Full derivation, both transcripts and the three source errors
+found along the way are in
+[`evidence/probes/qrh-exponent-optimiser/`](evidence/probes/qrh-exponent-optimiser/).
+
 ---
 
-## Eleven trials
+## Eleven trials and a twelfth measurement
 
 | # | design | result | hypothesis it refuted |
 |---|---|---|---|
@@ -103,11 +178,14 @@ exceeds 108 bits. **108 is the frontier, so no fair gate sits below it.**
 | 8 | release-back-to-green | 1.000 | **scale, realism, breadth** → Law 2 |
 | 9-10 | comparable-baseline-plan | 1.000 | planning; isolated **ambiguity** → Law 3 |
 | 11 | sudoku-codec-frontier | 1.000 | **threshold placement** → Law 4 |
+| 12* | QRH exponent optimiser | exact, 1 pass | **exact algebra / binary gates** → Law 5 |
+
+\* A capability probe, not a Harbor run — see Law 5.
 
 Every figure above is taken from the committed `result.json` of the run it
 describes; `evidence/` holds the logs, rewards, artifacts and trajectories.
 
-## Four places this work argues against itself
+## Five places this work argues against itself
 
 1. **Trial 8 was built to refute trial 7's conclusion.** Trial 7 suggested
    bigger, more realistic tasks would cost more. Trial 8 tested that and it is
@@ -138,6 +216,15 @@ describes; `evidence/` holds the logs, rewards, artifacts and trajectories.
    already imagined, and a patch that looks sufficient usually isn't. Both holes
    were found by pointing a different kind of reader at the verifier; neither by
    the author writing tests against their own design.
+
+5. **The twelfth measurement killed the best-looking mechanism left, and the
+   design error was the author's.** Exact algebra over a published research
+   result was the one remaining idea that escaped Law 4 on paper. Verifying the
+   substrate first turned up three errors in the author's own framing — a margin
+   attributed to the wrong object, a prime-gap result that does not chain off the
+   improved constant, and a constraint set that cannot reach the optimum it was
+   written to verify. The mechanism was then measured and refuted in two API
+   calls for four cents, rather than after a day of building.
 
 ## Two open leads, and why neither was taken
 

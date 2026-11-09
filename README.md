@@ -2,7 +2,7 @@
 
 **The assignment was to build a Harbor task that fairly breaks Claude Opus 5.5.
 No task did.** Eleven target-model trials across nine designs scored 1.000 every
-time, for $5.57 of a $35 budget.
+time, for $5.63 of a $35 budget.
 
 > **What is submitted:** the single task directory
 > [`leaderboard-integrity-audit/`](leaderboard-integrity-audit/).
