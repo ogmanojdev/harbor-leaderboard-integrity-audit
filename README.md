@@ -78,6 +78,7 @@ gambled against the deadline.
 
 | document | what it covers |
 |---|---|
+| [`APPROACH.md`](APPROACH.md) | My own account of how this went, written as I went: the first idea I dropped and why, what I read when the first task did not bite, and what I would try next. Unpolished on purpose. |
 | [`FINDINGS.md`](FINDINGS.md) | **One page.** The four laws, the eleven-trial table, the four places this work argues against itself, and the open lead. |
 | [`RUN_REPORT.md`](RUN_REPORT.md) | The first task in full: fairness rationale, economic realism, verifier design, shortcut-resistance analysis, calibration against deliberately bad solutions, model runs, limitations, provenance. §8 is the model runs. |
 | [`COST_SCALING.md`](COST_SCALING.md) | Trial 8 as a controlled experiment and trials 9-10 as the ambiguity pair: the scaling measurement, the falsified prediction about forcing code authoring, three defect classes rejected during calibration, and a grading hole found and closed. Laws 2 and 3. |
