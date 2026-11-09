@@ -1,8 +1,8 @@
 # Compress a minimum Sudoku below the six-pixel bound
 
 A minimum Sudoku is a 9x9 puzzle with exactly **17 filled clues** — the proven
-minimum for a unique solution. In *Sudoku in six pixels*, Pavan Tirumani encodes
-one in **144 bits**, which is six 24-bit RGB pixels.
+minimum for a unique solution. In [*Sudoku in six pixels*](https://pavan.ink/sudoku-in-six-pixels),
+Pavan Tirumani encodes one in **144 bits**, which is six 24-bit RGB pixels.
 
 His scheme, which you have as working code in `reference/article_codec.py`:
 

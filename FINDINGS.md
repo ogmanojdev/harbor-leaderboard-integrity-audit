@@ -73,8 +73,9 @@ by name.
 Trial 11 was built to break Law 2 by changing the axis entirely: optimisation
 against a verifiable numeric objective, nothing planted, nothing hidden,
 authored code as the deliverable, and a threshold placed just past where a
-competent single pass lands. The task was to beat a published 144-bit Sudoku
-codec; the gate was 108 bits, with the obvious single insight landing at 111 and
+competent single pass lands. The task was to beat the published 144-bit Sudoku
+codec in Pavan Tirumani's [*Sudoku in six pixels*](https://pavan.ink/sudoku-in-six-pixels);
+the gate was 108 bits, with the obvious single insight landing at 111 and
 scoring 0.458.
 
 It scored 1.000 at exactly 108 bits in **6 tool calls and $0.273**. The constant

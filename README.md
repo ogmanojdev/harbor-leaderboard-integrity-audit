@@ -34,7 +34,8 @@ Apache-2.0), vendored at a pinned commit. Oracle **1.000** on all five
 dimensions; `harbor lint` clean; `harbor check` 11 of 11.
 
 **[`sudoku-codec-frontier/`](sudoku-codec-frontier/)** — an agent is given a
-published 144-bit Sudoku compression scheme as working code and asked to beat
+published 144-bit Sudoku compression scheme — Pavan Tirumani's
+[*Sudoku in six pixels*](https://pavan.ink/sudoku-in-six-pixels) — as working code and asked to beat
 it: a lossless, fixed-length, self-delimiting codec at 108 bits or fewer on
 10,000 held-out puzzles, where the obvious single insight lands at 111 and
 scores 0.458. Built to test Law 4 by changing the axis away from
