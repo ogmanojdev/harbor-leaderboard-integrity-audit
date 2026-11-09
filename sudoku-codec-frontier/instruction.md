@@ -34,6 +34,18 @@ A stub with this shape is already in place. `reference/measure.py` scores a
 codec against the training corpus exactly the way the grader will; run it as
 often as you like.
 
+## How your codec is run
+
+`encode` and `decode` are executed in **separate short-lived processes**, and the
+decode process is given **codewords and nothing else** — not the puzzles, not any
+corpus. Each process runs unprivileged in its own empty directory. Your codec is
+imported fresh in each one.
+
+So a codeword must be *self-contained*. Nothing can travel from encoding to
+decoding except the bits: not a module-level variable, not a cache, not a file
+on disk. `reference/measure.py` runs your codec exactly this way, so you can see
+this for yourself.
+
 ## Hard requirements
 
 1. **Lossless.** `decode(encode(p)) == p` for every graded puzzle. No exceptions.
@@ -46,12 +58,17 @@ often as you like.
    collected for grading. Any companion file you write will not be there at
    grading time, so a codec that needs one will fail requirement 1.
 5. **Python standard library only.** No network at any point, in either phase.
-6. **Deterministic.** Same input, same codeword, every run.
+6. **Deterministic.** The same puzzle must produce the same codeword in a fresh
+   process. This is checked by encoding the corpus twice, in two processes, and
+   comparing.
+7. **No side channels.** Your codec must not write to the filesystem. The grader
+   runs each phase in its own directory and fails the submission if any file is
+   left behind that it did not create itself.
 
 ## How this is graded
 
 On **10,000 held-out puzzles that are not in `data/train.txt`**. Requirements
-1-6 are pass/fail gates; given those, the score is your `BITS`.
+1-7 are pass/fail gates; given those, the score is your `BITS`.
 
 | codeword | pixels |  |
 |---:|:--:|---|
@@ -76,6 +93,11 @@ and it is ruled out by construction rather than by rule: the graded puzzles are
 not in your corpus, and 64 KB cannot hold a catalogue — the puzzles alone need
 more than 600 KB however they are stored.
 
+Nor can a codec assign indices *as it goes* and look them up on the way back.
+Encoding and decoding are separate processes, so a table built during encoding
+does not exist during decoding, and the decode process is never given the
+puzzles to build one from.
+
 ## Deliverable
 
-`/app/submission/codec.py`, meeting requirements 1-6, with `BITS <= 108`.
+`/app/submission/codec.py`, meeting requirements 1-7, with `BITS <= 108`.

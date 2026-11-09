@@ -69,10 +69,10 @@ gambled against the deadline.
 
 | document | what it covers |
 |---|---|
-| [`FINDINGS.md`](FINDINGS.md) | **One page.** The four laws, the eleven-trial table, the three places this work argues against itself, and the open lead. |
+| [`FINDINGS.md`](FINDINGS.md) | **One page.** The four laws, the eleven-trial table, the four places this work argues against itself, and the open lead. |
 | [`RUN_REPORT.md`](RUN_REPORT.md) | The first task in full: fairness rationale, economic realism, verifier design, shortcut-resistance analysis, calibration against deliberately bad solutions, model runs, limitations, provenance. §8 is the model runs. |
 | [`COST_SCALING.md`](COST_SCALING.md) | Trial 8 as a controlled experiment and trials 9-10 as the ambiguity pair: the scaling measurement, the falsified prediction about forcing code authoring, three defect classes rejected during calibration, and a grading hole found and closed. Laws 2 and 3. |
-| [`SUDOKU_CODEC.md`](SUDOKU_CODEC.md) | Trial 11: the axis change, the measured 648 → 144 → 111 → 108 → 15.58-bit ladder, why the published corpus is unsafe to grade on unmodified, how the catalogue-lookup shortcut is closed by construction, nine calibrators, and two refuted attempts to harden the task. Law 4. |
+| [`SUDOKU_CODEC.md`](SUDOKU_CODEC.md) | Trial 11: the axis change, the measured 648 → 144 → 111 → 108 → 15.58-bit ladder, why the published corpus is unsafe to grade on unmodified, how the catalogue-lookup shortcut is closed by construction, fourteen calibrators, a 1.000-scoring exploit a rubric evaluator found and how it was closed, and two refuted attempts to harden the task. Law 4. |
 | [`evidence/`](evidence/) | Every trial's logs, rewards, artifacts and trajectories. `evidence/probes/` holds the designs of the six probe tasks — none is a submission. |
 
 ## What is net-new

@@ -1,0 +1,10 @@
+{
+  "results": [
+    {
+      "checks": {},
+      "cost_usd": null,
+      "task_name": "sudoku-codec-frontier",
+      "error": "Check trial failed with DownloadVerifierDirError: Failed to download verifier directory from environment\nTrial artifacts: jobs/2026-11-09__17-36-22/check-sudoku-codec-frontier__7QNrPgX"
+    }
+  ]
+}

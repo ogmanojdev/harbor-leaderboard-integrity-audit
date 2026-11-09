@@ -137,6 +137,8 @@ diagnostics go to `/logs/verifier/report.txt`.
 | `losslessness` | `decode(encode(p)) == p` on all 10,000 held-out puzzles |
 | `fixed_length` | one codeword length for all puzzles, equal to the declared `BITS` |
 | `self_delimiting` | `decode` reads only the first `BITS` chars, tested with random padding |
+| `determinism` | the same puzzle encodes identically in two independent processes |
+| `no_side_channel` | the codec left no file behind in any phase directory |
 | `size_limit` | submitted file is 64 KB or less |
 | `target_met` | `BITS <= 108` |
 | `bits`, `pixels`, `compression_vs_article`, `stretch_met` | reported for measurement |
@@ -149,17 +151,86 @@ article without reaching the target.
 
 The other task's verifier never executes agent-authored code — it reads
 artifacts. Measuring a *codec* unavoidably means running the agent's code inside
-the grading container. Three mitigations, and the residual risk stated plainly:
+the grading container, so the isolation is architectural:
 
-- the codec runs in a **subprocess**, as **`nobody`**, with its working
-  directory in `/tmp`;
-- the grader writes `reward.json` **after** that subprocess has exited, so
-  anything written to that path while the codec ran is overwritten;
+- the codec runs only in **short-lived child processes**, as **`nobody`**, each
+  in a private directory used as its cwd, `HOME` and `TMPDIR`;
+- the **grading process imports no part of the submission**. Children write data
+  to a file; their stdout is never read; every comparison is made by the parent
+  against data the children were not given;
+- the grader writes `reward.json` **after** every child has exited, so anything
+  written to that path while a child ran is overwritten;
+- the **held-out corpus is `0600 root`**, unreadable by the children;
 - the container has no network in either phase.
 
-Residual: a submission that escaped the subprocess *before* the grader's final
-write could still affect the grade. Closing that completely would need a second
-container or a seccomp profile, and it is not closed here.
+Residual, stated plainly: a submission that escaped its child process before the
+grader's final write could still affect the grade, and the no-side-channel check
+detects stray files rather than preventing writes outright. Closing either
+completely needs a second container or a seccomp profile, and neither is closed
+here.
+
+### The grading hole that nine calibrators missed
+
+The first version of this grader ran `encode` and `decode` **in the same Python
+process**. Harbor's own rubric evaluator read the verifier and described the
+consequence before any trial exploited it:
+
+> A stateful 'codec' that keeps a module-level dict (puzzle -> counter index in
+> encode, index -> puzzle in decode) would emit ~14-bit codewords that pass
+> losslessness, fixed length, self-delimiting and determinism-within-run. It
+> would score 1.0 (and even 'stretch_met') without doing any compression.
+
+It was right. Written as a ten-line calibrator, that codec scored **1.0000 at 14
+bits** — beating not just the target but the stretch tier, while performing no
+compression whatsoever. It also found a second hole: the grader trusted the last
+JSON line on the child process's stdout, so an `atexit` hook in agent code could
+forge the result outright.
+
+Nine hand-written calibrators had not caught either. They tested the gates that
+existed; neither tested the *architecture* the gates ran inside.
+
+**The fix was structural, not another gate.** The codec now runs in four
+short-lived child processes — two encode, two decode — and:
+
+- the **decode processes receive codewords and nothing else**, so a table built
+  while encoding does not exist while decoding, and there is nothing to build
+  one from;
+- **every comparison is made by the parent**, which imports no part of the
+  submission; children write data to a file and their stdout is never read, so
+  there is nothing to forge;
+- the **held-out corpus is mode `0600 root`** and children run as `nobody`, so a
+  codec cannot simply open the answers (verified inside the image: `head` on the
+  corpus as `nobody` returns *Permission denied*);
+- each phase gets a **private directory** as cwd, `HOME` and `TMPDIR`, and is
+  required to leave behind exactly the files the harness created — closing the
+  same trick smuggled through the filesystem instead of memory;
+- `determinism` is now checked **across processes** rather than within one.
+
+Two gates were added as a result, `determinism` and `no_side_channel`, and the
+instruction now states the process model explicitly — a requirement an agent
+cannot be failed for without being told.
+
+**Trial 11's submission was re-graded against the hardened verifier and still
+scores 1.000 at 108 bits.** The model never used the hole; its codec is
+stateless. The result stands, and the oracle re-ran end-to-end through Harbor at
+1.000 in 43 seconds.
+
+The lesson generalises the earlier one. "Calibrators test the grader, not the
+wording" was already recorded here; this adds that **hand-written calibrators
+test only the holes their author already imagined.** The hole was found by
+pointing a different kind of reader at the verifier — one with no stake in the
+design.
+
+### A note on `harbor check` and separate verifier mode
+
+The rubric evaluation above is the useful half of a command that does not
+complete: `harbor check` fails on this task with `DownloadVerifierDirError`,
+because it copies `main:/logs/verifier` — and under
+`environment_mode = "separate"` the verifier writes that path in its *own*
+container, not in `main`. The rubric result is still produced as a trial
+artifact, which is where the quotation above comes from. It is a limitation of
+`check` against separate-mode tasks rather than a defect in the task, and it
+applies equally to the other task in this repository.
 
 ### The shared gate module
 
@@ -169,35 +240,42 @@ and grader can disagree is a task that fails agents for the wrong reason.
 
 ## Calibration against deliberately wrong solutions
 
-Nine calibrators, run through the real grader. The earlier lesson was that
-calibrators test the *grader*, not the wording — so each one targets a specific
-gate.
+Fourteen calibrators, run through the real grader. Each targets one gate, and
+the four marked **new** exist because of the hole described above.
 
-| calibrator | `overall` | bits | gate that caught it |
+| calibrator | `overall` | bits | caught by |
 |---|---:|---:|---|
-| oracle (108 bits) | **1.0000** | 108 | — passes, as it must |
+| oracle | **1.0000** | 108 | — passes, as it must |
+| trial 11's actual submission | **1.0000** | 108 | — re-graded after hardening |
 | naive: set-ranked positions, free digits | 0.4583 | 111 | none — beats the article, misses the target |
-| the article's own scheme | 0.0000 | 144 | none — valid but no improvement |
-| lossy (drops a clue) | 0.0000 | — | `losslessness` |
+| the article's own scheme | 0.0000 | 144 | none — valid, no improvement |
+| **stateful dict across encode/decode** | 0.0000 | — | `losslessness` (**new** — scored 1.0000 before) |
+| **side table via the filesystem** | 0.0000 | — | `losslessness` / `no_side_channel` (**new**) |
+| **reads the held-out corpus directly** | 0.0000 | 14 | `losslessness`, via file permissions (**new**) |
+| **forged result on child stdout** | 1.0000 | 108 | ignored — reports the true 108, not the claimed 20 (**new**) |
+| non-deterministic encode | 0.0000 | 109 | `determinism` |
+| lossy (drops a clue) | 0.0000 | 108 | `losslessness` |
 | variable-length | 0.0000 | — | `fixed_length` |
 | end-anchored decode | 0.0000 | 108 | `self_delimiting` |
-| trailing-bit dependent decode | 0.0000 | 108 | `self_delimiting` |
 | 70 KB source | 0.0000 | — | `size_limit` |
 | raises on some inputs | 0.0000 | — | measurement error path |
 
-The first attempt at the `self_delimiting` calibrator was itself wrong — it
-re-formatted the codeword integer to the same width, which reproduces the
-original prefix, so it passed. The gate was right and the test was wrong. It
-was replaced with two genuine violators.
+Two calibrators were themselves wrong before a gate was. The first
+self-delimitation test re-formatted the codeword integer to the same width,
+which reproduces the original prefix, so it passed a codec it should have
+failed. The first determinism test was off by one bit and was caught by
+`fixed_length` instead of the gate it was aimed at. Both were rewritten until
+each gate was failed by something built to fail precisely that gate.
 
 ## Model runs
 
 ### Oracle
 
-End-to-end through Harbor: **108 bits, `overall` 1.000**, every gate green, 58
-seconds. `harbor lint` clean at default rules; `--select ALL` surfaces only
-`unpinned-image` and `root-agent`, the same two the submitted task carries.
-Evidence in `evidence/sudoku-oracle/`.
+End-to-end through Harbor: **108 bits, `overall` 1.000**, every gate green — 58
+seconds on the original verifier, 43 seconds after the hardening below, with
+identical scores. `harbor lint` clean at default rules; `--select ALL` surfaces
+only `unpinned-image` and `root-agent`, the same two the other task carries.
+Evidence in `evidence/sudoku-oracle/` and `evidence/sudoku-oracle-hardened/`.
 
 The artifact arrived in the verifier at `/app/submission/codec.py` — the source
 path, not the declared `destination` — which is why the grader searches several

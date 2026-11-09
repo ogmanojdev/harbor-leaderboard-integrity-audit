@@ -106,7 +106,7 @@ exceeds 108 bits. **108 is the frontier, so no fair gate sits below it.**
 Every figure above is taken from the committed `result.json` of the run it
 describes; `evidence/` holds the logs, rewards, artifacts and trajectories.
 
-## Three places this work argues against itself
+## Four places this work argues against itself
 
 1. **Trial 8 was built to refute trial 7's conclusion.** Trial 7 suggested
    bigger, more realistic tasks would cost more. Trial 8 tested that and it is
@@ -117,6 +117,19 @@ describes; `evidence/` holds the logs, rewards, artifacts and trajectories.
    calibrator passed a codec it should have failed — it re-formatted the
    codeword to the same width, reproducing the original prefix. The gate was
    right and the test was wrong. Calibrators test the grader, not the wording.
+4. **A rubric evaluator found a 1.000-scoring exploit that nine calibrators
+   missed.** Trial 11's grader originally ran `encode` and `decode` in one
+   process, so a codec keeping a module-level dict could emit 14-bit codewords
+   and pass every gate — beating even the stretch tier while compressing
+   nothing. Confirmed at **1.0000 at 14 bits**, then closed structurally: the
+   codec now runs in four isolated processes, the decode processes receive
+   codewords and nothing else, the parent imports none of the submission, and
+   the held-out corpus is unreadable by the child processes. Trial 11's own
+   submission was re-graded and still scores 1.000, so the result stands.
+
+   The generalisation: hand-written calibrators test only the holes their author
+   already imagined. This one was found by pointing a different kind of reader
+   at the verifier.
 
 ## The open lead, and why it was not taken
 

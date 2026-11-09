@@ -3,6 +3,10 @@
 As shipped this is the article's 144-bit scheme, so it is already lossless and
 already passes every gate -- it just does not meet the 108-bit target. Run
 `python3 /app/reference/measure.py` to score it, then improve it.
+
+Note how it is run: encode and decode happen in SEPARATE processes, and the
+decode process receives codewords only. Nothing can travel from encoding to
+decoding except the bits themselves.
 """
 import sys
 sys.path.insert(0, '/app/reference')
