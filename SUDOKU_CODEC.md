@@ -210,6 +210,26 @@ Two gates were added as a result, `determinism` and `no_side_channel`, and the
 instruction now states the process model explicitly — a requirement an agent
 cannot be failed for without being told.
 
+**The second round found the fix incomplete, and it was right again.** Pointing
+the evaluator at the hardened verifier produced another `anti_cheating_measures`
+failure: the stray-file scan covered only each phase's own directory, and a
+codec running as `nobody` can still write to `/tmp` or `/dev/shm`. Setting
+`TMPDIR` is not containment — a codec can hardcode a path. Confirmed as a
+calibrator: **1.0000 at 14 bits**, again.
+
+The surface is now enumerated rather than assumed. The harness discovers every
+world-writable directory on the root filesystem, snapshots them before and after
+each phase, and both **flags and deletes** anything the codec left behind — so
+state cannot reach the next phase even if the attribution were evaded. The
+third round passes **11 of 11**, with the evaluator noting that "decode
+processes get codewords only, filesystem side channels are detected and
+purged". All three rounds are in `evidence/rubric-check-sudoku/`.
+
+Two rounds of this is the part worth keeping. The first hole was a design
+oversight; the second was a *patch that looked sufficient and was not*. Both
+were found by the same method, and neither by a human writing calibrators
+against their own design.
+
 **Trial 11's submission was re-graded against the hardened verifier and still
 scores 1.000 at 108 bits.** The model never used the hole; its codec is
 stateless. The result stands, and the oracle re-ran end-to-end through Harbor at
@@ -230,7 +250,19 @@ because it copies `main:/logs/verifier` — and under
 container, not in `main`. The rubric result is still produced as a trial
 artifact, which is where the quotation above comes from. It is a limitation of
 `check` against separate-mode tasks rather than a defect in the task, and it
-applies equally to the other task in this repository.
+applies equally to the other task in this repository — confirmed by running
+`check` against `leaderboard-integrity-audit`, which fails identically and whose
+rubric artifact also shows **11 of 11** (`evidence/rubric-check-leaderboard/`).
+
+Reproducing either number needs two flags that are easy to miss: `check` has no
+`--base-url`, so the base URL goes through `--ak base_url=...`, and its default
+evaluator model `claude-sonnet-4-6` is a first-party id that an OpenRouter key
+cannot resolve:
+
+```bash
+harbor check ./sudoku-codec-frontier \
+    --ak base_url=https://openrouter.ai/api -m anthropic/claude-opus-5.5
+```
 
 ### The shared gate module
 
@@ -240,7 +272,7 @@ and grader can disagree is a task that fails agents for the wrong reason.
 
 ## Calibration against deliberately wrong solutions
 
-Fourteen calibrators, run through the real grader. Each targets one gate, and
+Fifteen calibrators, run through the real grader **inside the verifier image**, since two of the defences are file permissions and only hold there. Each targets one gate, and
 the four marked **new** exist because of the hole described above.
 
 | calibrator | `overall` | bits | caught by |
@@ -250,7 +282,8 @@ the four marked **new** exist because of the hole described above.
 | naive: set-ranked positions, free digits | 0.4583 | 111 | none — beats the article, misses the target |
 | the article's own scheme | 0.0000 | 144 | none — valid, no improvement |
 | **stateful dict across encode/decode** | 0.0000 | — | `losslessness` (**new** — scored 1.0000 before) |
-| **side table via the filesystem** | 0.0000 | — | `losslessness` / `no_side_channel` (**new**) |
+| **side table via `TMPDIR`** | 0.0000 | — | `no_side_channel` (**new**) |
+| **side table via hardcoded `/tmp`** | 0.0000 | — | `no_side_channel` (**new** — scored 1.0000 after the first fix) |
 | **reads the held-out corpus directly** | 0.0000 | 14 | `losslessness`, via file permissions (**new**) |
 | **forged result on child stdout** | 1.0000 | 108 | ignored — reports the true 108, not the claimed 20 (**new**) |
 | non-deterministic encode | 0.0000 | 109 | `determinism` |
@@ -272,9 +305,10 @@ each gate was failed by something built to fail precisely that gate.
 ### Oracle
 
 End-to-end through Harbor: **108 bits, `overall` 1.000**, every gate green — 58
-seconds on the original verifier, 43 seconds after the hardening below, with
-identical scores. `harbor lint` clean at default rules; `--select ALL` surfaces
+seconds on the original verifier and 42 seconds on the fully hardened one, with
+identical scores and no performance cost from the side-channel scanning. `harbor lint` clean at default rules; `--select ALL` surfaces
 only `unpinned-image` and `root-agent`, the same two the other task carries.
+`harbor check` rates the task **11 of 11** on the built-in rubric.
 Evidence in `evidence/sudoku-oracle/` and `evidence/sudoku-oracle-hardened/`.
 
 The artifact arrived in the verifier at `/app/submission/codec.py` — the source

@@ -1,8 +1,8 @@
 {
-    "id": "97a40e7c-8b27-4666-891f-7edcb8a04b17",
-    "started_at": "2026-11-09T17:46:18.841324",
-    "updated_at": "2026-11-09T17:47:02.528424",
-    "finished_at": "2026-11-09T17:47:02.528424",
+    "id": "2cf9118f-5db8-4b88-9714-852be23672ec",
+    "started_at": "2026-11-09T17:57:01.048387",
+    "updated_at": "2026-11-09T17:57:43.114075",
+    "finished_at": "2026-11-09T17:57:43.114075",
     "n_total_trials": 1,
     "stats": {
         "n_completed_trials": 1,
@@ -35,62 +35,62 @@
                 "reward_stats": {
                     "bits": {
                         "108.0": [
-                            "sudoku-codec-frontier__U5Sb2gz"
+                            "sudoku-codec-frontier__wxTd8Vg"
                         ]
                     },
                     "compression_vs_article": {
                         "1.3333": [
-                            "sudoku-codec-frontier__U5Sb2gz"
+                            "sudoku-codec-frontier__wxTd8Vg"
                         ]
                     },
                     "determinism": {
                         "1.0": [
-                            "sudoku-codec-frontier__U5Sb2gz"
+                            "sudoku-codec-frontier__wxTd8Vg"
                         ]
                     },
                     "fixed_length": {
                         "1.0": [
-                            "sudoku-codec-frontier__U5Sb2gz"
+                            "sudoku-codec-frontier__wxTd8Vg"
                         ]
                     },
                     "losslessness": {
                         "1.0": [
-                            "sudoku-codec-frontier__U5Sb2gz"
+                            "sudoku-codec-frontier__wxTd8Vg"
                         ]
                     },
                     "no_side_channel": {
                         "1.0": [
-                            "sudoku-codec-frontier__U5Sb2gz"
+                            "sudoku-codec-frontier__wxTd8Vg"
                         ]
                     },
                     "overall": {
                         "1.0": [
-                            "sudoku-codec-frontier__U5Sb2gz"
+                            "sudoku-codec-frontier__wxTd8Vg"
                         ]
                     },
                     "pixels": {
                         "5.0": [
-                            "sudoku-codec-frontier__U5Sb2gz"
+                            "sudoku-codec-frontier__wxTd8Vg"
                         ]
                     },
                     "self_delimiting": {
                         "1.0": [
-                            "sudoku-codec-frontier__U5Sb2gz"
+                            "sudoku-codec-frontier__wxTd8Vg"
                         ]
                     },
                     "size_limit": {
                         "1.0": [
-                            "sudoku-codec-frontier__U5Sb2gz"
+                            "sudoku-codec-frontier__wxTd8Vg"
                         ]
                     },
                     "stretch_met": {
                         "0.0": [
-                            "sudoku-codec-frontier__U5Sb2gz"
+                            "sudoku-codec-frontier__wxTd8Vg"
                         ]
                     },
                     "target_met": {
                         "1.0": [
-                            "sudoku-codec-frontier__U5Sb2gz"
+                            "sudoku-codec-frontier__wxTd8Vg"
                         ]
                     }
                 },

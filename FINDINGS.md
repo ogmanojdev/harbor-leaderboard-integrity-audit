@@ -127,9 +127,16 @@ describes; `evidence/` holds the logs, rewards, artifacts and trajectories.
    the held-out corpus is unreadable by the child processes. Trial 11's own
    submission was re-graded and still scores 1.000, so the result stands.
 
+   Then the **second** round found the fix incomplete — the stray-file scan
+   covered only each phase's own directory, and a codec can hardcode `/tmp`.
+   Confirmed at 1.0000 at 14 bits again, and closed by enumerating every
+   world-writable directory and purging between phases. Third round: **11 of
+   11**.
+
    The generalisation: hand-written calibrators test only the holes their author
-   already imagined. This one was found by pointing a different kind of reader
-   at the verifier.
+   already imagined, and a patch that looks sufficient usually isn't. Both holes
+   were found by pointing a different kind of reader at the verifier; neither by
+   the author writing tests against their own design.
 
 ## The open lead, and why it was not taken
 

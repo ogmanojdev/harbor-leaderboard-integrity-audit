@@ -33,7 +33,9 @@ it: a lossless, fixed-length, self-delimiting codec at 108 bits or fewer on
 10,000 held-out puzzles, where the obvious single insight lands at 111 and
 scores 0.458. Built to test Law 4 by changing the axis away from
 defect-finding. Oracle **1.000** at exactly 108 bits — and so is Opus 5.5, in 6
-tool calls and $0.273.
+tool calls and $0.273. `harbor check` 11 of 11, after two rounds of its rubric
+evaluator finding exploits in the grader that nine hand-written calibrators had
+missed.
 
 ```bash
 harbor run -c job-leaderboard.yaml -a oracle --yes

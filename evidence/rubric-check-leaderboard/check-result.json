@@ -1,0 +1,46 @@
+{
+  "behavior_in_task_description": {
+    "outcome": "pass",
+    "explanation": "instruction.md names all three artifact paths, the exact JSON shapes, the closed defect vocabulary with a meaning for each code, the 7-step leaderboard aggregation and ranking rule, rounding, the validate_runs signature, and the record projection. The checker grades exactly these things: macro-F1 on findings and on a held-out validator run, exact leaderboard tuples including runs_counted and rank, and determinism. Some details are only implied, such as which duplicate counts as the redundant one ('re-execution of another run already present' means the later copy). These are inferable and don't amount to hidden requirements."
+  },
+  "behavior_in_tests": {
+    "outcome": "pass",
+    "explanation": "All three deliverables are graded. Findings are scored against seed ground truth, the leaderboard is compared exactly, and the validator is run on an unseen 65-run held-out corpus for macro-F1, specificity and determinism. Completeness checks that every defect class is found. A few prose constraints can't be checked from a separate verifier container: not modifying the DB tables, stdlib-only, and no I/O. But the core required behavior is covered."
+  },
+  "informative_test_structure": {
+    "outcome": "pass",
+    "explanation": "check_audit.py has a module docstring describing the scored dimensions and their weights. Each dimension is its own clearly headed function, with comments explaining the design choices (macro vs micro F1, the engagement scaling). Diagnostic notes are written to stdout and report.txt. test.sh is short and always writes a reward file."
+  },
+  "anti_cheating_measures": {
+    "outcome": "pass",
+    "explanation": "Ground truth and the held-out corpus exist only in tests/fixtures and are bundled into the separate verifier image, never the agent image. Only the three declared artifacts cross over. seed.sql has no defect labels. The generator in tools/ is kept out of every image. Scoring the validator on a different held-out corpus defeats run-ID lookup or hardcoding counts. There's no network in either phase."
+  },
+  "structured_data_schema": {
+    "outcome": "pass",
+    "explanation": "findings.json and leaderboard.json have their fields spelled out: run_id, defects and evidence for findings, and the full leaderboard entry field list with the grouping tuple, nullable parallelism and 2-decimal rounding. The instruction says outputs must use 'the exact shapes shown above', which makes the examples normative. The validator's input record and return type are also documented."
+  },
+  "pinned_dependencies": {
+    "outcome": "pass",
+    "explanation": "Base images are pinned (postgres:16.4-bookworm, python:3.12.7-slim-bookworm). Python deps are installed from hash-locked files with ==-pinned versions and --require-hashes. Node and Claude Code versions are pinned via ARGs. The verifier uses only the standard library. apt packages are unpinned, which is acceptable."
+  },
+  "typos": {
+    "outcome": "pass",
+    "explanation": "No typos in paths, filenames, commands or identifiers. Artifact paths match between instruction.md, task.toml and check_audit.py, and the defect codes are identical in all files. There are minor prose inaccuracies that don't cause failures: the instruction says 'Unix socket' while PGHOST points at 127.0.0.1, and the README says 'four scored dimensions' although there are five."
+  },
+  "tests_or_solution_in_image": {
+    "outcome": "pass",
+    "explanation": "environment/Dockerfile copies only the app, the MCP server, the seed SQL, the lock files, jwks.json and the entrypoint. tests/ and solution/ are not copied. Tests live only in the separate verifier image."
+  },
+  "test_deps_in_image": {
+    "outcome": "pass",
+    "explanation": "The verifier needs only the Python standard library and runs in its own image (tests/Dockerfile). No test-only packages are installed in the agent environment image."
+  },
+  "hardcoded_solution": {
+    "outcome": "pass",
+    "explanation": "solve.sh installs a rule-based validator that parses task_config and log lines, compares them to recorded rows, and fingerprints runs to find duplicates. audit.py queries PostgreSQL, builds records, runs the validator, and computes the leaderboard with the published rule. Nothing is echoed. Running the reference validator reproduces both the seed and held-out ground truth exactly."
+  },
+  "file_reference_mentioned": {
+    "outcome": "pass",
+    "explanation": "All three required outputs are named explicitly with full paths in instruction.md: /app/audit/findings.json, /app/audit/leaderboard.json and /app/app/services/result_validator.py."
+  }
+}
