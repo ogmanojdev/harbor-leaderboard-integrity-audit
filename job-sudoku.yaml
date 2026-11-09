@@ -1,0 +1,12 @@
+# JobConfig for sudoku-codec-frontier.
+#
+# `harbor run` has no --task-path flag and -t/--task parses as a package
+# reference (org/name), so the task is pointed at by path here. Agent and model
+# stay on the command line: agent keys set in this file are dropped from the
+# resolved config.
+#
+#   harbor run -c job-sudoku.yaml -a oracle --yes
+#   harbor run -c job-sudoku.yaml -a claude-code \
+#       -m anthropic/claude-opus-5.5 --base-url https://openrouter.ai/api --yes
+tasks:
+  - path: sudoku-codec-frontier

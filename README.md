@@ -8,13 +8,23 @@ designed and operate ([`corespan/aistudio-server`](https://github.com/corespan/a
 Apache-2.0), vendored at a pinned commit.
 
 ```bash
-harbor run -p ./leaderboard-integrity-audit -a oracle
-harbor run -p ./leaderboard-integrity-audit -a claude -m opus-5-5
-harbor view ./jobs
+harbor run -c job-leaderboard.yaml -a oracle --yes
+harbor run -c job-leaderboard.yaml -a claude-code \
+    -m anthropic/claude-opus-5.5 --base-url https://openrouter.ai/api --yes
+harbor view jobs
 ```
 
 Oracle passes at **1.000** on all five dimensions. `harbor lint` clean;
 `harbor check` passes 11 of 11 rubric items.
+
+**Second task:** [`sudoku-codec-frontier/`](sudoku-codec-frontier/) — an agent is
+given a published 144-bit Sudoku compression scheme as working code and asked to
+beat it, reaching a lossless, fixed-length, self-delimiting codec at 108 bits or
+fewer on 10,000 held-out puzzles. It exists because all eight earlier designs
+were defect-finding or plan-writing; this one is optimisation against a
+verifiable objective, which allows a threshold placed just past where a
+competent single pass lands. Oracle **1.000** at exactly 108 bits.
+Write-up: [`SUDOKU_CODEC.md`](SUDOKU_CODEC.md).
 
 ## The headline, stated plainly
 
@@ -50,6 +60,7 @@ specification and found two defects in it that the author had missed.
 |---|---|
 | [`RUN_REPORT.md`](RUN_REPORT.md) | The submitted task in full: fairness rationale, economic realism, verifier design, shortcut-resistance analysis, calibration against deliberately bad solutions, all eight model runs, limitations, provenance. §8 is the model runs. |
 | [`COST_SCALING.md`](COST_SCALING.md) | The eighth trial as a controlled experiment: the scaling measurement, the falsified prediction about forcing code authoring, three defect classes rejected during calibration, and a grading hole found and closed. |
+| [`SUDOKU_CODEC.md`](SUDOKU_CODEC.md) | The ninth design, on a different axis: the measured 648 → 144 → 111 → 108 → 15.58-bit ladder, why the published corpus is unsafe to grade on unmodified, how the catalogue-lookup shortcut is closed by construction, nine calibrators, and the one integrity property that is weaker when the grader must execute the agent's code. |
 | [`evidence/`](evidence/) | Every trial's logs, rewards, artifacts and trajectories. `evidence/probes/` holds the designs of the six probe tasks — none is a submission. |
 
 ## What is net-new

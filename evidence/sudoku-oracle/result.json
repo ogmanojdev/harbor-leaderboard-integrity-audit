@@ -1,0 +1,93 @@
+{
+    "id": "b27019b3-c1dd-49ca-a0f0-322ec60ebafc",
+    "started_at": "2026-11-09T16:15:56.581126",
+    "updated_at": "2026-11-09T16:16:55.367574",
+    "finished_at": "2026-11-09T16:16:55.367574",
+    "n_total_trials": 1,
+    "stats": {
+        "n_completed_trials": 1,
+        "n_errored_trials": 0,
+        "n_running_trials": 0,
+        "n_pending_trials": 0,
+        "n_cancelled_trials": 0,
+        "n_retries": 0,
+        "evals": {
+            "oracle__adhoc": {
+                "n_trials": 1,
+                "n_errors": 0,
+                "metrics": [
+                    {
+                        "bits": 108.0,
+                        "compression_vs_article": 1.3333,
+                        "fixed_length": 1.0,
+                        "losslessness": 1.0,
+                        "overall": 1.0,
+                        "pixels": 5.0,
+                        "self_delimiting": 1.0,
+                        "size_limit": 1.0,
+                        "stretch_met": 0.0,
+                        "target_met": 1.0
+                    }
+                ],
+                "pass_at_k": {},
+                "reward_stats": {
+                    "bits": {
+                        "108.0": [
+                            "sudoku-codec-frontier__z9e8Nf8"
+                        ]
+                    },
+                    "compression_vs_article": {
+                        "1.3333": [
+                            "sudoku-codec-frontier__z9e8Nf8"
+                        ]
+                    },
+                    "fixed_length": {
+                        "1.0": [
+                            "sudoku-codec-frontier__z9e8Nf8"
+                        ]
+                    },
+                    "losslessness": {
+                        "1.0": [
+                            "sudoku-codec-frontier__z9e8Nf8"
+                        ]
+                    },
+                    "overall": {
+                        "1.0": [
+                            "sudoku-codec-frontier__z9e8Nf8"
+                        ]
+                    },
+                    "pixels": {
+                        "5.0": [
+                            "sudoku-codec-frontier__z9e8Nf8"
+                        ]
+                    },
+                    "self_delimiting": {
+                        "1.0": [
+                            "sudoku-codec-frontier__z9e8Nf8"
+                        ]
+                    },
+                    "size_limit": {
+                        "1.0": [
+                            "sudoku-codec-frontier__z9e8Nf8"
+                        ]
+                    },
+                    "stretch_met": {
+                        "0.0": [
+                            "sudoku-codec-frontier__z9e8Nf8"
+                        ]
+                    },
+                    "target_met": {
+                        "1.0": [
+                            "sudoku-codec-frontier__z9e8Nf8"
+                        ]
+                    }
+                },
+                "exception_stats": {}
+            }
+        },
+        "n_input_tokens": null,
+        "n_cache_tokens": null,
+        "n_output_tokens": null,
+        "cost_usd": null
+    }
+}

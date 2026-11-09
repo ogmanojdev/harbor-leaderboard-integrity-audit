@@ -1,0 +1,7 @@
+# JobConfig for leaderboard-integrity-audit. See job-sudoku.yaml for why the
+# task is pointed at by path rather than with a --task-path flag.
+#
+#   export AISTUDIO_MCP_TOKEN=...   # see RUN_REPORT.md §11
+#   harbor run -c job-leaderboard.yaml -a oracle --yes
+tasks:
+  - path: leaderboard-integrity-audit
