@@ -139,7 +139,9 @@ describes; `evidence/` holds the logs, rewards, artifacts and trajectories.
    were found by pointing a different kind of reader at the verifier; neither by
    the author writing tests against their own design.
 
-## The open lead, and why it was not taken
+## Two open leads, and why neither was taken
+
+### 1 — failure by accumulation
 
 `COST_SCALING.md` rejected many-defect tasks because they do not raise **cost**
 efficiently. But "breaks the model" is a question about **failure rate**, not
@@ -150,6 +152,45 @@ A 30-defect task is the clearest remaining lead. It was not attempted because it
 is a gamble against the submission deadline, and shipping an unvalidated task
 would contradict the standard the rest of this work is held to. It is recorded
 as an open lead rather than quietly omitted.
+
+### 2 — undisclosed expert knowledge
+
+This is the lead I would take first, because it is the only one that escapes
+Law 4 rather than working around it.
+
+Law 4 says a fair task discriminates only when the author's solution lies
+outside standard technique — but that the author then usually cannot prove the
+gate is reachable, and shipping an unproven gate is itself disqualifying. That
+is a genuine trap, and **undisclosed expertise dissolves it**: a practitioner
+who has already solved the problem *is* the proof of reachability. The solution
+exists and has been verified by someone. It simply is not in the papers, and so
+is not in the training data.
+
+The published failure analysis points the same way. On FrontierPhysics, only
+**11%** of Opus 5.5's failures were knowledge gaps, while **34%** were missing
+expert intuition and **48%** non-rigorous reasoning. The gap is not facts. It is
+the judgement that accumulates in people who do the work and never quite gets
+written down.
+
+The concrete instance I would build: a friend of mine works on noise suppression
+in audio AI and has arrived at insights about how to construct those models that
+are not in any paper I can find. The task would hand an agent the same starting
+materials — corpora, metrics, baselines — and ask it to design models, run
+experiments and reach a specification a group of practitioners cracked, or to
+move a public leaderboard that is pushed every year. Training and evaluation
+cycles are expensive by nature, which also attacks Laws 2 and 3 from a direction
+nothing else here reached: experiments cost real wall-clock time and cannot be
+collapsed by reading precisely and emitting the minimum.
+
+**The hard part, stated honestly.** Undisclosed knowledge is only fair if the
+*evidence* the expert reasoned from is in the container and only the *synthesis*
+is withheld. Withhold the evidence too and it stops being a hard task and
+becomes a guess — the same line the network-fault idea crossed at the very
+start. Getting that boundary right needs the expert's time, their consent to
+encode unpublished judgement in a public artifact, a deterministic verifier over
+experimental results rather than over a text answer, and a GPU budget. None of
+those fit a one-week window, which is why it is written down rather than
+attempted.
 
 ## Where to read more
 
