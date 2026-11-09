@@ -275,6 +275,32 @@ roughly 100 bits, which requires exploiting the uniqueness-of-solution
 constraint during coding, so the encoder and decoder must each run a Sudoku
 solver and spend bits only on choices propagation cannot force.
 
+### Two attempts to harden the task, both refuted
+
+Asked whether the task could be pushed further, two concrete attacks were tried
+and measured rather than assumed.
+
+**Lower the threshold to 107 by joint ranking.** The shipped construction pays
+`log2 C(81,17)` for the position set plus the *worst-case* digit cost, because a
+fixed-length codeword must cover the worst case: 56.83 + 50.69 → 108. Ranking
+the (position set, labelling) pairs *jointly* pays the **mean** instead of the
+worst case — 56.83 + 49.41 = 106.25 → **107 bits**. One bit, and it is not
+implementable: the ranking needs prefix sums of the labelling count over all
+C(81,17) = 1.28 x 10^17 position sets.
+
+**Grade on adversarially-chosen isomorphs.** The corpus applies one random
+isomorphism per puzzle. The oracle visits clues in reading order, so its digit
+cost is *not* isomorphism-invariant, and a hostile choice of isomorph looked
+like it might push a 108-bit codec into overflow — failing a submission sized to
+the corpus. Measured over **18,000 valid 17-clue puzzles** (300 catalogue
+puzzles x 60 isomorphs each): the worst case is **108 bits for both codecs**,
+with zero overflows. The attack does not exist. The model's most-constrained-first
+ordering would have been immune regardless, since the visiting order it induces
+is a function of the isomorphism-invariant peer graph.
+
+So 108 is not an artefact of one construction, one ordering, or one sampling of
+the isomorphism group. **It is the frontier**, and there is no fair gate below it.
+
 That threshold is **not shipped, because it is not proven reachable**. Setting a
 gate at a number the author has not hit would be exactly the unvalidated task
 the rest of this repository argues against. It is recorded here as the next
@@ -293,6 +319,9 @@ experiment, not as a requirement.
   required, and named in the instruction precisely so the target cannot be
   mistaken for something secretly lower.
 - **The agent's code runs in the grading container.** See above.
+- **The task cannot be hardened without becoming unfair.** The two attacks above
+  are refuted and the next real gain needs enumeration, so any gate below 108
+  would be a number the author has not reached.
 - **One task, one axis.** This design tests whether an optimisation threshold
   discriminates. It does not re-open the cost question, and it should not be
   read as a cost result.
