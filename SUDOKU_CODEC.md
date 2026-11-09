@@ -205,26 +205,86 @@ roots.
 
 ### Target model: Claude Opus 5.5
 
-**Not yet run.** This is the one claim this document does not make. The design
-argument above is that an optimisation threshold placed just past a competent
-single pass is the first mechanism found that is both fair and potentially
-discriminating — and that is a *hypothesis* until the trial runs. It is stated
-as one deliberately.
+**Trial 11. `overall` 1.000, exactly 108 bits, 6 tool calls, $0.273, 3m 22s.**
+Evidence in `evidence/trial-11-sudoku-codec-frontier/`.
 
-What the trial will measure, whichever way it goes:
+The threshold did not discriminate. The hypothesis stated in this document
+before the run — that a threshold placed just past a competent single pass
+would be the first fair mechanism to produce a failure — is **refuted**.
 
-- if it lands at **111 bits**, the threshold discriminated and the hypothesis
-  holds;
-- if it reaches **108**, the task joins the other ten and the ladder shows
-  exactly which two insights it found, which is a sharper result than a bare
-  1.000;
-- the `bits` dimension is reported either way, so the outcome is a *measurement*
-  rather than a pass or a fail.
+What makes the refutation informative is *how* it failed. The model did not
+stumble into 108; it went looking for the frontier:
+
+| call | what it did |
+|---|---|
+| 1 | read the stub, the harness, the corpus |
+| 2 | built the peer sets and measured the constraint structure directly |
+| 3 | measured the cost distribution over the training corpus |
+| 4 | Monte Carlo over 200,000 random 17-cell subsets |
+| 5 | probed the distribution tail at 49.6, 49.8, 50.0, 50.2, 50.4, 50.6 bits |
+| 6 | wrote the codec |
+
+Call 5 is the one that matters. Sizing a fixed-length codeword requires the
+**worst case**, not the mean, and the model went after the tail deliberately
+rather than fitting the average and hoping. That is the step a solution scoring
+0.458 would have skipped.
+
+It also found both insights independently — the position set ranked in the
+combinatorial number system, and digits coded against row/column/box candidates
+— and then added a refinement the oracle does not have: an **adaptive
+most-constrained-first visiting order**, reproducible by the decoder from the
+digits it has already placed.
+
+That refinement bought exactly **zero bits**, which was measured independently
+during design: most-constrained-first moves the worst-case digit cost from 50.81
+to 50.57 bits, and both round to the same 108-bit codeword. Two independent
+constructions, one with a sophistication the other lacks, landing on the
+identical number is reasonable evidence that **108 is the real frontier for this
+family of codes**, not an artefact of either implementation.
+
+### The cost law survives a change of axis
+
+This is the result worth keeping. `COST_SCALING.md` measured, on
+defect-finding tasks, that cost tracks the number of distinct diagnoses at about
+**3.75 tool calls and ~$0.10 per diagnosis**, invariant to scale, realism and
+gate count.
+
+This task is not defect-finding. Nothing is planted, nothing is hidden, the
+deliverable is authored code rather than a patch, and the objective is numeric.
+The law holds anyway:
+
+| | defect-finding (trials 7, 8) | this task |
+|---|---|---|
+| units of work | 4 and 8 defects | 2 insights |
+| tool calls per unit | 3.75, 3.75 | **3.0** |
+| cost per unit | ~$0.10 | **~$0.137** |
+
+Two insights at three calls each. The axis changed and the constant did not,
+which makes the law look less like a property of defect-finding tasks and more
+like a property of how the model works: read precisely, diagnose locally, emit
+the minimum. An eleventh 1.000 at $0.27 is the same measurement arriving by a
+new route.
+
+### What would actually be needed
+
+The honest conclusion is that **108 was reachable in one pass because both
+insights are standard**. Combinatorial ranking and constraint-aware coding are
+textbook; the task asked for assembly, not discovery. A threshold that
+discriminates would have to sit where no standard technique reaches — below
+roughly 100 bits, which requires exploiting the uniqueness-of-solution
+constraint during coding, so the encoder and decoder must each run a Sudoku
+solver and spend bits only on choices propagation cannot force.
+
+That threshold is **not shipped, because it is not proven reachable**. Setting a
+gate at a number the author has not hit would be exactly the unvalidated task
+the rest of this repository argues against. It is recorded here as the next
+experiment, not as a requirement.
 
 ## Limitations, stated plainly
 
-- **The target-model trial has not run.** Everything above the "Model runs"
-  section is measurement; the discrimination claim is not.
+- **The discrimination hypothesis is refuted, not supported.** The threshold was
+  cleared in one pass. This task adds a confirmation of the cost law on a new
+  axis; it does not add a failure.
 - **108 is proven over the catalogue, not over all 17-clue Sudokus.** The bound
   is empirical: the worst case across all 49,151 known puzzles. No 17-clue
   puzzle has been found since 2009 and the catalogue is believed complete, but

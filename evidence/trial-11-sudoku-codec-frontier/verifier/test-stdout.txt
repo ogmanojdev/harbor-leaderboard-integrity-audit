@@ -1,0 +1,28 @@
+submission        /app/submission/codec.py (2265 bytes)
+held-out puzzles  10000
+
+gates
+  losslessness     pass
+  fixed_length     pass
+  self_delimiting  pass
+  size_limit       pass
+
+codeword          108 bits = 5 pixels
+article           144 bits (1.33x)
+target  <=108     MET
+stretch <= 96     not met (optional)
+
+overall           1.0000
+verifier exit=0
+{
+  "bits": 108.0,
+  "compression_vs_article": 1.3333,
+  "fixed_length": 1.0,
+  "losslessness": 1.0,
+  "overall": 1.0,
+  "pixels": 5.0,
+  "self_delimiting": 1.0,
+  "size_limit": 1.0,
+  "stretch_met": 0.0,
+  "target_met": 1.0
+}

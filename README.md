@@ -23,12 +23,15 @@ beat it, reaching a lossless, fixed-length, self-delimiting codec at 108 bits or
 fewer on 10,000 held-out puzzles. It exists because all eight earlier designs
 were defect-finding or plan-writing; this one is optimisation against a
 verifiable objective, which allows a threshold placed just past where a
-competent single pass lands. Oracle **1.000** at exactly 108 bits.
-Write-up: [`SUDOKU_CODEC.md`](SUDOKU_CODEC.md).
+competent single pass lands. Oracle **1.000** at exactly 108 bits — and so is Opus 5.5, in **6 tool calls
+and $0.273**, which refutes the hypothesis the design was built to test. The
+useful result is what it confirms instead: the cost law holds on an axis it was
+never measured on, at 3.0 calls per insight against the 3.75 per defect measured
+on defect-finding tasks. Write-up: [`SUDOKU_CODEC.md`](SUDOKU_CODEC.md).
 
 ## The headline, stated plainly
 
-**No trial produced a failure.** Ten target-model trials across eight task
+**No trial produced a failure.** Eleven target-model trials across nine task
 designs, every one scoring 1.000. That is the opposite of the assignment's
 stated goal, and this repository argues the absence is a result rather than an
 omission — because the eighth trial measured *why*:
@@ -42,6 +45,12 @@ Opus 5.5 wins these tasks by reading precisely, diagnosing locally, and patching
 surgically — 3.75 tool calls per defect, invariant across both measured points.
 Reaching the horizon the $35 credit budget implies would take 30 to 100 planted
 defects in one task, which is a scavenger hunt rather than a long horizon.
+
+A ninth design tested whether the streak was an artefact of *defect-finding*
+specifically, by changing the axis to optimisation against a verifiable
+objective — the one shape that allows a threshold placed just past a competent
+single pass. It was cleared in one pass, and the per-unit constant did not move.
+See [`SUDOKU_CODEC.md`](SUDOKU_CODEC.md).
 
 A second measurement explains the streak. The only lever found to change cost
 per unit of work was **specification ambiguity** — removing one from a task cut
