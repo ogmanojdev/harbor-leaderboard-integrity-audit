@@ -279,6 +279,28 @@ experimental results rather than over a text answer, and a GPU budget. None of
 those fit a one-week window, which is why it is written down rather than
 attempted.
 
+**The variant I rejected: recency.** The obvious cheaper version is to use
+something simply too new to be in the training data — the AI-generated proof of
+the [quasi-Riemann hypothesis](https://www.quantamagazine.org/ai-proved-the-quasi-riemann-hypothesis-what-happens-now-20261019/),
+announced in October 2026 and still being checked by Sarnak, Radziwiłł and
+Dunn, postdates this model. A task built on it would almost certainly produce a
+failure.
+
+It would be the wrong failure. It measures a training cutoff, not a capability:
+on FrontierPhysics, knowledge gaps were the *smallest* slice of failures at 11%,
+and a gap that closes itself at the next release is not a finding. Worse, it
+crosses the same line the network-fault idea crossed — the answer is not
+derivable from anything in the container, so the agent is guessing rather than
+reasoning.
+
+That episode also sharpens why the expertise lead is about **undisclosed**
+rather than **unpublished**. The quasi-Riemann proof was produced by a machine
+and is being verified by humans, so "beyond standard technique" is no longer a
+line between human insight and machine reasoning. The durable boundary is
+narrower: judgement that was never written down at all, held by people who use
+it daily and have no reason to publish it. Recency expires. Tacit knowledge does
+not.
+
 ## Where to read more
 
 | document | what it covers |
