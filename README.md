@@ -2,13 +2,15 @@
 
 **The assignment was to build a Harbor task that fairly breaks Claude Opus 5.5.
 No task did.** Eleven target-model trials across nine designs scored 1.000 every
-time, for $5.63 of a $35 budget.
+time, and a twelfth measurement closed the last escape, for $5.63 of a $35 budget.
 
 > **What is submitted:** the single task directory
 > [`leaderboard-integrity-audit/`](leaderboard-integrity-audit/).
 > [`sudoku-codec-frontier/`](sudoku-codec-frontier/) is trial 11 — it ships as
 > evidence for Law 4 and the verifier-hardening finding, not as a second
-> submission.
+> submission. Its Harbor config, and those of the probes under `evidence/`,
+> are stored as `task.toml.txt` so that exactly one directory in this
+> repository is a runnable Harbor task. Rename to `task.toml` to run them.
 
 This repository argues the absence is a **result** rather than an omission.
 Each design was built to kill a specific hypothesis about what makes an agent
@@ -20,6 +22,7 @@ task hard, and each one did, with numbers:
 | 2 | Cost tracks the number of distinct diagnoses and nothing else | 2x defects, 3.3x source, 3x verification surfaces → **3.75 calls per defect, unchanged** (trial 8) |
 | 3 | The only lever that moves cost per unit of work is specification ambiguity — which a fair task may not pull | one ambiguity removed → **cost −42%, output tokens −54%** (trials 9-10) |
 | 4 | A fair task discriminates only where the author's own solution leaves standard technique | axis changed to optimisation against a numeric objective → **3.0 calls per insight, cleared in one pass** (trial 11) |
+| 5 | A gate the author's own solution cannot pass is unfalsifiable, not hard — reachability has to be settled before discrimination | the binary-gate escape tested on exact algebra → **solved exactly in one pass** (twelfth measurement) |
 
 **→ [`FINDINGS.md`](FINDINGS.md) is the one-page version. Start there.**
 
@@ -79,7 +82,7 @@ gambled against the deadline.
 | document | what it covers |
 |---|---|
 | [`APPROACH.md`](APPROACH.md) | My own account of how this went, written as I went: the first idea I dropped and why, what I read when the first task did not bite, and what I would try next. Unpolished on purpose. |
-| [`FINDINGS.md`](FINDINGS.md) | **One page.** The four laws, the eleven-trial table, the four places this work argues against itself, and the open lead. |
+| [`FINDINGS.md`](FINDINGS.md) | **One page.** The five laws, the eleven-trial table and the twelfth measurement, the four places this work argues against itself, and the two open leads. |
 | [`RUN_REPORT.md`](RUN_REPORT.md) | The first task in full: fairness rationale, economic realism, verifier design, shortcut-resistance analysis, calibration against deliberately bad solutions, model runs, limitations, provenance. §8 is the model runs. |
 | [`COST_SCALING.md`](COST_SCALING.md) | Trial 8 as a controlled experiment and trials 9-10 as the ambiguity pair: the scaling measurement, the falsified prediction about forcing code authoring, three defect classes rejected during calibration, and a grading hole found and closed. Laws 2 and 3. |
 | [`SUDOKU_CODEC.md`](SUDOKU_CODEC.md) | Trial 11: the axis change, the measured 648 → 144 → 111 → 108 → 15.58-bit ladder, why the published corpus is unsafe to grade on unmodified, how the catalogue-lookup shortcut is closed by construction, fourteen calibrators, a 1.000-scoring exploit a rubric evaluator found and how it was closed, and two refuted attempts to harden the task. Law 4. |
