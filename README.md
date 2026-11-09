@@ -4,6 +4,12 @@
 No task did.** Eleven target-model trials across nine designs scored 1.000 every
 time, for $5.57 of a $35 budget.
 
+> **What is submitted:** the single task directory
+> [`leaderboard-integrity-audit/`](leaderboard-integrity-audit/).
+> [`sudoku-codec-frontier/`](sudoku-codec-frontier/) is trial 11 — it ships as
+> evidence for Law 4 and the verifier-hardening finding, not as a second
+> submission.
+
 This repository argues the absence is a **result** rather than an omission.
 Each design was built to kill a specific hypothesis about what makes an agent
 task hard, and each one did, with numbers:
